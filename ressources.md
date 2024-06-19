@@ -8,4 +8,4 @@
 - **Bash manual** : [ici](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html)
 - **Project** : [ici](https://github.com/Tablerase/42_Projects/tree/main/Projects/MiniShell)
 - **Tips/Conference** : [ici](https://www.youtube.com/live/8tbaCbtdjeg)
-- **Advice** : [ici]([https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218](https://medium.com/@mostafa.omrane/mes-conseils-si-je-devais-recommencer-minishell-a9783c51ba1b)
+- **Advice** : [ici](https://medium.com/@mostafa.omrane/mes-conseils-si-je-devais-recommencer-minishell-a9783c51ba1b)
