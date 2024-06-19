@@ -9,3 +9,4 @@
 - **Project** : [ici](https://github.com/Tablerase/42_Projects/tree/main/Projects/MiniShell)
 - **Tips/Conference** : [ici](https://www.youtube.com/live/8tbaCbtdjeg)
 - **Advice** : [ici](https://medium.com/@mostafa.omrane/mes-conseils-si-je-devais-recommencer-minishell-a9783c51ba1b)
+- **Sending and Intercepting a Signal in C** : [ici](https://www.codequoi.com/en/sending-and-intercepting-a-signal-in-c/)
