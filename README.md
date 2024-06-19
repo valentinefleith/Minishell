@@ -59,6 +59,4 @@ foreground pipeline.
 
 ◦ `exit` with no options
 
-## Allowed functions
-◦ `readline` will read a line from the terminal and return it, using prompt as a prompt. (returns the text of the line read)
 
