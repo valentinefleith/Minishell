@@ -10,3 +10,4 @@
 - **Tips/Conference** : [ici](https://www.youtube.com/live/8tbaCbtdjeg)
 - **Advice** : [ici](https://medium.com/@mostafa.omrane/mes-conseils-si-je-devais-recommencer-minishell-a9783c51ba1b)
 - **Sending and Intercepting a Signal in C** : [ici](https://www.codequoi.com/en/sending-and-intercepting-a-signal-in-c/)
+- **2 useful playlists** : [ici](https://youtube.com/playlist?list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW&si=2o0Tk06V1ZVGjWGi) et [ici](https://youtube.com/playlist?list=PL7_TuD9ZDMhg5uLHLyd8em13XBKfjzCzR&si=3_jRRlsrydlHJOQN)
