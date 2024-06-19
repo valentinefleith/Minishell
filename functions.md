@@ -1,20 +1,17 @@
 # Functions
 
-### `readline` 
 `char  *readline(char *prompt);`
+***readline*** will read a line from the terminal and return it, used in command line interfaces.
 
-
-`readline` will read a line from the terminal and return it, used in command line interfaces.
 If `prompt` is `NULL` or empty string, no prompt is issued. The line is allocated with `malloc`. 
 The line returned has the final newline removed, so only the text of the line remains.
 
-***returns*** the text of the line read. A blank line returns the empty string. If the `EOF` is encountered while reading a line,
-and the line is empty, `NULL` is returned. If an EOF is read with a non-empty line, it is treated as a newline.
+***readline returns*** the text of the line read. A blank line returns the empty string. If the `EOF` is encountered while reading a line, and the line is empty, `NULL` is returned. If an EOF is read with a non-empty line, it is treated as a newline.
 
-[see how to program with readline] : (https://web.mit.edu/gnu/doc/html/rlman_2.html)
+[see how to program with readline](https://web.mit.edu/gnu/doc/html/rlman_2.html)
 example: `char  *line = readline("Enter a line: ");`
 
-[readline bible] : (https://tiswww.case.edu/php/chet/readline/rltop.html)
+[readline bible](https://tiswww.case.edu/php/chet/readline/rltop.html)
 
 ***readline variables***
 These variables are available to function writers.
