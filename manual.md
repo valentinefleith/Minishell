@@ -27,3 +27,13 @@ Also interactive features such as : job control, command line editing, command h
 **`token`**: a sequence of characters considered as a single unit by the shell, it is either a word or an operator.
 
 ## Basic shell features
+
+### Shell syntax
+- **single quotes**: enclosing characters in single quotes preserves value of each character within the quotes. A single quote may not occur between single quotes, even when preceded by a backslash.
+- **double quotes**: enclosing characters in double quotes preserves the literal values of all characters within the quotes, with the exception of `$`,`\``,`\\` and `!`. A double quote may be quoted within double quotes by preceding it with a backslash. The special parameters `*` and `@` have special meanings
+
+### Shell commands
+
+A `pipeline` is a sequence of one or more commands separated by one of the control operators (only `|` for our project).
+
+A `list` is a sequence of one or more pipelines separated by one of the operators `;` `&`, `&&` or `||`. -> not necessary for our project??
