@@ -11,3 +11,8 @@
 - **Advice** : [ici](https://medium.com/@mostafa.omrane/mes-conseils-si-je-devais-recommencer-minishell-a9783c51ba1b)
 - **Sending and Intercepting a Signal in C** : [ici](https://www.codequoi.com/en/sending-and-intercepting-a-signal-in-c/)
 - **2 useful playlists** : [ici](https://youtube.com/playlist?list=PLGU1kcPKHMKj5yA0RPb5AK4QAhexmQwrW&si=2o0Tk06V1ZVGjWGi) et [ici](https://youtube.com/playlist?list=PL7_TuD9ZDMhg5uLHLyd8em13XBKfjzCzR&si=3_jRRlsrydlHJOQN)
+- **Tutorial - Write a Shell in C**: [ici](https://brennan.io/2015/01/16/write-a-shell-in-c/)
+- **Let's build a shell!**: [ici](https://github.com/kamalmarhubi/shell-workshop)
+- **Writing a UNIX Shell**: [ici](https://indradhanush.github.io/blog/writing-a-unix-shell-part-1/)
+- **Build Your Own Shell**: [ici](https://github.com/tokenrove/build-your-own-shell)
+- **Write a shell in C**: [ici](https://danishpraka.sh/posts/write-a-shell/)
