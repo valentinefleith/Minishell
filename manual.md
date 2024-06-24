@@ -153,6 +153,10 @@ The return status is 0 unless a write error occurs. If `-n` is specified, the tr
 
 ## Interactive Shell
 
-### Interactive Shell Behavior
+### Interactive Shell Behaviors
 
-- 
+- Job control is enabled by default. 
+- `Readline` is used to read commands from the user's terminal
+- Command history and history expansion are enabled by default. Bash will save the command history to the file named `$HISTFILE` when a shell with history enabled exits.
+- In the absence of any traps, Bash ignores `SIGTERM`. `SIGINT` is caught and handled. `SIGINT` will interrupt some shell builtins.
+- Redirections errors encountered by shell builtins will not cause shell to exit. A failed `exec` will not cause the shell to exit. 
