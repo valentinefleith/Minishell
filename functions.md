@@ -640,6 +640,7 @@ example :
 ```
 char *p = "soleil";
 tputs(p, 1, putchar);
+```
 
 #### Allowed functions but already known.
 `printf` - `malloc` - `write` - `access` - `open` - `read` - `close` - `fork` - `wait` - `waitpid` - `wait3` - `wait4` - `exit`
