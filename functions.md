@@ -28,7 +28,7 @@ char  *readline(char *prompt);
 example: ```char  *line = readline("Enter a line: ");```
 
 -> When called ***readline*** displays a prompt (if given) and waits for the user to give an input (line of text) in return.
-While waiting for input ***readline*** provides some possibilities like : moving the cursos left and right on the line, deleting characters, cutting/pasting text, using history commands and recall previously entered lines.
+While waiting for input ***readline*** provides some possibilities like : moving the cursor left and right on the line, deleting characters, cutting/pasting text, using history commands and recall previously entered lines.
 Once the user presses the 'Enter key', it returns the text and if it is not empty added to history list.
 
 -> If the user signals an EOF (like Ctrl-D) it returns a `NULL` pointer.
@@ -65,7 +65,7 @@ void  rl_replace_line(const char *text, int clear_undo);
 ```
 -> Replaces the current line that readline is working with with an other given text. Doesn't affect the history list, but the replaced line will be added to the history.
 
--> If `clear_undo` is non-zero, the undo list asociated with the current line is cleared.
+-> If `clear_undo` is non-zero, the undo list associated with the current line is cleared.
 
 example : 
 ```
@@ -108,7 +108,7 @@ void  (*signal(int signum, void (*handler)(int)))(int);
 
 -> Special `handler` : `SIG_IGN` = the process ignores the signal - `SIG_DFL` = the process does default action for the signal.
 
--> ***returns*** the previous handler for the signal, if an error occured it returns `SIG_ERR`.
+-> ***returns*** the previous handler for the signal, if an error occurred it returns `SIG_ERR`.
 
 -> This function is not recommended.
 
@@ -276,7 +276,7 @@ int	lstat(const char *restrict path, struct stat *restrict buf);
 
 -> `fd` the file descriptor of the open file.
 
--> `buf` point to the sturcture `stat` and tores the inofrmation there.
+-> `buf` point to the structure `stat` and tores the information there.
 
 -> ***returns*** 0 if ok, -1 if not.
 
@@ -297,7 +297,7 @@ DIR *opendir(const char *name);
 #include <dirent.h>
 struct dirent	*readdir(DIR *dirp);
 ```
--> This function is used to read a directory entry from a directory flow. We can retreive the contents od the dir.
+-> This function is used to read a directory entry from a directory flow. We can retrieve the contents od the dir.
 
 -> `dirp` points to a `DIR` structure representing the directory flow.
 
@@ -318,7 +318,7 @@ int	closedir(DIR *dirp);
 ```
 -> This function is used to close a directory flow that was previously opened by `opendir`. We must always close directories.
 
--> `dirp` points to structure `DIR` which representes the directory flow.
+-> `dirp` points to structure `DIR` which represents the directory flow.
 
 -> ***returns*** 0 if success and -1 if error.
 
@@ -359,7 +359,7 @@ char	*ttyname(int fd);
 
 -> `fd` is the file descriptor that we want to get the terminal name.
 
--> ***returns*** a pointer to a string containing the na,e of the terminal. And if `fd` is not associated with a terminal or if an error occured it returns NULL.
+-> ***returns*** a pointer to a string containing the na,e of the terminal. And if `fd` is not associated with a terminal or if an error occurred it returns NULL.
 
 
 ### ttyslot
