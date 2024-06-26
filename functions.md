@@ -459,15 +459,187 @@ struct termios {
     cc_t c_cc[NCCS];   /* control characters */
 };
 ```
+
+-> `c_iflag` = Contains the input modes. This a a bitmask that can include flags (for example `IGNBRK` (=ignore break condition), `ICRNL` (= map CR to NL input), `IXON` (= enable XON/XOFF flow control on output) ...).
+
+-> `c_oflag` = Contains the output modes. A bitmask that can include flags (as `OPOST` (= perform post-processing of output), `ONLCR (= map NL to CR_NL on output), and others...
+
+-> `c_flag` = Conatins the control modes. Bitmaskthat can include flags (as `CSIZE` (= character size), `PARENB` (= enable parity), `CSTOPB` (= 2 stops bits, else 1) ...
+
+-> `clflag` = (= Conatins local modes. Bitmask that includes flags (as `ECHO (= echo input characters), `ICANON (= enable canocical mode), `ISIG` (=enable signal character)...
+
+-> `c_cc` = Contains an array of control characters. Includes characters like `VEOF` (EOF char), `VINTR` (= interrupting character), `VERASE` (= erase char)... And the array's size is always defined by `NCCS`.
+
+*** A bitmask is a data that is used for bitwise operations***
+
 ### tcgetattr
+```
+#include <termios.h>
+int	tcgetattr(int fd, struct termios *termios_p);
+```
+-> Thsi function is used to get the parameters of a terminal device.
+
+-> `fd` of the terminal.
+
+-> `termios_p` is a pointer to the structure `termios` where are stored the terminal parameters.
+
+-> ***returns*** 0 on success and -1 if error.
 
 ### tgetent
-### tgetflag
-### tgetnum
-### tgetstr
-### tgoto
-### tputs
+```
+#include <termcap.h>
+int	tgetent(char *bp, const char *name);
+```
 
+-> Must include the library in the makefile ```-ltermcap```
+
+-> This function is used to get a termcap entry for a terminal. The `termcap` library provides functions that handle different terminals in a uniform way.
+
+-> `bp` is a pointer to a buffer where the `termcap` entry wille be stored. (Must be large enough, usually 1024 bytes)
+
+-> `name` is the name of the terminal for which we want to get the termcap entry.
+
+-> ***returns*** 1 if the termcap entry is found and 0 if was not found. And -1 if an error occured (for example if the database of the termcap could not be opened)
+
+***Termcap = terminal capability. It is a software library and databse used on Unix systems for enabling the system to correctly display interfaces on different types of terminals. Each entry in the termcap database, tipically found in the file `/etc/termcap` and represents the capabilities of a certain terminal, or a class of terminals.
+
+Termcap proides a wy for applications to use terminal capabilities abstractly, so they work with many different types of terminls without having to know the specific details of each one. It provides information about the terminal's capabilities, such as the number of columns and rows, wether it can display colors, how the cursor moves etc.***
+
+### tgetflag
+```
+#include <termcap.h>
+int	tgetflag(char *id);
+```
+-> This is a function that is used to get a boolean capability from a termcap entry.
+
+-> `id` is the identifier for the capability, this is a two-letter.
+
+-> all terminals define all capabilities and the actual capabilities available depend on the spcecific terminal and its termcap entry.
+
+-> ***returns*** 1 if the terminal has the capability and 0 if not. If the capability or if the termcap entry has not been loaded with `tgetent` the result is undefined.
+
+- `am` = terminal has automatic margins
+- `bs` = terminal can backspace
+- `bw` = terminal can backspace to previous line
+- `da` = terminal can insert/delete lines
+- `db` = terminal can insert/delete chars
+- `eo` = can erase oveerstrikes with a blank
+- `gn` = generic line type
+- `hc` = hardcopy terminal
+- `hz` = hazardous for motion
+- `in` = terminal can insert chars
+- `mi` = safe to move while in insert mode
+- `ms` = safe to move while standout mode
+- `nc` no correctable delay
+- `os` = terminal can overstrike
+- `ul` = termianl can underline
+- `xs` = standout not reased by overwritting
+- `xt` = tabs destructive, magic so char 
+
+example :
+```
+main(){
+	char term_buffer[1024];
+	cahr *term_type = "xterm";
+
+	if (tgetent(term_buffer, term_type != 1)
+		printf("error");
+	if (tgetflag("am"))
+		printf("terminal hs automatic margins");
+(..)
+```
+### tgetnum
+```
+#inlcude <termcap.h>
+int		tgetnum(char *id);
+```
+-> This function is used to get a numeric capability from a termcap entry. It's part of the termcap library, which provides a way to handle different terminals in a uniform way.
+
+-> `id` is the identifier for the capability.
+
+-> The function returns the numeric value of the capability if it is defined. If the capability is not a numeric capability, or if the termcap entry has not been loaded with `tgetent`, the result is undefined.
+
+- `co` number of columns
+- `li` number of lines
+- `sg` Number of magic cookies left by standout mode
+- `ug` Number of magic cookies left by underline mode
+- `ws` Width in characters of the terminal's status line
+- `lw` Number of lines per screen or page
+- `tw` Width of the terminal in characters
+- `kn` Number of function keys the terminal has
+- `Wc` Wait time for carriage return
+- `pb` Lowest baud rate where padding needed
+- `NC` No correctable delay
+- `dB` Milliseconds of delay needed for backspace
+- `dC` Milliseconds of delay needed for carriage return
+- `dN` Milliseconds of delay needed for newline
+- `dT` Milliseconds of delay needed for horizontal tab
+- `dV` Milliseconds of delay needed for vertical tab
+
+### tgetstr
+```
+#include <term.h>
+char	*tgetstr(char *id, char **area);
+```
+-> This functions retreives a string capability from the terminal database.
+
+-> `id` is the identifier for the capability.
+
+-> `area` is a pointer to a buffer where the result will be stored.
+
+-> This function need a buffer to store the result, beware of the size of the buffer.
+
+- `cl` Clear the screen and home the cursor
+- `cm` Move the cursor to a specified position
+- `ce` Clear to the end of the line
+- `cd` Clear to the end of the screen
+- `so` Start standout mode
+- `se` End standout mode
+- `us` Start underline mode
+- `ue` End underline mode
+- `mb` Start blinking mode
+- `md` Start bold mode
+- `mr` Start reverse mode
+- `me` End all attribute modes
+- `ks` Start keypad transmit mode
+- `ke` End keypad transmit mode
+- `ti` Start "cursor addressing" mode
+- `te` End "cursor addressing" mode
+
+### tgoto
+```
+#include <term.h>
+char	*tgoto(const chr *cap, int col, int row);
+```
+-> This function is used to generate a cursor adressing string.
+
+-> `cap` is the cursor string, usually obtained by `tgetstr("cm, &buffer);`
+
+-> `col` is the destination column
+
+-> `row` is the destination row
+
+-> ***returns*** a pointer to a string which can be used to move the cursor to the specified position.
+
+### tputs
+```
+#include <term.h>
+int	tputs(const cahr *str, int affcnt, int (*putc)(int));
+```
+-> This function is used to output a string to the terminal.
+
+-> `str` is a string to output.
+
+-> `affcnt` is the number of lines affected by the output. (can add padding chars if necessary)
+
+-> `putc` is a pointer to an output function. This is called to output each chars of the string.
+
+-> This function fails if the string is NULL.
+
+example :
+```
+char *p = "soleil";
+tputs(p, 1, putchar);
 
 #### Allowed functions but already known.
 `printf` - `malloc` - `write` - `access` - `open` - `read` - `close` - `fork` - `wait` - `waitpid` - `wait3` - `wait4` - `exit`
