@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/23 11:26:42 by luvallee          #+#    #+#             */
-/*   Updated: 2024/05/30 18:04:31 by luvallee         ###   ########.fr       */
+/*   Created: 2024/05/28 16:14:01 by luvallee          #+#    #+#             */
+/*   Updated: 2024/06/28 09:16:22 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "pipex_bonus.h"
 
 /**
  * Closes the file descriptors stored in the `pipex` structure.
@@ -18,13 +18,13 @@
  * @param pipex The pipex structure.
  * @param count The number of file descriptors to be closed.
  */
-void	ft_close_files(t_pipex *pipex, int count)
+void	ft_closing_files(t_pipex *pipex, int count)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (count != 0)
+	while (count--)
 	{
 		j = 0;
 		while (j != 2)
@@ -38,9 +38,8 @@ void	ft_close_files(t_pipex *pipex, int count)
 			j++;
 		}
 		i++;
-		count--;
 	}
-	ft_close_arg(pipex);
+	ft_closing_arg(pipex);
 }
 
 /**
@@ -49,7 +48,7 @@ void	ft_close_files(t_pipex *pipex, int count)
  *
  * @param pipex A pointer to the pipex struct.
  */
-void	ft_close_arg(t_pipex *pipex)
+void	ft_closing_arg(t_pipex *pipex)
 {
 	if (pipex->file_input != -1)
 	{

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 12:13:08 by luvallee          #+#    #+#             */
-/*   Updated: 2024/06/03 16:02:06 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/06/28 09:16:54 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex_bonus.h"
+#include "pipex_bonus.h"
 
 /* Calls every functions necessary to clean up all the program */
 void	ft_free_everything(t_pipex *pipex)

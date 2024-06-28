@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 15:41:41 by luvallee          #+#    #+#             */
-/*   Updated: 2024/06/03 14:15:48 by luvallee         ###   ########.fr       */
+/*   Created: 2024/05/28 13:59:53 by luvallee          #+#    #+#             */
+/*   Updated: 2024/06/28 09:17:05 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex.h"
+#include "pipex_bonus.h"
 
 /**
  * Executes the command by searching for the executable in the given paths.
@@ -25,7 +25,7 @@
 void	ft_executing(t_pipex *pipex, t_child *child, char **env)
 {
 	int		i;
-	char	*temp;
+	char	*tmp;
 	char	*path;
 
 	i = 1;
@@ -33,17 +33,18 @@ void	ft_executing(t_pipex *pipex, t_child *child, char **env)
 		ft_execute_executable(pipex, child, 0);
 	while (child->path[++i])
 	{
-		temp = ft_strjoin(child->path[i], "/");
-		path = ft_strjoin(temp, child->cmd[0]);
+		tmp = ft_strjoin(child->path[i], "/");
+		path = ft_strjoin(tmp, child->cmd[0]);
 		if (ft_checking_cmd_access(pipex, path) != ERROR)
 		{
-			free(temp);
+			free(tmp);
 			execve(path, child->cmd, env);
 			free(path);
 			perror(child->cmd[0]);
+			pipex->status = ERROR;
 			break ;
 		}
-		free(temp);
+		free(tmp);
 		free(path);
 	}
 	ft_execute_option(child);
@@ -65,7 +66,7 @@ void	ft_duplicate_fd(t_pipex *pipex, int index)
 			|| dup2(pipex->fd[index][1], STDOUT_FILENO) == ERROR)
 			perror("dup2");
 	}
-	else if (index == pipex->nb_arg - 1)
+	else if (index == pipex->nb_cmd - 1)
 	{
 		if (dup2(pipex->fd[index - 1][0], STDIN_FILENO) == ERROR
 			|| dup2(pipex->file_output, STDOUT_FILENO) == ERROR)
@@ -90,27 +91,27 @@ void	ft_child_process(t_pipex *pipex, t_child *child, int index)
 {
 	if (index == 0)
 	{
-		if (ft_checking_files_access(pipex, infile) != ERROR)
+		if (ft_checking_file_access(pipex, infile) != ERROR)
 			ft_opening_file(pipex, infile);
 		else
 		{
-			ft_close_files(pipex, pipex->nb_arg);
+			ft_closing_files(pipex, pipex->nb_cmd);
 			ft_free_everything(pipex);
 			exit(EXIT_FAILURE);
 		}
 	}
-	else if (index == pipex->nb_arg - 1)
+	else if (index == pipex->nb_cmd - 1)
 	{
 		ft_opening_file(pipex, outfile);
-		if (ft_checking_files_access(pipex, outfile) == ERROR)
+		if (ft_checking_file_access(pipex, outfile) == ERROR)
 		{
-			ft_close_files(pipex, pipex->nb_arg);
+			ft_closing_files(pipex, pipex->nb_cmd);
 			ft_free_everything(pipex);
 			exit(EXIT_FAILURE);
 		}
 	}
 	ft_duplicate_fd(pipex, index);
-	ft_close_files(pipex, pipex->nb_arg);
+	ft_closing_files(pipex, pipex->nb_cmd);
 	ft_executing(pipex, child, pipex->env);
 }
 
@@ -124,8 +125,8 @@ void	ft_child_process(t_pipex *pipex, t_child *child, int index)
  */
 void	ft_pipex(t_pipex *pipex, int count)
 {
-	t_child	*current_child;
 	int		index;
+	t_child	*current_child;
 
 	ft_creating_pipe(pipex, count);
 	index = 0;
@@ -134,13 +135,17 @@ void	ft_pipex(t_pipex *pipex, int count)
 	{
 		current_child->pid = fork();
 		if (current_child->pid == ERROR)
+		{
 			perror("fork");
+			pipex->status = 1;
+			return ;
+		}
 		else if (current_child->pid == 0)
 			ft_child_process(pipex, current_child, index);
-		current_child = current_child->next;
 		index++;
+		current_child = current_child->next;
 	}
-	ft_close_files(pipex, pipex->nb_arg);
+	ft_closing_files(pipex, count);
 	ft_waiting(pipex, count, 0);
 }
 
@@ -153,22 +158,22 @@ void	ft_pipex(t_pipex *pipex, int count)
  */
 void	ft_waiting(t_pipex *pipex, int count, int status)
 {
-	int	i;
-	int	tmp;
+	int		i;
+	int		tmp;
 
 	i = 0;
 	tmp = 0;
-	while (i < count)
+	while (i != count)
 	{
 		tmp = wait(&status);
 		if (tmp == ERROR)
 		{
 			ft_putstr_fd("Error: waitpid\n", 2);
+			ft_print_error(pipex, NULL, 12);
 			exit(EXIT_FAILURE);
 		}
 		if (tmp == ft_last_node(pipex->child)->pid)
 		{
-			pipex->status = 0;
 			if (WIFEXITED(status))
 				pipex->status = WEXITSTATUS(status);
 		}

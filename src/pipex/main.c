@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:01:04 by luvallee          #+#    #+#             */
-/*   Updated: 2024/06/04 13:46:35 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/06/28 09:17:23 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex_bonus.h"
+#include "pipex_bonus.h"
 
 /* Initialize every variables of pipex's struct */
 void	ft_initialize(t_pipex *pipex)

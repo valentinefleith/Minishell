@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checking_access_bonus.c                            :+:      :+:    :+:   */
+/*   checking_access.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 14:40:53 by luvallee          #+#    #+#             */
-/*   Updated: 2024/06/03 16:24:13 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/06/28 09:16:10 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex_bonus.h"
+#include "pipex_bonus.h"
 
 /**
  * Check if the specified file exists and if the user has the necessary

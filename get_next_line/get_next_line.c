@@ -6,16 +6,16 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:40:45 by luvallee          #+#    #+#             */
-/*   Updated: 2024/01/29 15:27:17 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/06/28 09:37:00 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	check_endline(t_list **save)
+int	check_endline(t_llist **save)
 {
 	int		i;
-	t_list	*temp;
+	t_llist	*temp;
 
 	i = 0;
 	temp = *save;
@@ -32,7 +32,7 @@ int	check_endline(t_list **save)
 	return (0);
 }
 
-char	*extract_string(t_list *save)
+char	*extract_string(t_llist *save)
 {
 	char	*new_str;
 	int		len;
@@ -40,7 +40,7 @@ char	*extract_string(t_list *save)
 
 	if (!save)
 		return (NULL);
-	len = ft_lstsize(save);
+	len = ft_llstsize(save);
 	new_str = malloc(sizeof(char) * (len + 1));
 	if (!new_str)
 		return (NULL);
@@ -60,9 +60,9 @@ char	*extract_string(t_list *save)
 	return (new_str);
 }
 
-void	delete_and_free(t_list **save)
+void	delete_and_free(t_llist **save)
 {
-	t_list	*temp;
+	t_llist	*temp;
 
 	if (!*save)
 		return ;
@@ -81,15 +81,15 @@ void	delete_and_free(t_list **save)
 	}
 }
 
-t_list	*save_the_buffer(char *buffer, t_list **save)
+t_llist	*save_the_buffer(char *buffer, t_llist **save)
 {
-	t_list	*new;
+	t_llist	*new;
 	int		i;
 
 	i = 0;
 	if (*save == NULL)
 	{
-		new = malloc(sizeof(t_list));
+		new = malloc(sizeof(t_llist));
 		if (!new)
 			return (NULL);
 		new->content = buffer[i];
@@ -99,7 +99,7 @@ t_list	*save_the_buffer(char *buffer, t_list **save)
 	}
 	while (buffer[i])
 	{
-		ft_lstadd_back(save, buffer[i]);
+		ft_llstadd_back(save, buffer[i]);
 		i++;
 	}
 	return (*save);
@@ -107,7 +107,7 @@ t_list	*save_the_buffer(char *buffer, t_list **save)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*save = NULL;
+	static t_llist	*save = NULL;
 	t_element		element;
 	char			*str;
 

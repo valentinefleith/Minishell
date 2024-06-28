@@ -6,15 +6,15 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:42:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/06/04 13:43:59 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/06/28 09:14:52 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
 
-# include "../bonus/get_next_line/get_next_line.h"
-# include "../libft/libft.h"
+# include "get_next_line.h"
+# include "libft.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <stdio.h>

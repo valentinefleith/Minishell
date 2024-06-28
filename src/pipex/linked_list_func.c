@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linked_list_func_bonus.c                           :+:      :+:    :+:   */
+/*   linked_list_func.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:10:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/06/03 16:26:55 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/06/28 09:17:14 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/pipex_bonus.h"
+#include "pipex_bonus.h"
 
 /* Search last node of the linked list */
 t_child	*ft_last_node(t_child *lst)
