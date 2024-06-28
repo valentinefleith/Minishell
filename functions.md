@@ -1,5 +1,39 @@
 # Overview of how functions (allowed) work
 
+* [Readline](#readline)
+	* [rl_clear_history](#rl_clear_history)
+	* [rl_on_new_line](#rl_on_new_line)
+	* [rl_replace_line](#rl_replace_line)
+	* [rl_redisplay](#rl_redisplay)
+* [add_history](#add_history)
+* [signal](#signal)
+* [sigaction](#sigaction)
+* [sigemptyset](#sigemptyset)
+* [sigaddset](#sigaddset)
+* [kill](#kill)
+* [exit](#exit)
+* [getcwd](#getcwd)
+* [chdir](#chdir)
+* [stat](#stat)
+* [lstat](#lstat)
+* [fstat](#fstat)
+* [opendir](#opendir)
+* [readdir](#readdir)
+* [closedir](#closedir)
+* [isatty](#isatty)
+* [ttyname](#ttyname)
+* [ttyslot](#ttyslot)
+* [ioctl](#ioctl)
+* [getenv](#getenv)
+* [tcsetattr](#tcsetattr)
+* [tcgetattr](#tcgetattr)
+* [tgetent](#tgetent)
+* [tgetflag](#tgetflag)
+* [tgetnum](#tgetnum)
+* [tgetstr](#tgetstr)
+* [tgoto](#tgoto)
+* [tputs](#tputs)
+
 ### Bible of readline's library : [GNU Readline library](https://tiswww.case.edu/php/chet/readline/rltop.html)
 
 ### Includes
@@ -11,7 +45,7 @@
 ### Makefile
 ```-lreadline``` flag to link the library.
 
-### Readline
+### readline
 ```
 char  *readline(char *prompt);
 ```
@@ -39,7 +73,7 @@ Once the user presses the 'Enter key', it returns the text and if it is not empt
 
 #### Other readline functions
 
-### rl_clear_history()
+### rl_clear_history
 ```
 void  rl_clear_history(void);
 ```
@@ -53,13 +87,13 @@ if (strcmp(input, "clear_history") == 0) {
             rl_clear_history();
             printf("History cleared.\n");
 ```
-### rl_new_line()
+### rl_on_new_line
 ```
 int   rl_on_new_line(void);
 ```
 -> Tells to readline that the cursors is on a new line. Doesn't affect the input or the history list.
 
-### rl_replace_line("text", 0)
+### rl_replace_line
 ```
 void  rl_replace_line(const char *text, int clear_undo);
 ```
@@ -79,13 +113,13 @@ else {
 }
 ```
 
-### rl_redisplay()
+### rl_redisplay
 ```
 void  rl_redisplay(void);
 ```
 -> Change what's displayed on the screen to reflect the current state of the readline's buffer.
 
-### add_history("text")
+### add_history
 ```
 void  add_history(const char *string);
 ```
