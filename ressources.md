@@ -16,3 +16,4 @@
 - **Writing a UNIX Shell**: [ici](https://indradhanush.github.io/blog/writing-a-unix-shell-part-1/)
 - **Build Your Own Shell**: [ici](https://github.com/tokenrove/build-your-own-shell)
 - **Write a shell in C**: [ici](https://danishpraka.sh/posts/write-a-shell/)
+- **Building a shell in 10minutes**: [ici](https://www.youtube.com/watch?v=k6TTj4C0LF0)
