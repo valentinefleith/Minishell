@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   bash_error_messages.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/29 21:18:54 by vafleith         ###   ########.fr       */
+/*   Created: 2024/06/29 21:08:13 by vafleith          #+#    #+#             */
+/*   Updated: 2024/06/29 21:11:42 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
+void	no_such_file(char *filename)
 {
-	char	*buffer;
+	ft_putstr_fd("bash: no such file or directory: ", 2);
+	ft_putendl_fd(filename, 2);
+}
 
-	(void)argc;
-	(void)argv;
+void	cmd_not_found(char *cmd_name)
+{
+	ft_putstr_fd("bash: command not found: ", 2);
+	ft_putendl_fd(cmd_name, 2);
+}
 
-	while (1)
-	{
-		buffer = readline("$> ");
-		add_history(buffer);
-		if (!buffer)
-			continue ;
-		parse_user_prompt(buffer, env);
-		// ft_printf("%s\n", buffer);
-		// rl_on_new_line();
-		free(buffer);
-	}
-	// rl_clear_history();
+void	permission_denied(char *name)
+{
+	ft_putstr_fd("bash: permission denied: ", 2);
+	ft_putendl_fd(name, 2);
 }
