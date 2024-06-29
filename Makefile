@@ -6,7 +6,7 @@
 #    By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/06/29 14:43:19 by vafleith         ###   ########.fr        #
+#    Updated: 2024/06/29 15:54:15 by vafleith         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,9 +36,13 @@ PARSING_DIR = parsing
 PARSING_SRCS = parse_prompt.c parse_cmd.c
 PARSING_SRCS := $(addprefix $(PARSING_DIR)/, $(PARSING_SRCS))
 
+FREE_DIR = free
+FREE_SRCS = ft_free_tab.c free_and_exit.c
+FREE_SRCS := $(addprefix $(FREE_DIR)/, $(FREE_SRCS))
+
 SRC_DIR = src
 
-SRCS = main.c $(PIPEX_SRCS) $(PARSING_SRCS)
+SRCS = main.c $(PIPEX_SRCS) $(PARSING_SRCS) $(FREE_SRCS)
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
 OBJ_DIR = build

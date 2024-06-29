@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   ft_free_tab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/29 15:45:06 by vafleith         ###   ########.fr       */
+/*   Created: 2024/06/29 15:47:13 by vafleith          #+#    #+#             */
+/*   Updated: 2024/06/29 15:48:48 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+# include "minishell.h"
 
-typedef struct s_cmd
+void ft_free_tab(char **strs)
 {
-	char			*exec_path;
-	char			**cmd_and_args;
-}					t_cmd;
+	int	i;
 
-void	parse_user_prompt(char *buffer, char **env);
-
-t_cmd parse_cmd_executable(char *buffer, char **paths);
-
-#endif
+	i = 0;
+	while (strs[i])
+	{
+		free(strs[i]);
+		i++;
+	}
+	free(strs);
+}

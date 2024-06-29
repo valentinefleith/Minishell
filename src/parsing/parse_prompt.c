@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:16:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/29 14:46:24 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:52:11 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	**get_paths(char **env)
 
 void parse_user_prompt(char *buffer, char **env)
 {
-	char **cmd;
+	t_cmd cmd;
 	char **paths;
 
 	paths = get_paths(env);
@@ -45,4 +45,5 @@ void parse_user_prompt(char *buffer, char **env)
 	// else
 	// 		cmd = parse_cmd_executable(buffer, env);
 	cmd = parse_cmd_executable(buffer, paths);
+	ft_printf("%s\n", cmd.exec_path);
 }
