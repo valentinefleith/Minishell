@@ -6,7 +6,7 @@
 #    By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/06/29 14:22:35 by vafleith         ###   ########.fr        #
+#    Updated: 2024/06/29 14:43:19 by vafleith         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ PIPEX_SRCS = checking_access.c cleaning.c linked_list_func.c parsing.c pipex.c \
 PIPEX_SRCS := $(addprefix $(PIPEX_DIR)/, $(PIPEX_SRCS))
 
 PARSING_DIR = parsing
-PARSING_SRCS = parse_prompt.c
+PARSING_SRCS = parse_prompt.c parse_cmd.c
 PARSING_SRCS := $(addprefix $(PARSING_DIR)/, $(PARSING_SRCS))
 
 SRC_DIR = src
