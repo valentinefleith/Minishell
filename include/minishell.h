@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/19 17:44:00 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/06/29 11:54:30 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,7 @@
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 #endif
