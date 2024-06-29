@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/29 12:08:17 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/06/29 14:15:50 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 
 int	main(int argc, char **argv, char **env)
 {
+	char	*buffer;
+
 	(void)argc;
 	(void)argv;
 	(void)env;
-	char *buffer;
-	while(1)
+	while (1)
 	{
 		buffer = readline("$> ");
 		add_history(buffer);
+		if (!buffer)
+			continue ;
+		parse_user_prompt(buffer, env);
 		ft_printf("%s\n", buffer);
-		//rl_on_new_line();
+		// rl_on_new_line();
 		free(buffer);
 	}
-	//rl_clear_history();
-	ft_printf("test\n");
-	ft_printf("compiled!\n");
+	// rl_clear_history();
 }

@@ -6,7 +6,7 @@
 #    By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/06/29 11:59:41 by vafleith         ###   ########.fr        #
+#    Updated: 2024/06/29 14:22:35 by vafleith         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,15 +25,20 @@ GNL_NAME = get_next_line.a
 GNL = $(GNL_PATH)/$(GNL_NAME)
 
 INC = -Iinclude -I$(LIBFT_PATH) -I$(GNL_PATH)
+READFLAGS = readline
 
 PIPEX_DIR = pipex
 PIPEX_SRCS = checking_access.c cleaning.c linked_list_func.c parsing.c pipex.c \
 			 utils.c
 PIPEX_SRCS := $(addprefix $(PIPEX_DIR)/, $(PIPEX_SRCS))
 
+PARSING_DIR = parsing
+PARSING_SRCS = parse_prompt.c
+PARSING_SRCS := $(addprefix $(PARSING_DIR)/, $(PARSING_SRCS))
+
 SRC_DIR = src
 
-SRCS = main.c $(PIPEX_SRCS)
+SRCS = main.c $(PIPEX_SRCS) $(PARSING_SRCS)
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
 OBJ_DIR = build
@@ -56,7 +61,7 @@ $(GNL):
 	@make -C $(GNL_PATH) > /dev/null
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(GNL) $(INC) -lreadline
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(GNL) $(INC) -l$(READFLAGS)
 	@echo "minishell ready."
 
 .PHONY: clean
