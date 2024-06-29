@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:16:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/29 21:19:42 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/06/29 21:38:26 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	**get_paths(char **env)
 	return (split_paths);
 }
 
-void parse_user_prompt(char *buffer, char **env)
+t_cmd parse_user_prompt(char *buffer, char **env)
 {
 	t_cmd cmd;
 	char **paths;
@@ -45,10 +45,11 @@ void parse_user_prompt(char *buffer, char **env)
 	// else
 	// 		cmd = parse_cmd_executable(buffer, env);
 	cmd = parse_cmd_executable(buffer, paths);
-	ft_printf("%s\n", cmd.exec_path);
-	for (int i = 0; cmd.cmd_and_args[i]; i++)
-	{
-		ft_printf("%s,", cmd.cmd_and_args[i]);
-	}
-	ft_printf("\n");
+	//ft_printf("%s\n", cmd.exec_path);
+	//for (int i = 0; cmd.cmd_and_args[i]; i++)
+	//{
+	//	ft_printf("%s,", cmd.cmd_and_args[i]);
+	//}
+	//ft_printf("\n");
+	return cmd;
 }

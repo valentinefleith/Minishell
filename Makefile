@@ -6,7 +6,7 @@
 #    By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/06/29 21:12:35 by vafleith         ###   ########.fr        #
+#    Updated: 2024/06/29 21:35:56 by vafleith         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,9 +40,13 @@ FREE_DIR = free
 FREE_SRCS = ft_free_tab.c free_and_exit.c
 FREE_SRCS := $(addprefix $(FREE_DIR)/, $(FREE_SRCS))
 
+EXEC_DIR = execution
+EXEC_SRCS = execute_command.c
+EXEC_SRCS := $(addprefix $(EXEC_DIR)/, $(EXEC_SRCS))
+
 SRC_DIR = src
 
-SRCS = main.c $(PIPEX_SRCS) $(PARSING_SRCS) $(FREE_SRCS)
+SRCS = main.c $(PIPEX_SRCS) $(PARSING_SRCS) $(FREE_SRCS) $(EXEC_SRCS)
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
 OBJ_DIR = build
