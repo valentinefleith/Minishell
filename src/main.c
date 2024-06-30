@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/29 21:37:34 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/06/30 19:59:13 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char **argv, char **env)
 		if (!buffer)
 			continue ;
 		cmd = parse_user_prompt(buffer, env);
-		execute_command(cmd, env);
+		//execute_command(cmd, env);
 		// ft_printf("%s\n", buffer);
 		// rl_on_new_line();
 		free(buffer);
