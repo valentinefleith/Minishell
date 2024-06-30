@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-void ft_free_tab(char **strs)
+void	ft_free_tab(char **strs)
 {
 	int	i;
 

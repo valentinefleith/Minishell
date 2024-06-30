@@ -6,11 +6,11 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:08:13 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/29 21:11:42 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/06/30 20:46:09 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 void	no_such_file(char *filename)
 {

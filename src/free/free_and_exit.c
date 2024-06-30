@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void free_and_exit(char **paths, int exit_status)
+void	free_and_exit(char **paths, int exit_status)
 {
 	if (paths)
 		ft_free_tab(paths);

@@ -58,14 +58,13 @@ static char	*get_path_env(char *cmd_name, char **paths)
 	return (get_path_no_env(cmd_name));
 }
 
-
-static char *find_right_path(char **paths, t_cmd cmd)
+static char	*find_right_path(char **paths, t_cmd cmd)
 {
-	char *executable_path;
+	char	*executable_path;
 
 	if (ft_strchr(cmd.cmd_and_args[0], '/') || !paths)
 		executable_path = get_path_no_env(cmd.cmd_and_args[0]);
-	else 
+	else
 		executable_path = get_path_env(cmd.cmd_and_args[0], paths);
 	if (!executable_path)
 	{
@@ -77,12 +76,12 @@ static char *find_right_path(char **paths, t_cmd cmd)
 		ft_free_tab(cmd.cmd_and_args);
 		free_and_exit(paths, 127);
 	}
-	return executable_path;
+	return (executable_path);
 }
 
-t_cmd parse_cmd_executable(char *buffer, char **paths)
+t_cmd	parse_cmd_executable(char *buffer, char **paths)
 {
-	t_cmd cmd;
+	t_cmd	cmd;
 
 	cmd.cmd_and_args = ft_split(buffer, ' ');
 	if (!cmd.cmd_and_args)
@@ -94,5 +93,5 @@ t_cmd parse_cmd_executable(char *buffer, char **paths)
 		free_and_exit(paths, 2);
 	}
 	cmd.exec_path = find_right_path(paths, cmd);
-	return cmd;
+	return (cmd);
 }

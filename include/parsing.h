@@ -15,14 +15,14 @@
 
 typedef struct s_cmd
 {
-	char			*exec_path;
-	char			**cmd_and_args;
-}					t_cmd;
+	char	*exec_path;
+	char	**cmd_and_args;
+}			t_cmd;
 
-t_cmd	parse_user_prompt(char *buffer, char **env);
-t_cmd parse_cmd_executable(char *buffer, char **paths);
-void	no_such_file(char *filename);
-void	cmd_not_found(char *cmd_name);
-void	permission_denied(char *name);
+t_cmd		parse_user_prompt(char *buffer, char **env);
+t_cmd		parse_cmd_executable(char *buffer, char **paths);
+void		no_such_file(char *filename);
+void		cmd_not_found(char *cmd_name);
+void		permission_denied(char *name);
 
 #endif
