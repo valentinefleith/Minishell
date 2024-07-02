@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/02 15:31:30 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/06/29 14:23:21 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include "get_next_line.h"
 # include "parsing.h"
+# include "free.h"
+# include "execution.h"
 # include "builtin.h"
+
 
 # include <stdio.h>
 # include <unistd.h>
@@ -26,6 +30,7 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <stdbool.h>
 
 typedef struct s_input
 {

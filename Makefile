@@ -6,6 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
+#    Updated: 2024/07/02 17:59:48 by vafleith         ###   ########.fr        #
 #    Updated: 2024/07/02 15:25:18 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
@@ -27,19 +28,16 @@ GNL = $(GNL_PATH)/$(GNL_NAME)
 INC = -Iinclude -I$(LIBFT_PATH) -I$(GNL_PATH)
 READFLAGS = readline
 
-PIPEX_DIR = pipex
-PIPEX_SRCS = checking_access.c cleaning.c linked_list_func.c parsing.c pipex.c \
-			 utils.c
-PIPEX_SRCS := $(addprefix $(PIPEX_DIR)/, $(PIPEX_SRCS))
-
-PARSING_DIR = parsing
-PARSING_SRCS = parse_prompt.c
-PARSING_SRCS := $(addprefix $(PARSING_DIR)/, $(PARSING_SRCS))
-
 SRC_DIR = src
 
-SRCS = main.c $(PIPEX_SRCS) $(PARSING_SRCS) \
-	builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c
+SRCS = main.c \
+	   pipex/checking_access.c pipex/cleaning.c pipex/linked_list_func.c \
+	   pipex/parsing.c pipex/pipex.c pipex/utils.c\
+	   parsing/parse_prompt.c parsing/parse_cmd.c parsing/bash_error_messages.c \
+	   parsing/handle_quotes.c \
+	   free/ft_free_tab.c free/free_and_exit.c \
+	   execution/execute_command.c \
+	   builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
 OBJ_DIR = build

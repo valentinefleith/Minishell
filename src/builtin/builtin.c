@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/02 17:02:51 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/02 18:06:14 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	ft_pwd(void)
 		error_builtin(PWD);
 }
 
-void	ft_cd(char *arg)
-{
-	// si arg NULL = aller dans home
-	// sinon -> changer la variable d'env OLDPWD avec le pwd actuel et puis
-	// uitliser la fonction chdir() pour changer de repertoire
-}
-
-void	ft_exit(t_shell shell)
-{
-	// free everything and exit() with the rigth exit status
-}
+//void	ft_cd(char *arg)
+//{
+//	// si arg NULL = aller dans home
+//	// sinon -> changer la variable d'env OLDPWD avec le pwd actuel et puis
+//	// uitliser la fonction chdir() pour changer de repertoire
+//}
+//
+//void	ft_exit(t_shell shell)
+//{
+//	// free everything and exit() with the rigth exit status
+//}
