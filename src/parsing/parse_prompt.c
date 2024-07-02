@@ -65,7 +65,13 @@ t_cmd	parse_user_prompt(char *buffer, char **env)
 	t_cmd	cmd;
 	char	**paths;
 	pid_t	pid;
+	t_input input;
+	char 	**line_input;
 
+	line_input = ft_split(buffer, ' ');
+	parse_builtin(line_input, &input);
+	if (input.builtin != NONE)
+		execute_builtin(input.builtin, &input);
 	paths = get_paths(env);
 	pid = fork();
 	if (pid == 0)

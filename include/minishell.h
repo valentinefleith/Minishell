@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/02 11:10:49 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/06/29 14:23:21 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include "parsing.h"
 # include "free.h"
 # include "execution.h"
+# include "builtin.h"
+
 
 # include <stdio.h>
 # include <unistd.h>
@@ -29,5 +31,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdbool.h>
+
+typedef struct s_input
+{
+	t_builtin	builtin;
+	char		*arg;
+}	t_input;
 
 #endif
