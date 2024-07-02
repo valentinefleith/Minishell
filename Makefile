@@ -6,11 +6,8 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2024/07/02 13:30:03 by vafleith         ###   ########.fr        #
-=======
+#    Updated: 2024/07/02 17:59:48 by vafleith         ###   ########.fr        #
 #    Updated: 2024/07/02 15:25:18 by luvallee         ###   ########.fr        #
->>>>>>> main
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,19 +30,14 @@ READFLAGS = readline
 
 SRC_DIR = src
 
-<<<<<<< HEAD
 SRCS = main.c \
 	   pipex/checking_access.c pipex/cleaning.c pipex/linked_list_func.c \
 	   pipex/parsing.c pipex/pipex.c pipex/utils.c\
 	   parsing/parse_prompt.c parsing/parse_cmd.c parsing/bash_error_messages.c \
 	   parsing/handle_quotes.c \
 	   free/ft_free_tab.c free/free_and_exit.c \
-	   execution/execute_command.c
-
-=======
-SRCS = main.c $(PIPEX_SRCS) $(PARSING_SRCS) \
-	builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c
->>>>>>> main
+	   execution/execute_command.c \
+	   builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
 OBJ_DIR = build
