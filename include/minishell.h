@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/29 21:32:32 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/01 21:10:15 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include "get_next_line.h"
 # include "parsing.h"
 # include "free.h"
 # include "execution.h"

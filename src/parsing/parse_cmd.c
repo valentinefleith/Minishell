@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:39:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/29 21:17:26 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/02 09:44:48 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,20 @@ static char	*find_right_path(char **paths, t_cmd cmd)
 t_cmd	parse_cmd_executable(char *buffer, char **paths)
 {
 	t_cmd	cmd;
+	char **cmd_and_args;
 
-	cmd.cmd_and_args = ft_split(buffer, ' ');
-	if (!cmd.cmd_and_args)
+	cmd_and_args = ft_split(buffer, ' ');
+	if (!cmd_and_args)
 		free_and_exit(paths, 2);
-	if (!cmd.cmd_and_args[0])
+	if (!cmd_and_args[0])
 	{
 		ft_putendl_fd("bash: cmd not found:", 2);
-		ft_free_tab(cmd.cmd_and_args);
+		ft_free_tab(cmd_and_args);
 		free_and_exit(paths, 2);
 	}
+	cmd.cmd_and_args = handle_quotes(cmd_and_args);
+	if (!cmd.cmd_and_args)
+		free_and_exit(paths, 2);
 	cmd.exec_path = find_right_path(paths, cmd);
 	return (cmd);
 }
