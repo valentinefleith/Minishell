@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/29 14:15:50 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:26:33 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv, char **env)
 		if (!buffer)
 			continue ;
 		parse_user_prompt(buffer, env);
-		ft_printf("%s\n", buffer);
+		// ft_printf("%s\n", buffer);
 		// rl_on_new_line();
 		free(buffer);
 	}

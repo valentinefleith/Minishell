@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+         #
+#    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/06/29 14:22:35 by vafleith         ###   ########.fr        #
+#    Updated: 2024/07/02 15:25:18 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ PARSING_SRCS := $(addprefix $(PARSING_DIR)/, $(PARSING_SRCS))
 
 SRC_DIR = src
 
-SRCS = main.c $(PIPEX_SRCS) $(PARSING_SRCS)
+SRCS = main.c $(PIPEX_SRCS) $(PARSING_SRCS) \
+	builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
 OBJ_DIR = build

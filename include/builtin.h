@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/02 15:31:30 by luvallee         ###   ########.fr       */
+/*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
+/*   Updated: 2024/07/02 15:58:00 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
-# include "libft.h"
-# include "parsing.h"
-# include "builtin.h"
-
-# include <stdio.h>
-# include <unistd.h>
-# include <errno.h>
-# include <fcntl.h>
-# include <sys/wait.h>
-# include <sys/types.h>
-# include <stdlib.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-
-typedef struct s_input
+typedef enum e_builtin
 {
-	t_builtin	builtin;
-	char		*arg;
-}	t_input;
+	PWD, 
+	ECHO,
+	ECHO_N,
+	UNSET,
+	EXPORT,
+	EXIT,
+	CD,
+	NONE,
+}			t_builtin;
+
+typedef struct s_input t_input;
+
+void		parse_builtin(char **buffer, t_input *input);
+void		execute_builtin(t_builtin builtin, t_input *input);
+void		ft_pwd(void);
+void		error_builtin(t_builtin builtin);
 
 #endif
