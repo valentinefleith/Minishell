@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/02 15:58:00 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/02 18:51:39 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ typedef enum e_builtin
 
 typedef struct s_input t_input;
 
-void		parse_builtin(char **buffer, t_input *input);
 void		execute_builtin(t_builtin builtin, t_input *input);
 void		ft_pwd(void);
 void		error_builtin(t_builtin builtin);
+t_builtin	parse_builtin(char **buffer, t_input *input);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:36:18 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/02 16:51:52 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:06:57 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	get_tab_builtin(char **tab_builtin)
 	tab_builtin[7] = NULL;
 }
 
-void	parse_builtin(char **buffer, t_input *input)
+t_builtin	parse_builtin(char **buffer, t_input *input)
 {
 	int			i;
 	int			len;
@@ -34,7 +34,7 @@ void	parse_builtin(char **buffer, t_input *input)
 	len = 0;
 	get_tab_builtin(tab_builtin);
 	if (!buffer)
-		return ;
+		return NONE;
 	while (i < NONE )
 	{
 		len = ft_strlen(tab_builtin[i]);
@@ -48,4 +48,5 @@ void	parse_builtin(char **buffer, t_input *input)
 			input->builtin = NONE;
 		i++;
 	}
+	return input->builtin;
 }

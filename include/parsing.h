@@ -6,18 +6,21 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/02 14:19:10 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/02 19:06:01 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
+#include "builtin.h"
+
 # define SINGLE_QUOTE '\''
 # define DOUBLE_QUOTE '\"'
 
 typedef struct s_cmd
 {
+	t_builtin		builtin_type;
 	char			*exec_path;
 	char			**cmd_and_args;
 	int				infile;
