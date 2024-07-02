@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:16:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/06/30 20:44:37 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/02 15:11:21 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,33 @@ static char	**get_paths(char **env)
 		exit(1);
 	return (split_paths);
 }
+
+//t_cmd	**get_whole_pipeline(char *buffer, char **env)
+//{
+//	t_cmd	**pipeline;
+//	t_cmd	*new;
+//	int		nb_of_cmds;
+//	int		n;
+//
+//	pipeline = malloc(sizeof(t_cmd *));
+//	if (!pipeline)
+//		return (NULL);
+//	*pipeline = NULL;
+//	nb_of_cmds = get_nb_of_cmds(buffer);
+//	n = 0;
+//	while (n < nb_of_cmds)
+//	{
+//		new = parse_nth_cmd(buffer, n);
+//		if (new == NULL)
+//		{
+//			ft_free_pipeline(pipeline);
+//			return (NULL);
+//		}
+//		cmd_add_back(pipeline, new);
+//		n++;
+//	}
+//	return (pipeline);
+//}
 
 t_cmd	parse_user_prompt(char *buffer, char **env)
 {
