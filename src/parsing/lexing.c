@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 12:51:51 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/03 15:54:17 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ t_token	**tokenize_cmdline(char *buffer)
 	while (*buffer)
 	{
 		size = get_size_next_token(buffer);
+		if (*buffer == ' ' && size == 1)
+		{
+			buffer++;
+			continue;
+		}
 		new = create_node(buffer, size, tokens);
 		if (!new)
 		{

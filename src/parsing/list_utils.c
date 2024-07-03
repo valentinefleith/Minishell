@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:37:09 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 12:48:40 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/03 15:50:35 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,25 @@
 t_token	*create_node(char *buffer, int size, t_token **tokens)
 {
 	t_token	*node;
+	char	*temp;
 
 	node = malloc(sizeof(t_token));
 	if (!node)
 		return (NULL);
-	node->data = malloc(size + 1);
+	temp = malloc(size + 1);
+	if (temp == NULL)
+	{
+		free(node);
+		return (NULL);
+	}
+	ft_strlcpy(temp, buffer, size + 1);
+	node->data = ft_strtrim(temp, " ");
+	free(temp);
 	if (node->data == NULL)
 	{
 		free(node);
 		return (NULL);
 	}
-	ft_strlcpy(node->data, buffer, size + 1);
 	node->type = find_token_type(node->data, tokens);
 	node->next = NULL;
 	node->prev = NULL;
