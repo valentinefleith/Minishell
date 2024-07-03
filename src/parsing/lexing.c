@@ -6,17 +6,39 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 16:11:40 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/03 21:51:22 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "free.h"
 #include "minishell.h"
 
-t_token_type	find_token_type(char *data, t_token **tokens)
+void	fill_token_types(t_token *tokens)
 {
-	// data = ft_strstrip(data);
-	return (WORD);
+	while (tokens)
+	{
+		if (tokens->type != UNDEFINED)
+		{
+			tokens = tokens->next;
+			continue ;
+		}
+		if (ft_strlen(tokens->data) == 1 && !ft_strncmp(tokens->data, "<", 1))
+			tokens->type = INPUT;
+		else if (ft_strlen(tokens->data) == 1 && !ft_strncmp(tokens->data, ">",
+				1))
+			tokens->type = OUTPUT;
+		else if (!ft_strncmp(tokens->data, ">>", 2))
+			tokens->type = APPEND;
+		else if (!ft_strncmp(tokens->data, "|", 1))
+			tokens->type = PIPE;
+		else if (!ft_strncmp(tokens->data, "<<", 2))
+			tokens->type = HEREDOC;
+		else
+			tokens->type = WORD;
+		if ((tokens->type == INPUT || tokens->type == OUTPUT
+				|| tokens->type == APPEND) && tokens->next)
+			tokens->next->type = FILENAME;
+		tokens = tokens->next;
+	}
 }
 
 static int	get_size_next_token(char *buffer)
@@ -30,7 +52,7 @@ static int	get_size_next_token(char *buffer)
 	{
 		if (buffer[size] == ' ' && !inside_quotes)
 			return (size + 1);
-		if (buffer[size] == '\"')
+		if (buffer[size] == DOUBLE_QUOTE)
 		{
 			if (!inside_quotes)
 				inside_quotes = true;
@@ -60,11 +82,12 @@ t_token	**tokenize_cmdline(char *buffer)
 			buffer++;
 			continue ;
 		}
-		new = create_node(buffer, size, tokens);
+		new = create_node(buffer, size);
 		if (!new)
 			return (ft_free_tokens(tokens));
 		tokens_add_back(tokens, new);
 		buffer += size;
 	}
+	fill_token_types(*tokens);
 	return (tokens);
 }

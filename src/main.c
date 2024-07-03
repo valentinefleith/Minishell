@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 12:04:25 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/03 21:40:15 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,43 @@ static void ft_print_lexing(t_token *tokens)
 	}
 }
 
+static void ft_print_token_types(t_token *tokens)
+{
+	if (!tokens)
+	{
+		ft_printf("NULL\n");
+		return;
+	}
+	while (tokens)
+	{
+		ft_printf("%s : ", tokens->data);
+		if (tokens->type == 0)
+			ft_printf("WORD");
+		if (tokens->type == 1)
+			ft_printf("INPUT");
+		if (tokens->type == 2)
+			ft_printf("HEREDOC");
+		if (tokens->type == 3)
+			ft_printf("OUTPUT");
+		if (tokens->type == 4)
+			ft_printf("APPEND");
+		if (tokens->type == 5)
+			ft_printf("PIPE");
+		if (tokens->type == 6)
+			ft_printf("FILENAME");
+		if (tokens->type == 7)
+			ft_printf("UNDEFINED");
+		if (tokens->next)
+		{
+			ft_printf(" -> ");
+			 tokens = tokens->next;
+		}
+		else{
+			ft_printf("\n");
+			break;}
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*buffer;
@@ -41,6 +78,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argc;
 	(void)argv;
+	(void)env;
 	while (1)
 	{
 		// ft_printf("$> ");
@@ -50,7 +88,8 @@ int	main(int argc, char **argv, char **env)
 		if (!buffer)
 			continue ;
 		tokens = tokenize_cmdline(buffer);
-		ft_print_lexing(*tokens);
+		//ft_print_lexing(*tokens);
+		ft_print_token_types(*tokens);
 		//cmd = parse_user_prompt(buffer, env);
 		// execute_command(cmd, env);
 		// ft_printf("%s\n", buffer);
