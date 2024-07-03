@@ -1,9 +1,5 @@
 #### LEXING
 
-- gerer les nultiples espaces = les enlever (-> VAL)
-  
-- enlever les espaces avant et apres les mots (-> VAL)
-
 - gerer les simple quotes (-> VAL)
 
 - identifier les builtins (->LUCIE) (IN PROGRESS)
