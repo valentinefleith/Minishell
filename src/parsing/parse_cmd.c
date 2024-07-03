@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:39:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/02 09:44:48 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/03 12:06:21 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ t_cmd	parse_cmd_executable(char *buffer, char **paths)
 		ft_free_tab(cmd_and_args);
 		free_and_exit(paths, 2);
 	}
-	cmd.cmd_and_args = handle_quotes(cmd_and_args);
+	//cmd.cmd_and_args = handle_quotes(cmd_and_args);
+	cmd.cmd_and_args = cmd_and_args;
 	if (!cmd.cmd_and_args)
 		free_and_exit(paths, 2);
 	cmd.exec_path = find_right_path(paths, cmd);
