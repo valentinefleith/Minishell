@@ -6,18 +6,18 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 15:54:17 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:11:40 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "free.h"
 #include "minishell.h"
 
 t_token_type	find_token_type(char *data, t_token **tokens)
 {
-	//data = ft_strstrip(data);
+	// data = ft_strstrip(data);
 	return (WORD);
 }
-
 
 static int	get_size_next_token(char *buffer)
 {
@@ -58,14 +58,11 @@ t_token	**tokenize_cmdline(char *buffer)
 		if (*buffer == ' ' && size == 1)
 		{
 			buffer++;
-			continue;
+			continue ;
 		}
 		new = create_node(buffer, size, tokens);
 		if (!new)
-		{
-			// ft_free_tokens(tokens);
-			return (NULL);
-		}
+			return (ft_free_tokens(tokens));
 		tokens_add_back(tokens, new);
 		buffer += size;
 	}

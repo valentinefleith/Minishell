@@ -6,29 +6,34 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:37:09 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 15:50:35 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/03 16:05:40 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	*get_only_data(char *buffer, int size)
+{
+	char	*temp;
+	char	*data;
+
+	temp = malloc(size + 1);
+	if (temp == NULL)
+		return (NULL);
+	ft_strlcpy(temp, buffer, size + 1);
+	data = ft_strtrim(temp, " ");
+	free(temp);
+	return (data);
+}
+
 t_token	*create_node(char *buffer, int size, t_token **tokens)
 {
 	t_token	*node;
-	char	*temp;
 
 	node = malloc(sizeof(t_token));
 	if (!node)
 		return (NULL);
-	temp = malloc(size + 1);
-	if (temp == NULL)
-	{
-		free(node);
-		return (NULL);
-	}
-	ft_strlcpy(temp, buffer, size + 1);
-	node->data = ft_strtrim(temp, " ");
-	free(temp);
+	node->data = get_only_data(buffer, size);
 	if (node->data == NULL)
 	{
 		free(node);
