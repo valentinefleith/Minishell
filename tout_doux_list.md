@@ -14,7 +14,7 @@
 
 - implementer les builtins (->LUCIE)
   
-- ecrire la fonction qui trouve le bon type de token
+- ecrire la fonction qui trouve le bon type de token (->LUCIE) (IN PROGRESS)
 
 
 ### CLEANING
