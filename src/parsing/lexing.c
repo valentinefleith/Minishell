@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 21:51:22 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/04 16:11:08 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,16 @@ void	fill_token_types(t_token *tokens)
 			tokens = tokens->next;
 			continue ;
 		}
-		if (ft_strlen(tokens->data) == 1 && !ft_strncmp(tokens->data, "<", 1))
-			tokens->type = INPUT;
-		else if (ft_strlen(tokens->data) == 1 && !ft_strncmp(tokens->data, ">",
-				1))
-			tokens->type = OUTPUT;
+		if (!ft_strncmp(tokens->data, "<<", 2))
+			tokens->type = HEREDOC;
 		else if (!ft_strncmp(tokens->data, ">>", 2))
 			tokens->type = APPEND;
+		else if (!ft_strncmp(tokens->data, "<", 1))
+			tokens->type = INPUT;
+		else if (!ft_strncmp(tokens->data, ">", 1))
+			tokens->type = OUTPUT;
 		else if (!ft_strncmp(tokens->data, "|", 1))
 			tokens->type = PIPE;
-		else if (!ft_strncmp(tokens->data, "<<", 2))
-			tokens->type = HEREDOC;
 		else
 			tokens->type = WORD;
 		if ((tokens->type == INPUT || tokens->type == OUTPUT

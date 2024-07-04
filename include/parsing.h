@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 21:45:20 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/04 13:24:16 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef enum e_token_type
 	APPEND,
 	PIPE,
 	FILENAME,
-	UNDEFINED
+	UNDEFINED,
 }					t_token_type;
 
 typedef struct s_token
