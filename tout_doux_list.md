@@ -2,15 +2,15 @@
 
 - gerer les simple quotes (-> VAL)
 
-- identifier les builtins (->LUCIE) (IN PROGRESS)
+### PARSING
 
 - identifer les here_docs (->LUCIE)
 
-- identifier les variables d'environnement (->LUCIE)
+- identifier les variables d'environnement
 
-- implementer les builtins (->LUCIE)
-  
-- ecrire la fonction qui trouve le bon type de token (->LUCIE) (IN PROGRESS)
+### EXEC
+
+- implementer les builtins (->LUCIE) (NEED PARSING)
 
 
 ### CLEANING
