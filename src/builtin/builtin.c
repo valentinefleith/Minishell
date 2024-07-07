@@ -6,20 +6,26 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/02 18:06:14 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/07 20:08:38 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_builtin(t_builtin builtin, t_input *input)
+void	ft_exit()
+{
+	// free everything and exit() with the rigth exit status ?
+	exit(EXIT_SUCCESS);
+}
+
+void	execute_builtin(t_builtin builtin, char *arg, bool option)
 {
 	if (builtin == PWD)
 		ft_pwd();
 	else if (builtin == ECHO)
-		printf("%s\n", input->arg);
-	else if (builtin == ECHO_N)
-		printf("%s", input->arg);
+		ft_echo(arg, option);
+	else if (builtin == EXIT)
+		ft_exit();
 }
 
 void	ft_pwd(void)
@@ -32,14 +38,46 @@ void	ft_pwd(void)
 		error_builtin(PWD);
 }
 
-//void	ft_cd(char *arg)
-//{
-//	// si arg NULL = aller dans home
-//	// sinon -> changer la variable d'env OLDPWD avec le pwd actuel et puis
-//	// uitliser la fonction chdir() pour changer de repertoire
-//}
-//
-//void	ft_exit(t_shell shell)
-//{
-//	// free everything and exit() with the rigth exit status
-//}
+void	ft_echo(char *arg, bool option)
+{
+	if (option == true)
+	{
+		if (!arg)
+			return ;
+		else
+			printf("%s", arg);
+	}
+	else if (arg)
+		printf("%s\n", arg);
+}
+
+
+
+void	ft_cd(char *arg)
+{
+	// si arg NULL = aller dans home
+	if (!arg)
+		chdir(getenv("HOME"));
+	else
+	{
+		// sinon -> changer la variable d'env OLDPWD avec le pwd actuel et puis
+		// uitliser la fonction chdir() pour changer de repertoire
+		// puis changer la variable d'env PWD avec le nouveau pwd ?
+	}
+}
+
+void	ft_export()
+{
+	// si pas d'argument afficher la liste des variables d'env
+	
+	// sinon verifier si l'arg match avec les regles de grammaires, si la var
+	//existe deja, 
+	
+	// ou ajouter une variable d'env si pas de valeur precisee 
+	// sinon modifier la valeur dune variable d'env
+	//
+}
+
+// void	ft_unset()
+
+

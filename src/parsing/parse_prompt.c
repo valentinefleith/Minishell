@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_prompt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:16:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 12:04:29 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/04 11:54:43 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,7 @@ t_cmd	parse_user_prompt(char *buffer, char **env)
 	t_cmd	cmd;
 	char	**paths;
 	pid_t	pid;
-	t_input input;
-	char 	**line_input;
 
-	line_input = ft_split(buffer, ' ');
-	parse_builtin(line_input, &input);
-	if (input.builtin != NONE)
-		execute_builtin(input.builtin, &input);
 	paths = get_paths(env);
 	pid = fork();
 	if (pid == 0)

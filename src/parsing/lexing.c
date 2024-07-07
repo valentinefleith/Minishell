@@ -3,107 +3,117 @@
 /*                                                        :::      ::::::::   */
 /*   lexing.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 12:08:58 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/07 21:23:02 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_token_type find_token_type(char *data, t_token **tokens)
+void	fill_token_types(t_token *tokens)
 {
-	return WORD;
-}
-
-static t_token *create_node(char *buffer, int size, t_token **tokens)
-{
-	t_token *node;
-	node = malloc(sizeof(t_token));
-	if (!node)
-		return NULL;
-	node->data = malloc(size + 1);
-	if (node->data == NULL)
+	while (tokens)
 	{
-		free(node);
-		return NULL;
-	}
-	ft_strlcpy(node->data, buffer, size + 1);
-	node->type = find_token_type(node->data, tokens);
-	node->next = NULL;
-	node->prev = NULL;
-	return node;
-}
-
-static t_token *get_last_token(t_token *tokens)
-{
-	if (!tokens)
-		return NULL;
-	while (tokens->next)
+		if (tokens->type != UNDEFINED)
+		{
+			tokens = tokens->next;
+			continue ;
+		}
+		if (!ft_strncmp(tokens->data, "<<", 2))
+			tokens->type = HEREDOC;
+		else if (!ft_strncmp(tokens->data, ">>", 2))
+			tokens->type = APPEND;
+		else if (!ft_strncmp(tokens->data, "<", 1))
+			tokens->type = INPUT;
+		else if (!ft_strncmp(tokens->data, ">", 1))
+			tokens->type = OUTPUT;
+		else if (!ft_strncmp(tokens->data, "|", 1))
+			tokens->type = PIPE;
+		else
+			tokens->type = WORD;
+		if ((tokens->type == INPUT || tokens->type == OUTPUT
+				|| tokens->type == APPEND) && tokens->next)
+			tokens->next->type = FILENAME;
 		tokens = tokens->next;
-	return tokens;
-}
-
-static void tokens_add_back(t_token **tokens, t_token *new)
-{
-	t_token *last;
-
-	if (!tokens)
-		return;
-	if (!*tokens)
-	{
-		*tokens = new;
-		return;
 	}
-	last = get_last_token(*tokens);
-	last->next = new;
-	new->prev = last;
 }
 
-static int get_size_next_token(char *buffer)
+static int	handle_separator(char *buffer, int size)
 {
-	int size;
-	bool inside_quotes = false;
-	
+	if (buffer[size] == ' ')
+		return (size + 1);
+	if (buffer[size] == '|' && !size)
+		return (size + 1);
+	if (buffer[size] == '>' || buffer[size] == '<')
+	{
+		if (!size && buffer[size + 1] == buffer[size])
+			return (size + 2);
+		if (!size)
+			return (size + 1);
+	}
+	return (size);
+}
+
+// Il faudrait surement changer les noms des variables de cette fonction lol
+bool	handle_some_quotes(bool inside_quotes, bool inside_opposite_quotes)
+{
+	if (!inside_quotes)
+		return (true);
+	return (inside_opposite_quotes);
+}
+
+static int	get_size_next_token(char *buffer)
+{
+	int		size;
+	bool	inside_double_quotes;
+	bool	inside_simple_quotes;
+	bool	inside_quotes;
+
+	inside_double_quotes = false;
+	inside_simple_quotes = false;
 	size = 0;
 	while (buffer[size])
 	{
-		if (buffer[size] == ' ' && !inside_quotes)
-			return size + 1;
-		if (buffer[size] == '\"')
-		{
-			if (!inside_quotes)
-				inside_quotes = true;
-			else
-				inside_quotes = false;
-		}
+		inside_quotes = (inside_double_quotes || inside_simple_quotes);
+		if (ft_strchr(" >|<", buffer[size]) && !inside_quotes)
+			return (handle_separator(buffer, size));
+		if (buffer[size] == DOUBLE_QUOTE)
+			inside_double_quotes = handle_some_quotes(inside_quotes,
+					inside_simple_quotes);
+		if (buffer[size] == SINGLE_QUOTE)
+			inside_simple_quotes = handle_some_quotes(inside_quotes,
+					inside_double_quotes);
 		size++;
 	}
-	return size;
+	return (size);
 }
 
-t_token **tokenize_cmdline(char *buffer)
+t_token	**tokenize_cmdline(char *buffer)
 {
-	t_token **tokens;
-	t_token *new;
-	int size;
+	t_token	**tokens;
+	t_token	*new;
+	int		size;
 
 	tokens = malloc(sizeof(t_token *));
 	if (!tokens)
-		return NULL;
+		return (NULL);
 	*tokens = NULL;
 	while (*buffer)
 	{
 		size = get_size_next_token(buffer);
-		new = create_node(buffer, size, tokens);
-		if (!new)
+		if (*buffer == ' ' && size == 1)
 		{
-			//ft_free_tokens(tokens);
-			return (NULL);
+			buffer++;
+			continue ;
 		}
+		new = create_node(buffer, size);
+		if (!new)
+			return (ft_free_tokens(tokens));
 		tokens_add_back(tokens, new);
 		buffer += size;
 	}
-	return tokens;
+	fill_token_types(*tokens);
+	return (tokens);
 }
