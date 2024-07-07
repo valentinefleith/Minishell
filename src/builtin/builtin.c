@@ -6,11 +6,17 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/04 17:59:21 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/07 20:08:38 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_exit()
+{
+	// free everything and exit() with the rigth exit status ?
+	exit(EXIT_SUCCESS);
+}
 
 void	execute_builtin(t_builtin builtin, char *arg, bool option)
 {
@@ -46,11 +52,6 @@ void	ft_echo(char *arg, bool option)
 }
 
 
-void	ft_exit()
-{
-	// free everything and exit() with the rigth exit status ?
-	exit(EXIT_SUCCESS);
-}
 
 void	ft_cd(char *arg)
 {

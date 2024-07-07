@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/04 16:11:08 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/07 21:23:02 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,51 @@ void	fill_token_types(t_token *tokens)
 	}
 }
 
+static int	handle_separator(char *buffer, int size)
+{
+	if (buffer[size] == ' ')
+		return (size + 1);
+	if (buffer[size] == '|' && !size)
+		return (size + 1);
+	if (buffer[size] == '>' || buffer[size] == '<')
+	{
+		if (!size && buffer[size + 1] == buffer[size])
+			return (size + 2);
+		if (!size)
+			return (size + 1);
+	}
+	return (size);
+}
+
+// Il faudrait surement changer les noms des variables de cette fonction lol
+bool	handle_some_quotes(bool inside_quotes, bool inside_opposite_quotes)
+{
+	if (!inside_quotes)
+		return (true);
+	return (inside_opposite_quotes);
+}
+
 static int	get_size_next_token(char *buffer)
 {
 	int		size;
+	bool	inside_double_quotes;
+	bool	inside_simple_quotes;
 	bool	inside_quotes;
 
-	inside_quotes = false;
+	inside_double_quotes = false;
+	inside_simple_quotes = false;
 	size = 0;
 	while (buffer[size])
 	{
-		if (buffer[size] == ' ' && !inside_quotes)
-			return (size + 1);
+		inside_quotes = (inside_double_quotes || inside_simple_quotes);
+		if (ft_strchr(" >|<", buffer[size]) && !inside_quotes)
+			return (handle_separator(buffer, size));
 		if (buffer[size] == DOUBLE_QUOTE)
-		{
-			if (!inside_quotes)
-				inside_quotes = true;
-			else
-				inside_quotes = false;
-		}
+			inside_double_quotes = handle_some_quotes(inside_quotes,
+					inside_simple_quotes);
+		if (buffer[size] == SINGLE_QUOTE)
+			inside_simple_quotes = handle_some_quotes(inside_quotes,
+					inside_double_quotes);
 		size++;
 	}
 	return (size);
