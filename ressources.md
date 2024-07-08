@@ -17,3 +17,10 @@
 - **Build Your Own Shell**: [ici](https://github.com/tokenrove/build-your-own-shell)
 - **Write a shell in C**: [ici](https://danishpraka.sh/posts/write-a-shell/)
 - **Building a shell in 10minutes**: [ici](https://www.youtube.com/watch?v=k6TTj4C0LF0)
+
+### About ASTs and Grammars
+- [**Generating a parse tree from a shell grammar**](https://dev.to/oyagci/generating-a-parse-tree-from-a-shell-grammar-f1)
+- [**Example minishell**](https://github.com/mli42/at42minishell)
+- [**Let's build a simple interpreter part 7**](https://ruslanspivak.com/lsbasi-part7/)
+- [**Shell grammar rules**](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_10_02)
+- [**Random stack overflow post**](https://stackoverflow.com/questions/52666511/create-an-ast-from-bash-in-c)
