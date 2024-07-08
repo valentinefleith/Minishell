@@ -17,6 +17,7 @@
 - **Build Your Own Shell**: [ici](https://github.com/tokenrove/build-your-own-shell)
 - **Write a shell in C**: [ici](https://danishpraka.sh/posts/write-a-shell/)
 - **Building a shell in 10minutes**: [ici](https://www.youtube.com/watch?v=k6TTj4C0LF0)
+- [**Writing your own shell**](https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf)
 
 ### About ASTs and Grammars
 - [**Generating a parse tree from a shell grammar**](https://dev.to/oyagci/generating-a-parse-tree-from-a-shell-grammar-f1)
@@ -24,3 +25,5 @@
 - [**Let's build a simple interpreter part 7**](https://ruslanspivak.com/lsbasi-part7/)
 - [**Shell grammar rules**](https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_10_02)
 - [**Random stack overflow post**](https://stackoverflow.com/questions/52666511/create-an-ast-from-bash-in-c)
+- [**Analyseurs syntaxiques**](https://sjrd.developpez.com/algorithmique/analyseurs-syntaxiques/#Lno-IX)
+- [**Introduction aux arbres**](https://rperrot.developpez.com/articles/algo/structures/arbres/)
