@@ -72,6 +72,7 @@ Voici les principales étapes du déroulement de l'algo :
      - `parsing table` : contient les règles de grammaire du langage et détermine l'action a prendre selon l’état actuel de la stack et du token suivant en input.
      - `error handling` : si la parsing table bloque pour une quelconque raison, une erreur est indiquée. Ensuite soit on défausse le token soit on indique qu'il est undefined pour continuer le parsing...
 
+exemple: ![image](https://media.geeksforgeeks.org/wp-content/uploads/20201203162507/Annotation20201203162450.jpg)
 
 # Binary trees
 How do you navigate the tree to properly evaluate the expression represented by that tree? You do that by using a postorder traversal - a special case of depth-first traversal - which starts at the root node and recursively visits the children of each node from left to right. The postorder traversal visits nodes as far away from the root as fast as it can.
