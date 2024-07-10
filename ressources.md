@@ -27,3 +27,4 @@
 - [**Random stack overflow post**](https://stackoverflow.com/questions/52666511/create-an-ast-from-bash-in-c)
 - [**Analyseurs syntaxiques**](https://sjrd.developpez.com/algorithmique/analyseurs-syntaxiques/#Lno-IX)
 - [**Introduction aux arbres**](https://rperrot.developpez.com/articles/algo/structures/arbres/)
+- [**Minishell example with AST**](https://github.com/zelhajou/42cursus-minishell)
