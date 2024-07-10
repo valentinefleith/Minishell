@@ -27,6 +27,8 @@ Here are the main differences between ASTs and Parse trees:
 So, what is an abstract syntax tree? An abstract syntax tree (AST) is a tree that represents the abstract syntactic structure of a language construct where each interior node and the root node represents an operator, and the children of the node represent the operands of that operator.
 
 I’ve already mentioned that ASTs are more compact than parse trees. 
+![image](https://github.com/valentinefleith/Minishell/assets/125041345/6e574a42-e25e-4957-a864-bb22dc5a1b01)
+
 
 # Shell grammar and example of trees
 
