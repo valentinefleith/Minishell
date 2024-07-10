@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/04 13:24:16 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/10 10:29:08 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ typedef struct s_token
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
+
+typedef struct s_btree
+{
+	t_token_type	type;
+	struct s_btree	*left;
+	struct s_btree	*right;
+	char			*item;
+}					t_btree;
 
 t_cmd				parse_user_prompt(char *buffer, char **env);
 t_cmd				parse_cmd_executable(char *buffer, char **paths);

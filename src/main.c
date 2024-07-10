@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/04 13:49:01 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/10 10:57:27 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void ft_print_token_types(t_token *tokens)
 	}
 	while (tokens)
 	{
-		ft_printf("%s : ", tokens->data);
+		ft_printf("%s\t\t:\t\t", tokens->data);
 		if (tokens->type == 0)
 			ft_printf("WORD");
 		if (tokens->type == 1)
@@ -61,7 +61,7 @@ static void ft_print_token_types(t_token *tokens)
 			ft_printf("UNDEFINED");
 		if (tokens->next)
 		{
-			ft_printf(" -> ");
+			ft_printf("\n ---------------------------- \n");
 			 tokens = tokens->next;
 		}
 		else{
