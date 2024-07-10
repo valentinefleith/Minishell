@@ -30,6 +30,11 @@ I’ve already mentioned that ASTs are more compact than parse trees.
 
 # Shell grammar and example of trees
 
+![image](https://github.com/valentinefleith/Minishell/assets/125041345/2cdb2454-89a8-4c3a-b1fa-9c4e91f770d2)
+
+![image](https://github.com/valentinefleith/Minishell/assets/125041345/49828910-5adc-42fa-a814-a84fbc0ab56a)
+
+
 ![image](https://github.com/valentinefleith/Minishell/assets/125041345/0ad8331a-b1b1-4fb7-a70a-291800cb574e)
 
 ![image](https://github.com/valentinefleith/Minishell/assets/125041345/abb1dda8-e4bc-4669-b240-39c2eb32068b)
