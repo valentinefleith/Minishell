@@ -57,6 +57,31 @@ cmd_name         : WORD
 cmd_word         : WORD
                  ;
 ```
+# LR Parsing Algorithm
+
+Le 'L' signifie **left to right**, car on lit de gauche a droite l'input.
+
+Le 'R' signifie **rightmost derivation in reverse**, donc on doit pouvoir parcourir l'output a l'envers en repoduisant les operations, donc remplacer a chaque etape le symbole le plus a droite (et qui nest pas 'non terminal'( i.e symbole $ ou END)).
+
+LR parsing is attractive for a variety of reasons:
+LR parsers can be constructed to recognise virtually all programming
+language constructs for which CFG can be written.
+The class of grammars that can be parsed using LR methods is a proper
+superset of the class of grammars that can be parsed with predictive
+parsers.
+The LR parsing method can be implemented efficiently.
+Drawback :
+Too much complicate to construct an LR parser by hand for a typical
+programming language grammar.
+One needs a specialised tools - an LR parser generator (as Yacc/ bison).
+
+L'algo LR est constitue :
+ - D'un input
+ - D'un output
+ - D'une stack
+ - A driver program (shift and reduce algo)
+ - A parsing table
+
 # Shift-reduce parser
 Cet algorithme s'occupe d'analyser une liste de tokens (générés avec le lexing) et transformer le type de token avec une valeur/symbole, l'output de cet algo permet de créer un `AST`.
 Le principe de l'algo est de push (=`shift`) un token de la liste reçue en input vers une `stack` de parsing. Lorsque dans cette stack l'on trouve une correspondance entre un token et une `règle de grammaire` alors on `reduce` le token, c'est à dire qu'un symbole ou une valeur plus hight-level en sémantique remplace le type de token.
@@ -71,13 +96,13 @@ Voici les principales étapes du déroulement de l'algo :
  
 - 2. State / Stack parser = Permet de garder la trace des tokens et analyser les tokens. Il y a trois operations possible pendant le parsing : shift, reduce ou accept. 
   
-     - `state` : stocke l’état actuel du token. Lorsqu'une opération est effectuée sur le token, son état et modifié et prend une autre valeur. La valeur de state est basée sur la `parsing table`.
+     - `state` : stocke l’état actuel du token. Lorsqu'une opération est effectuée sur le token, son état et modifié et prend une autre valeur. La valeur de state est basée sur la `parsing table`. Lorsque l'on effectue une modification sur un token ou qu'on le deplace, `state` change de valeur et on nomme cette action `goto`.
      - `stack` : stocke les tokens dans une liste. Suite a une opération `shift` le token est placé dans la stack. Ce sont les tokens présents dans la stack qu'on va analyser afin de pouvoir `reduce`.
      - `shift operation` : prend le token actuellement en tête de la liste d'input et le place dans la stack. L’opération du shifting s'effectue tant que l'on ne peut pas `reduce`.
      - `reduce operation` : cette opération est possible lorsqu'un token ou un ensemble de tokens dans la stack correspondent a une règle de grammaire ou contrainte de la `parsing table`. `reduce` signifie remplacer le type de token par un symbole/valeur/nom plus significatif et plus high level de grammaire.
      - `accept operation` : le processus de parsing continue tant que la liste d'input n'est pas étudiée totalement, et lorsque c'est fait `accept` signifie que le parsing is done.
      - `parsing table` : contient les règles de grammaire du langage et détermine l'action a prendre selon l’état actuel de la stack et du token suivant en input.
-     - `error handling` : si la parsing table bloque pour une quelconque raison, une erreur est indiquée. Ensuite soit on défausse le token soit on indique qu'il est undefined pour continuer le parsing...
+     - `error handling` : si la parsing table bloque pour une quelconque raison, une erreur est indiquée. Ensuite soit on défausse le token soit on indique qu'il est undefined ou manquant pour continuer tout de meme le parsing...
 
 exemple: ![image](https://media.geeksforgeeks.org/wp-content/uploads/20201203162507/Annotation20201203162450.jpg)
 
