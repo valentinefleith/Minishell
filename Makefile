@@ -6,14 +6,14 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/07/03 21:44:21 by vafleith         ###   ########.fr        #
+#    Updated: 2024/07/12 11:24:22 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -g
 # CFLAGS += -Werror
 
 LIBFT_PATH = libft
@@ -33,7 +33,7 @@ SRCS = main.c \
 	   pipex/checking_access.c pipex/cleaning.c pipex/linked_list_func.c \
 	   pipex/parsing.c pipex/pipex.c pipex/utils.c\
 	   parsing/parse_prompt.c parsing/parse_cmd.c parsing/bash_error_messages.c \
-	   parsing/lexing.c parsing/list_utils.c \
+	   parsing/lexing.c parsing/list_utils.c parsing/lr_parsing.c \
 	   free/ft_free_tab.c free/free_and_exit.c \
 	   execution/execute_command.c \
 	   builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c
