@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/07 21:23:02 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/10 10:58:38 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,6 @@ void	fill_token_types(t_token *tokens)
 {
 	while (tokens)
 	{
-		if (tokens->type != UNDEFINED)
-		{
-			tokens = tokens->next;
-			continue ;
-		}
 		if (!ft_strncmp(tokens->data, "<<", 2))
 			tokens->type = HEREDOC;
 		else if (!ft_strncmp(tokens->data, ">>", 2))
@@ -33,9 +28,6 @@ void	fill_token_types(t_token *tokens)
 			tokens->type = PIPE;
 		else
 			tokens->type = WORD;
-		if ((tokens->type == INPUT || tokens->type == OUTPUT
-				|| tokens->type == APPEND) && tokens->next)
-			tokens->next->type = FILENAME;
 		tokens = tokens->next;
 	}
 }

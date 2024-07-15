@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 12:37:09 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 21:54:54 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/15 17:19:54 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,20 @@ void	tokens_add_back(t_token **tokens, t_token *new)
 	last = get_last_token(*tokens);
 	last->next = new;
 	new->prev = last;
+}
+
+t_token	*find_in_stack(t_token **stack, t_grammar type)
+{
+	t_token	*current;
+
+	if (!*(stack))
+		return (NULL);
+	current = *stack;
+	while (current != NULL)
+	{
+		if (current->grammar_type == type)
+			return (current);
+		current = current->next;
+	}
+	return (NULL);
 }

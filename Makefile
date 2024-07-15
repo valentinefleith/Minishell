@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/07/12 11:24:22 by luvallee         ###   ########.fr        #
+#    Updated: 2024/07/15 16:14:10 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,7 @@ SRC_DIR = src
 SRCS = main.c \
 	   pipex/checking_access.c pipex/cleaning.c pipex/linked_list_func.c \
 	   pipex/parsing.c pipex/pipex.c pipex/utils.c\
-	   parsing/parse_prompt.c parsing/parse_cmd.c parsing/bash_error_messages.c \
-	   parsing/lexing.c parsing/list_utils.c parsing/lr_parsing.c \
+	   parsing/lexing.c parsing/list_utils.c parsing/parsing_table.c \
 	   free/ft_free_tab.c free/free_and_exit.c \
 	   execution/execute_command.c \
 	   builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c
