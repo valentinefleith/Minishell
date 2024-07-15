@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/15 17:43:04 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/15 18:21:22 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ void	print_stack_debug(t_token **stack, t_token *input)
 			printf("program ");
 		else if (tmp->grammar_type == cmd_suffix)
 			printf("cmd_suffix ");
+		printf("(%s) ", tmp->data);
 		tmp = tmp->next;
 	}
+	printf("\n");
 	printf("\n");
 	temp = input;
 	if (!temp)
@@ -92,6 +94,8 @@ void	action_reduce(t_token **stack, int *state)
 {
 	t_token	*node;
 	
+	if (!stack)
+		return ;
 	if (*state == 1 || *state == 6)
 	{
 		node = find_in_stack(stack, (t_grammar)WORD);
@@ -106,21 +110,19 @@ void	action_reduce(t_token **stack, int *state)
 	{
 		node = find_in_stack(stack, cmd_name);
 		node->grammar_type = command;
-		node->next = NULL;
 	}
 	if (*state == 8)
 		node = find_in_stack(stack, cmd_suffix);
 	if (*state == 6)
 		node->grammar_type = cmd_suffix;
-	if (*state == 6 || *state == 8)
-		node->next = NULL;
+	// if (*state == 4 || *state == 7 || *state == 8)
+	// 	node->next = NULL;
 	*state = 0;
 }
 
 void	action_shift(t_token **stack, t_token **input)
 {
 	t_token	*new_node;
-	t_grammar new_grammar;
 
 	if (!input)
 		return ;
@@ -131,8 +133,8 @@ void	action_shift(t_token **stack, t_token **input)
 		printf("Error: while allocation during shift action\n");
 		return ;
 	}
-	new_grammar = (t_grammar)(*input)->type;
-	new_node->grammar_type = new_grammar;
+	new_node->data = (*input)->data;
+	new_node->grammar_type = (t_grammar)(*input)->type;
 	new_node->next = NULL;
 	tokens_add_back(stack, new_node);
 	*input = (*input)->next;

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/15 17:17:52 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/15 17:53:18 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,6 @@ typedef enum e_token_type
 	UNDEFINED,
 }					t_token_type;
 
-typedef struct s_stack
-{
-	t_grammar		data;
-	struct s_stack	*next;
-}					t_stack;
-
 typedef struct s_token
 {
 	char			*data;
@@ -97,7 +91,7 @@ t_token				*find_in_stack(t_token **stack, t_grammar type);
 void				fill_token_types(t_token *tokens);
 
 /* Parsing table - grammar rules */
-t_token				*parsing_grammar_rules(t_token **input_tokens);
+t_token				*parsing_grammar_rules(t_token **input_tokens, t_token *stack);
 void				action_reduce(t_token **stack, int *state);
 void				action_shift(t_token **stack, t_token **input);
 t_action			parsing_table(int *state, t_action *rules, t_token *stack,
