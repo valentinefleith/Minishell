@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 17:59:57 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:37:23 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void				tokens_add_back(t_token **tokens, t_token *new);
 void				fill_token_types(t_token *tokens);
 void ft_print_lexing(t_token *tokens);
 void ft_print_token_types(t_token *tokens);
+void print_single_token_type(t_token_type tokens);
 
 /* binary tree utils */
 t_btree				*btree_create_node(t_token *item);

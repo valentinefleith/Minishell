@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:58:22 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 18:00:24 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:37:32 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,26 @@ void ft_print_lexing(t_token *tokens)
 	 }
  }
 
+void print_single_token_type(t_token_type type)
+{
+	if (type == 0)
+		ft_printf("WORD");
+	if (type == 1)
+		ft_printf("INPUT");
+	if (type == 2)
+		ft_printf("HEREDOC");
+	if (type == 3)
+		ft_printf("OUTPUT");
+	if (type == 4)
+		ft_printf("APPEND");
+	if (type == 5)
+		ft_printf("PIPE");
+	if (type == 6)
+		ft_printf("FILENAME");
+	if (type == 7)
+		ft_printf("UNDEFINED");
+}
+
 void ft_print_token_types(t_token *tokens)
 {
 	if (!tokens)
@@ -43,22 +63,7 @@ void ft_print_token_types(t_token *tokens)
 	while (tokens)
 	{
 		ft_printf("%s\t\t:\t\t", tokens->data);
-		if (tokens->type == 0)
-			ft_printf("WORD");
-		if (tokens->type == 1)
-			ft_printf("INPUT");
-		if (tokens->type == 2)
-			ft_printf("HEREDOC");
-		if (tokens->type == 3)
-			ft_printf("OUTPUT");
-		if (tokens->type == 4)
-			ft_printf("APPEND");
-		if (tokens->type == 5)
-			ft_printf("PIPE");
-		if (tokens->type == 6)
-			ft_printf("FILENAME");
-		if (tokens->type == 7)
-			ft_printf("UNDEFINED");
+		print_single_token_type(tokens->type);
 		if (tokens->next)
 		{
 			ft_printf("\n ---------------------------- \n");

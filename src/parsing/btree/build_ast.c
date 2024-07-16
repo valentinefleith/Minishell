@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 22:40:20 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 18:24:17 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:28:10 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_btree	*create_ast(t_token *tokens)
 			tree->right = create_ast(tokens->next);
 		}
 		tokens = tokens->next;
+		// TODO: handle last cmd (left to pipe) or when no pipe.
 	}
 	return (tree);
 }
