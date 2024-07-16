@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/10 10:58:38 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:28:39 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ static int	handle_separator(char *buffer, int size)
 	return (size);
 }
 
-// Il faudrait surement changer les noms des variables de cette fonction lol
-bool	handle_some_quotes(bool inside_quotes, bool inside_opposite_quotes)
+static bool	check_quote_status(bool inside_quotes, bool inside_opposite_quotes)
 {
 	if (!inside_quotes)
 		return (true);
@@ -72,10 +71,10 @@ static int	get_size_next_token(char *buffer)
 		if (ft_strchr(" >|<", buffer[size]) && !inside_quotes)
 			return (handle_separator(buffer, size));
 		if (buffer[size] == DOUBLE_QUOTE)
-			inside_double_quotes = handle_some_quotes(inside_quotes,
+			inside_double_quotes = check_quote_status(inside_quotes,
 					inside_simple_quotes);
 		if (buffer[size] == SINGLE_QUOTE)
-			inside_simple_quotes = handle_some_quotes(inside_quotes,
+			inside_simple_quotes = check_quote_status(inside_quotes,
 					inside_double_quotes);
 		size++;
 	}

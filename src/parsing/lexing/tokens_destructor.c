@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_tab.c                                      :+:      :+:    :+:   */
+/*   tokens_destructor.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:47:13 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 17:32:57 by vafleith         ###   ########.fr       */
+/*   Created: 2024/07/16 17:32:29 by vafleith          #+#    #+#             */
+/*   Updated: 2024/07/16 17:32:56 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_tab(char **strs)
+t_token **ft_free_tokens(t_token **tokens)
 {
-	int	i;
+	t_token *next;
 
-	i = 0;
-	while (strs[i])
+	while (*tokens)
 	{
-		free(strs[i]);
-		i++;
+		next = (*tokens)->next;
+		free(*tokens);
+		*tokens = next;
 	}
-	free(strs);
+	free(tokens);
+	return NULL;
 }

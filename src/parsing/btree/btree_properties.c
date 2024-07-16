@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_tab.c                                      :+:      :+:    :+:   */
+/*   btree_properties.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:47:13 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 17:32:57 by vafleith         ###   ########.fr       */
+/*   Created: 2024/07/16 17:42:21 by vafleith          #+#    #+#             */
+/*   Updated: 2024/07/16 17:45:48 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_tab(char **strs)
+bool	btree_is_empty(t_btree *tree)
 {
-	int	i;
+	return (tree == NULL);
+}
 
-	i = 0;
-	while (strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
+bool	btree_is_leaf(t_btree *tree)
+{
+	if (btree_is_empty(tree))
+		return (false);
+	return (btree_is_empty(tree->left) && btree_is_empty(tree->right));
 }
