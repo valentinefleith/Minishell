@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 17:45:23 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:59:57 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,13 @@ t_token				**tokenize_cmdline(char *buffer);
 t_token				*create_node(char *buffer, int size);
 t_token				*get_last_token(t_token *tokens);
 void				tokens_add_back(t_token **tokens, t_token *new);
+
 /* lexing_utils */
 // static t_token_type find_token_type(char *data, t_token *tokens);
 void				fill_token_types(t_token *tokens);
+void ft_print_lexing(t_token *tokens);
+void ft_print_token_types(t_token *tokens);
+
 /* binary tree utils */
 t_btree				*btree_create_node(t_token *item);
 bool				btree_is_empty(t_btree *tree);
