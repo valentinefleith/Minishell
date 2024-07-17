@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/15 17:53:18 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/17 15:23:29 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef enum e_token_type
 	OUTPUT,
 	APPEND,
 	PIPE,
-	FILENAME,
+	ASSIGNMENT,
 	UNDEFINED,
 }					t_token_type;
 
