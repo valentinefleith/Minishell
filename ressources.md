@@ -28,3 +28,11 @@
 - [**Analyseurs syntaxiques**](https://sjrd.developpez.com/algorithmique/analyseurs-syntaxiques/#Lno-IX)
 - [**Introduction aux arbres**](https://rperrot.developpez.com/articles/algo/structures/arbres/)
 - [**Minishell example with AST**](https://github.com/zelhajou/42cursus-minishell)
+
+### About LR Parsing or/and Shift-Reduce algo
+- [***Different parsing logics/algo***](https://www.univ-orleans.fr/lifo/Members/Mirian.Halfeld/Cours/TLComp/l3New-Comp-ASynt.pdf)
+- [***Good explanation of shift-reduce***](https://github.com/kibatche/parser-bison)
+- [***Other good explanation of shift-reduce***](https://www.scribd.com/document/611423457/Introduction-to-Shift-Reduce-Parsing)
+- [***shif-reduce parser basic logic***](https://www.geeksforgeeks.org/shift-reduce-parser-compiler/)
+- [***Guide + code example***](https://medium.com/@izhan_a1/shift-reduce-parser-compiler-design-41dbf88779ba)
+- [***Video of a teacher about LR parsing***](https://www.youtube.com/watch?v=8UDWd-Axd5A)
