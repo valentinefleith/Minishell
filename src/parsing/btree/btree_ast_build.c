@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   build_ast.c                                        :+:      :+:    :+:   */
+/*   btree_ast_build.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 22:40:20 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/17 16:07:26 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:23:29 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ t_btree *create_ast(t_token *tokens)
 	if (!next_pipe)
 		return create_command_node(tokens, next_pipe);
 	root = btree_create_node(next_pipe);
-	if (!root)
+	if (btree_is_empty(root))
 		return NULL;
 	root->left = create_command_node(tokens, next_pipe);
-	if (!root->left)
+	if (btree_is_empty(root->left))
 	{
 		btree_free(root);
 		return NULL;
