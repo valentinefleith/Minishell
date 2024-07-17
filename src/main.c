@@ -6,20 +6,21 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 17:59:10 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:17:28 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+#include "parsing.h"
 
 
 int	main(int argc, char **argv, char **env)
 {
 	char	*buffer;
-	//t_cmd	cmd;
-	t_token **tokens;
+	t_token	**tokens;
+	t_btree	*tree;
 
+	// t_cmd	cmd;
 	(void)argc;
 	(void)argv;
 	(void)env;
@@ -32,9 +33,10 @@ int	main(int argc, char **argv, char **env)
 		if (!buffer)
 			continue ;
 		tokens = tokenize_cmdline(buffer);
-		// ft_print_lexing(*tokens);
-		ft_print_token_types(*tokens);
-		//cmd = parse_user_prompt(buffer, env);
+		tree = create_ast(*tokens);
+		// tree = test_tree();
+		print_structure(tree, 0);
+		// ft_print_token_types(*tokens);
 		// execute_command(cmd, env);
 		// ft_printf("%s\n", buffer);
 		// rl_on_new_line();

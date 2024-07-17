@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/17 16:07:16 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/17 17:17:55 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,7 @@ t_btree *btree_create_cmd(void);
 bool				btree_is_empty(t_btree *tree);
 bool				btree_is_leaf(t_btree *tree);
 void				btree_free(t_btree *tree);
+void print_structure(t_btree *root, int level);
+t_btree *create_ast(t_token *tokens);
 
 #endif
