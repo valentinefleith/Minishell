@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 10:19:30 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 17:46:04 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:11:36 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ void	btree_free(t_btree *tree)
 		return ;
 	btree_free(tree->left);
 	btree_free(tree->right);
+	free(tree->item);
 	free(tree);
 }

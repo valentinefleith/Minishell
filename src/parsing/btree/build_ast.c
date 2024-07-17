@@ -6,47 +6,60 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 22:40:20 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 18:28:10 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:07:26 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_btree	*create_ast(t_token *tokens)
+static t_token *find_next_pipe(t_token *tokens)
 {
-	t_btree	*tree;
-	t_token	*start;
-
-	start = tokens;
-	while (tokens)
-	{
-		if (tokens->type == PIPE)
-		{
-			tree = btree_create_node(tokens);
-			if (!tree)
-				return (NULL);
-			// tree->left = parse_cmd(start);
-			tree->left = btree_create_node(tokens->prev);
-			if (!tree->left)
-			{
-				btree_free(tree);
-				return (NULL);
-			}
-			tree->right = create_ast(tokens->next);
-		}
+	while (tokens && tokens->type != PIPE)
 		tokens = tokens->next;
-		// TODO: handle last cmd (left to pipe) or when no pipe.
-	}
-	return (tree);
+	return tokens;
 }
 
-// t_btree	*btree_insert_node(t_btree **tree, t_btree *node)
-//{
-//	if (!tree)
-//		return (NULL);
-//	if (!*tree)
-//		return (*tree = node);
-//}
+static t_btree *create_command_node(t_token *tokens, t_token *next_pipe)
+{
+	t_btree *command;
+	
+	command = btree_create_cmd();
+	if (!command)
+		return NULL;
+	command->left = btree_create_node(tokens);
+	// pour l'instant ca marche que si on a 1 seul truc dans la commande
+	command->right = NULL;
+
+	//while (tokens != next_pipe)
+	//{
+	//	
+	//	tokens = tokens->next;
+	//}
+	return command;
+}
+
+t_btree *create_ast(t_token *tokens)
+{
+	t_btree *root;
+	t_token *next_pipe;
+
+	if (!tokens)
+		return NULL;
+	next_pipe = find_next_pipe(tokens);
+	if (!next_pipe)
+		return create_command_node(tokens, next_pipe);
+	root = btree_create_node(next_pipe);
+	if (!root)
+		return NULL;
+	root->left = create_command_node(tokens, next_pipe);
+	if (!root->left)
+	{
+		btree_free(root);
+		return NULL;
+	}
+	root->right = create_ast(next_pipe->next);
+	return root;
+}
 
 /*t_btree	**create_ast(t_token *tokens)
 {

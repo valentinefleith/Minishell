@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 18:37:23 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/17 16:07:16 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef enum e_token_type
 	PIPE,
 	FILENAME,
 	UNDEFINED,
+	COMMAND,
 }					t_token_type;
 
 typedef struct s_token
@@ -78,6 +79,7 @@ void print_single_token_type(t_token_type tokens);
 
 /* binary tree utils */
 t_btree				*btree_create_node(t_token *item);
+t_btree *btree_create_cmd(void);
 bool				btree_is_empty(t_btree *tree);
 bool				btree_is_leaf(t_btree *tree);
 void				btree_free(t_btree *tree);
