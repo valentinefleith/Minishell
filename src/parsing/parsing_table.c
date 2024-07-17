@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/15 18:21:22 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:27:57 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,17 +75,17 @@ t_token	*parsing_grammar_rules(t_token **input_tokens, t_token *stack)
 	action_shift(&stack, &input);
 	while (action != accept)
 	{
-		printf("state = %d\n", state);
+		// printf("state = %d\n", state);
 		action = parsing_table(&state, rules, stack, input);
-		printf("action = %d\n", action);
-		printf("state = %d\n", state);
+		// printf("action = %d\n", action);
+		// printf("state = %d\n", state);
 		if (action == shift)
 			action_shift(&stack, &input);
 		else if (action == reduce)
 			action_reduce(&stack, &state);
 		else if (action == error)
 			printf("Error: with the parsing table\n");
-		print_stack_debug(&stack, input);
+		// print_stack_debug(&stack, input);
 	}
 	return (stack);
 }
