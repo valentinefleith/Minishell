@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   binary_tree_utils.c                                :+:      :+:    :+:   */
+/*   tokens_get.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 10:19:30 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/10 10:50:26 by vafleith         ###   ########.fr       */
+/*   Created: 2024/07/03 12:37:09 by vafleith          #+#    #+#             */
+/*   Updated: 2024/07/16 18:24:18 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_btree	*btree_create_node(t_token *item)
+t_token	*get_last_token(t_token *tokens)
 {
-	t_btree	*new;
-
-	new = malloc(sizeof(t_btree));
-	if (!new)
+	if (!tokens)
 		return (NULL);
-	new->item = item->data;
-	new->type = item->type;
-	new->left = NULL;
-	new->right = NULL;
-	return (new);
+	while (tokens->next)
+		tokens = tokens->next;
+	return (tokens);
+}
+
+t_token	*get_first_token(t_token *tokens)
+{
+	if (!tokens)
+		return (NULL);
+	while (tokens->prev)
+		tokens = tokens->prev;
+	return (tokens);
+}
+
+t_token *get_last_pipe(t_token *tokens)
+{
+	if (!tokens)
+		return NULL;
+	while (tokens && tokens->type != PIPE)
+		tokens = tokens->prev;
+	return (tokens);
 }

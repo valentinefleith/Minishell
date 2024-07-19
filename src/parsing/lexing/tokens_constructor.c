@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_utils.c                                       :+:      :+:    :+:   */
+/*   tokens_constructor.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 12:37:09 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/15 17:19:54 by luvallee         ###   ########.fr       */
+/*   Created: 2024/07/16 17:31:23 by vafleith          #+#    #+#             */
+/*   Updated: 2024/07/19 12:33:01 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,6 @@ t_token	*create_node(char *buffer, int size)
 	return (node);
 }
 
-t_token	*get_last_token(t_token *tokens)
-{
-	if (!tokens)
-		return (NULL);
-	while (tokens->next)
-		tokens = tokens->next;
-	return (tokens);
-}
-
 void	tokens_add_back(t_token **tokens, t_token *new)
 {
 	t_token	*last;
@@ -58,20 +49,4 @@ void	tokens_add_back(t_token **tokens, t_token *new)
 	last = get_last_token(*tokens);
 	last->next = new;
 	new->prev = last;
-}
-
-t_token	*find_in_stack(t_token **stack, t_grammar type)
-{
-	t_token	*current;
-
-	if (!*(stack))
-		return (NULL);
-	current = *stack;
-	while (current != NULL)
-	{
-		if (current->grammar_type == type)
-			return (current);
-		current = current->next;
-	}
-	return (NULL);
 }

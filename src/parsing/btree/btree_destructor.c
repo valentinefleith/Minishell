@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_tab.c                                      :+:      :+:    :+:   */
+/*   btree_destructor.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:47:13 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 17:32:57 by vafleith         ###   ########.fr       */
+/*   Created: 2024/07/10 10:19:30 by vafleith          #+#    #+#             */
+/*   Updated: 2024/07/17 16:11:36 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_tab(char **strs)
-{
-	int	i;
 
-	i = 0;
-	while (strs[i])
-	{
-		free(strs[i]);
-		i++;
-	}
-	free(strs);
+void	btree_free(t_btree *tree)
+{
+	if (btree_is_empty(tree))
+		return ;
+	btree_free(tree->left);
+	btree_free(tree->right);
+	free(tree->item);
+	free(tree);
 }

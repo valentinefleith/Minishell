@@ -1,26 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_tab.c                                      :+:      :+:    :+:   */
+/*   btree_print.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:47:13 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 17:32:57 by vafleith         ###   ########.fr       */
+/*   Created: 2024/07/16 18:24:49 by vafleith          #+#    #+#             */
+/*   Updated: 2024/07/17 17:17:56 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_tab(char **strs)
+
+static void	padding(char ch, int n)
 {
 	int	i;
 
-	i = 0;
-	while (strs[i])
+	for (i = 0; i < n; i++)
+		putchar(ch);
+}
+
+void	print_structure(t_btree *root, int level)
+{
+	if (root == NULL)
 	{
-		free(strs[i]);
-		i++;
+		padding('\t', level);
+		puts("~");
 	}
-	free(strs);
+	else
+	{
+		print_structure(root->right, level + 1);
+		padding('\t', level);
+		// printf ( "%d\n", root->type );
+		print_single_token_type(root->type);
+		printf(" <\n");
+		print_structure(root->left, level + 1);
+	}
 }

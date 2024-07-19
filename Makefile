@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/07/15 16:14:10 by luvallee         ###   ########.fr        #
+#    Updated: 2024/07/19 12:36:56 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,12 @@ SRC_DIR = src
 SRCS = main.c \
 	   pipex/checking_access.c pipex/cleaning.c pipex/linked_list_func.c \
 	   pipex/parsing.c pipex/pipex.c pipex/utils.c\
-	   parsing/lexing.c parsing/list_utils.c parsing/parsing_table.c \
+	   parsing/lexing/lexing.c parsing/lexing/tokens_constructor.c \
+	   parsing/lexing/tokens_get.c parsing/lexing/tokens_destructor.c \
+	   parsing/lexing/tokens_print.c \
+	   parsing/btree/btree_constructor.c parsing/btree/btree_properties.c \
+	   parsing/btree/btree_destructor.c parsing/btree/btree_ast_build.c \
+	   parsing/btree/btree_print.c \
 	   free/ft_free_tab.c free/free_and_exit.c \
 	   execution/execute_command.c \
 	   builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c
