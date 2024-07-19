@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/19 14:22:29 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:48:44 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,15 @@ void	get_grammar_rules(int *tab_rules)
 	tab_rules[8] =  reduce;
 }
 
-int	parsing_table(int *state, int *rules, t_token *stack, t_token *input)
+int	parsing_table(int *state, int *rules, t_token **stack, t_token *input)
 {
 	if (*state == 0)
 	{
-		if (find_in_stack(&stack, program) != NULL && !input)
+		if (find_in_stack(stack, program) != NULL && !input)
 			*state = 2;
-		else if (find_in_stack(&stack, command) != NULL)
+		else if (find_in_stack(stack, command) != NULL)
 			*state = 3;
-		else if (find_in_stack(&stack, cmd_name) != NULL)
+		else if (find_in_stack(stack, cmd_name) != NULL)
 			*state = 4;
 	}
 	if (*state == 4 && input != NULL && input->type == WORD)
@@ -41,7 +41,7 @@ int	parsing_table(int *state, int *rules, t_token *stack, t_token *input)
 		*state = 6;
 		return (shift);
 	}
-	else if (*state == 4 && find_in_stack(&stack, cmd_suffix) != NULL)
+	else if (*state == 4 && find_in_stack(stack, cmd_suffix) != NULL)
 		*state = 7;
 	if (*state == 7 && input != NULL && input->type == WORD)
 	{

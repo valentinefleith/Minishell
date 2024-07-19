@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/19 14:49:53 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:26:02 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	debug_parser(t_token **stack, t_token **input, int state, int ope)
 	debug_print_stack(stack);
 }
 
-t_token	*parser(t_token **input_tokens, t_token *stack)
+t_token  *parser(t_token **input_tokens, t_token *stack)
 {
 	t_token		*input;
 	int			rules[8];
@@ -50,16 +50,15 @@ t_token	*parser(t_token **input_tokens, t_token *stack)
 	action = shift;
 	state = 1;
 	shift_operation(&stack, &input);
-	debug_parser(&stack, &input, state, shift);
 	while (action != accept)
 	{
-		action = parsing_table(&state, rules, stack, input);
+		action = parsing_table(&state, rules, &stack, input);
 		if (action == shift)
 			shift_operation(&stack, &input);
 		else if (action == reduce)
 			reduce_operation(&stack, &state);
 		else if (action == error)
-			error_operation(state, &stack, &input);
+			error_operation(&stack, &input);
 		debug_parser(&stack, &input, state, action);
 	}
 	return (stack);

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/19 14:59:57 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:39:55 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **env)
 		tokens = tokenize_cmdline(buffer);
 		// ft_print_lexing(*tokens);
 		// ft_print_token_types(*tokens);
-		*tokens = parser(tokens, NULL);
+		parser(tokens, NULL);
 		(void)tree;
 		//cmd = parse_user_prompt(buffer, env);
 		// execute_command(cmd, env);

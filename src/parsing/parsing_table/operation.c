@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_operation.c                                :+:      :+:    :+:   */
+/*   operation.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/19 13:06:07 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:58:00 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 void	reduce_operation(t_token **stack, int *state)
 {
 	t_token	*node;
-	
+
 	if (!stack)
-		return ;
+		*state = 0;
 	if (*state == 1 || *state == 6)
 	{
 		node = find_in_stack(stack, (t_grammar)WORD);
@@ -62,7 +62,7 @@ void	shift_operation(t_token **stack, t_token **input)
 	*input = (*input)->next;
 }
 
-void	error_operation(int state, t_token **stack, t_token **input)
+void	error_operation(t_token **stack, t_token **input)
 {
 	printf("Error: with the input, do not fit with the parsing table\n");
 	debug_print_stack(stack);

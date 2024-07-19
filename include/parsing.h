@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/19 14:19:28 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:25:52 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,12 @@ t_btree *create_ast(t_token *tokens);
 
 /* Parsing table */
 t_token		*parser(t_token **input_tokens, t_token *stack);
-int			parsing_table(int *state, int *rules, t_token *stack, t_token *input);
+int			parsing_table(int *state, int *rules, t_token **stack, t_token *input);
 void		get_grammar_rules(int *tab_rules);
 t_token		*find_in_stack(t_token **stack, int type);
 void		reduce_operation(t_token **stack, int *state);
 void		shift_operation(t_token **stack, t_token **input);
-void		error_operation(int state, t_token **stack, t_token **input);
+void		error_operation(t_token **stack, t_token **input);
 
 /* Debug */
 void	debug_print_stack(t_token **stack_p);

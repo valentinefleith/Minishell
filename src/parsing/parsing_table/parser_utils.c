@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:24 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/19 14:40:43 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/19 15:56:43 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*find_in_stack(t_token **stack, int type)
 {
 	t_token	*node;
 
-	if (!*stack)
+	if (!stack)
 		return (NULL);
 	node = *stack;
 	while (node)
