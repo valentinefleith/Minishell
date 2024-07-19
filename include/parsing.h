@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/19 12:35:27 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:19:28 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 # define SINGLE_QUOTE '\''
 # define DOUBLE_QUOTE '\"'
 
-typedef enum e_action
+typedef enum e_operation
 {
 	shift,
 	reduce,
 	accept,
 	error,
-}					t_action;
+}					t_operation;
 
 typedef struct s_cmd
 {
@@ -61,15 +61,14 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	char			*data;
-	t_token_type	type;
-	t_grammar		grammar_type;
+	int				type;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
 
 typedef struct s_btree
 {
-	t_token_type	type;
+	int				type;
 	struct s_btree	*left;
 	struct s_btree	*right;
 	char			*item;
@@ -102,5 +101,19 @@ bool				btree_is_leaf(t_btree *tree);
 void				btree_free(t_btree *tree);
 void print_structure(t_btree *root, int level);
 t_btree *create_ast(t_token *tokens);
+
+
+/* Parsing table */
+t_token		*parser(t_token **input_tokens, t_token *stack);
+int			parsing_table(int *state, int *rules, t_token *stack, t_token *input);
+void		get_grammar_rules(int *tab_rules);
+t_token		*find_in_stack(t_token **stack, int type);
+void		reduce_operation(t_token **stack, int *state);
+void		shift_operation(t_token **stack, t_token **input);
+void		error_operation(int state, t_token **stack, t_token **input);
+
+/* Debug */
+void	debug_print_stack(t_token **stack_p);
+void	debug_print_input(t_token **input_p);
 
 #endif

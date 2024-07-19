@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_and_exit.c                                    :+:      :+:    :+:   */
+/*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:52:37 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/19 14:59:06 by luvallee         ###   ########.fr       */
+/*   Created: 2024/07/19 12:42:24 by luvallee          #+#    #+#             */
+/*   Updated: 2024/07/19 14:40:43 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_and_exit(void *data, int exit_status)
+t_token	*find_in_stack(t_token **stack, int type)
 {
-	// if (paths)
-	// 	ft_free_tab(paths);
-	if (data)
-		ft_free_tokens(data);
-	exit(exit_status);
+	t_token	*node;
+
+	if (!*stack)
+		return (NULL);
+	node = *stack;
+	while (node)
+	{
+		if (node->type == type)
+			return (node);
+		node = node->next;
+	}
+	return (NULL);
 }

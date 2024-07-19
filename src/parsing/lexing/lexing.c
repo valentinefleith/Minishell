@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/19 12:30:44 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/19 12:39:02 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	fill_token_types(t_token *tokens)
 			tokens->type = OUTPUT;
 		else if (!ft_strncmp(tokens->data, "|", 1))
 			tokens->type = PIPE;
+		else if (!ft_strncmp(tokens->data, "$", 1))
+			tokens->type = ASSIGNMENT;
 		else
 			tokens->type = WORD;
 		tokens = tokens->next;

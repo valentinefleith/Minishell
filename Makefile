@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/07/19 12:36:56 by luvallee         ###   ########.fr        #
+#    Updated: 2024/07/19 14:18:11 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,6 +38,9 @@ SRCS = main.c \
 	   parsing/btree/btree_constructor.c parsing/btree/btree_properties.c \
 	   parsing/btree/btree_destructor.c parsing/btree/btree_ast_build.c \
 	   parsing/btree/btree_print.c \
+	   parsing/parsing_table/parser.c parsing/parsing_table/parser_utils.c \
+	   parsing/parsing_table/operation.c parsing/parsing_table/parser_debug.c \
+	   parsing/parsing_table/parsing_table.c \
 	   free/ft_free_tab.c free/free_and_exit.c \
 	   execution/execute_command.c \
 	   builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c

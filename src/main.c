@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/19 12:35:06 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/19 14:59:57 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,19 @@ int	main(int argc, char **argv, char **env)
 		add_history(buffer);
 		if (!buffer)
 			continue ;
+		if (!ft_strncmp(buffer, "exit", 4))
+		{
+			free_and_exit(tokens, EXIT_SUCCESS);
+			free(buffer);
+		}
 		tokens = tokenize_cmdline(buffer);
 		// ft_print_lexing(*tokens);
-		ft_print_token_types(*tokens);
-		*tokens = parsing_grammar_rules(tokens, NULL);
-		if (!ft_strncmp(buffer, "exit", 4))
-			free_and_exit(tokens, EXIT_SUCCESS);
+		// ft_print_token_types(*tokens);
+		*tokens = parser(tokens, NULL);
+		(void)tree;
 		//cmd = parse_user_prompt(buffer, env);
 		// execute_command(cmd, env);
 		// ft_printf("%s\n", buffer);
-		// rl_on_new_line();
 		free(buffer);
 	}
 	// rl_clear_history();
