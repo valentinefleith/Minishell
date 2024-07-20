@@ -6,39 +6,29 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/19 19:26:37 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:30:55 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	reduce_operation(t_token **stack, int *state)
+void	reduce_operation(t_token **stack, t_btree **tree, int *state)
 {
-	t_token	*node;
-
 	if (!stack)
 		*state = 0;
-	if (*state == 1 || *state == 6)
-	{
-		node = find_in_stack(stack, (t_grammar)WORD);
-		node->type = cmd_name;
-	}
+	if (*state == 1)
+		replace_type(stack, WORD, cmd_name);
 	if (*state == 3)
 	{
-		node = find_in_stack(stack, command);
-		node->type = program;
+		monitor_stack(stack, tree);
+		replace_type(stack, command, program);
 	}
 	if (*state == 4 || *state == 7)
-	{
-		node = find_in_stack(stack, cmd_name);
-		node->type = command;
-	}
+		replace_type(stack, cmd_name, command);
 	if (*state == 8)
-		node = find_in_stack(stack, cmd_suffix);
+		replace_type(stack, cmd_suffix, cmd_suffix);
 	if (*state == 6)
-		node->type = cmd_suffix;
-	// if (*state == 4 || *state == 7 || *state == 8)
-	// 	node->next = NULL;
+		replace_type(stack, WORD, cmd_suffix);
 	*state = 0;
 }
 
@@ -70,4 +60,12 @@ void	error_operation(t_token **stack, t_token **input)
 	ft_free_tokens(input);
 	ft_free_tokens(stack);
 	exit(EXIT_FAILURE);
+}
+
+void	replace_type(t_token **stack, int old_type, int new_type)
+{
+	t_token	*node;
+
+	node = find_in_stack(stack, old_type);
+	node->type = new_type;
 }

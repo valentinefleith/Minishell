@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/20 13:39:39 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:24:47 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSING_H
 
 # include "builtin.h"
+# include "libft.h"
 # include <stdbool.h>
 
 # define SINGLE_QUOTE '\''
@@ -42,7 +43,9 @@ typedef enum e_grammar_rules
 	command = 100,
 	cmd_name,
 	cmd_suffix,
+	cmd_prefix,
 	program,
+	cmd,
 }					t_grammar;
 
 typedef enum e_token_type
@@ -55,7 +58,6 @@ typedef enum e_token_type
 	PIPE,
 	ASSIGNMENT,
 	UNDEFINED,
-	COMMAND,
 }					t_token_type;
 
 typedef struct s_token
@@ -94,7 +96,8 @@ void ft_print_token_types(t_token *tokens);
 void print_single_token_type(t_token_type tokens);
 
 /* binary tree utils */
-t_btree				*btree_create_node(t_token *item);
+// t_btree				*btree_create_node(t_token *item);
+t_btree				*btree_create_node(char *data, int type);
 t_btree 			*btree_create_cmd(void);
 bool				btree_is_empty(t_btree *tree);
 bool				btree_is_leaf(t_btree *tree);
@@ -104,15 +107,17 @@ t_btree *create_ast(t_token *tokens);
 
 
 /* Parsing table */
-t_token		*parser(t_token **input_tokens, t_token *stack);
-t_operation			parsing_table(int *state, t_operation *rules, t_token **stack, t_token *input);
-// int			parsing_table(int *state, int *rules[], t_token **stack, t_token *input);
-// void		get_grammar_rules(int *tab_rules[]);
+// t_btree		*parser(t_token **input_tokens, t_token *stack);
+t_btree  *parser(t_token **input_tokens, t_btree *tree);
+t_operation	parsing_table(int *state, t_operation *rules, t_token **stack, t_token *input);
 void		get_grammar_rules(t_operation *tab_rules);
 t_token		*find_in_stack(t_token **stack, int type);
-void		reduce_operation(t_token **stack, int *state);
+void		reduce_operation(t_token **stack, t_btree **tree, int *state);
 void		shift_operation(t_token **stack, t_token **input);
 void		error_operation(t_token **stack, t_token **input);
+void		replace_type(t_token **stack, int old_type, int new_type);
+void		concatenate_cmd_to_param(t_token **stack);
+void		monitor_stack(t_token **stack, t_btree **tree);
 
 /* Debug */
 void	debug_print_stack(t_token **stack_p);

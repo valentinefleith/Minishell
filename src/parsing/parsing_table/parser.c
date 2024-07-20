@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/20 13:42:11 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:29:24 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,21 @@ void	debug_parser(t_token **stack, t_token **input, int state, int ope)
 	debug_print_stack(stack);
 }
 
-t_token  *parser(t_token **input_tokens, t_token *stack)
+t_btree  *parser(t_token **input_tokens, t_btree *tree)
 {
-	t_token		*input;
 	t_operation	rules[9];
+	t_token		*stack;
+	t_token		*input;
 	int			action;
 	int			state;
 
-	input = *input_tokens;
-	if (!input)
+	if (!(*input_tokens))
 		return (NULL);
 	get_grammar_rules(rules);
-	action = shift;
+	input = *input_tokens;
+	stack = NULL;
 	state = 1;
+	action = shift;
 	shift_operation(&stack, &input);
 	while (action != accept)
 	{
@@ -56,10 +58,67 @@ t_token  *parser(t_token **input_tokens, t_token *stack)
 		if (action == shift)
 			shift_operation(&stack, &input);
 		else if (action == reduce)
-			reduce_operation(&stack, &state);
+			reduce_operation(&stack, &tree, &state);
 		else if (action == error)
 			error_operation(&stack, &input);
-		debug_parser(&stack, &input, state, action);
+		// debug_parser(&stack, &input, state, action);
 	}
-	return (stack);
+	return (tree);
+}
+
+// si on a une commande dans la stack alors
+//    on concatène la commande avec les cmd_suffix si il y en a
+//    on cree un noeud "command" pour l'arbre
+//    ce noeud "commande" pointe vers un autre noeud a sa droite si il existe cmd_prefix dans la stack
+//    ce noeud "commande" pointe vers un autre noeud a sa gauche qui contient la commande (ex: type = cmd data = echo/"salut")
+// le noeud "commande" est la tete actuelle de l'arbre pour l'instant
+// puis on supprime les elements de la stack qui ont servi a la creation des noeuds de l'arbre
+void	monitor_stack(t_token **stack, t_btree **tree)
+{
+	t_btree	*root;
+	t_btree	*right_leaf;
+	t_btree	*left_leaf;
+	t_token *node;
+
+	root = NULL;
+	right_leaf = NULL;
+	left_leaf = NULL;
+	if (find_in_stack(stack, cmd_suffix) != NULL)
+		concatenate_cmd_to_param(stack);
+	root = btree_create_node("command", command);
+	node = find_in_stack(stack, cmd_prefix);
+	if (node)
+		left_leaf = btree_create_node(node->data, cmd_prefix);
+	root->left = left_leaf;
+	node = find_in_stack(stack, command);
+	right_leaf = btree_create_node(node->data, cmd);
+	root->right = right_leaf;
+	if (btree_is_empty(*tree))
+		*tree = root;
+	else
+	{
+		if (btree_is_empty((*tree)->left))
+			(*tree)->left = root;
+		else
+			(*tree)->right = root;
+	}
+	// ft_free_tokens(stack);
+}
+
+void	concatenate_cmd_to_param(t_token **stack)
+{
+	// t_token	*cmd_suffix;
+	t_token	*node;
+	t_token	*cmd;
+
+	if (!*stack)
+		return ;
+	cmd = find_in_stack(stack, command);
+	node = cmd;
+	while (node)
+	{
+		if (node->type == cmd_suffix)
+			ft_strlcat(cmd->data, node->data, ft_strlen(cmd->data) + 1);
+		node = node->next;
+	}
 }
