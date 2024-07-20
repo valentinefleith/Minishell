@@ -6,13 +6,14 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/19 15:48:44 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:39:35 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_grammar_rules(int *tab_rules)
+// void	get_grammar_rules(int *tab_rules[])
+void	get_grammar_rules(t_operation *tab_rules)
 {
 	tab_rules[0] =  error;
 	tab_rules[1] =  reduce;
@@ -25,7 +26,8 @@ void	get_grammar_rules(int *tab_rules)
 	tab_rules[8] =  reduce;
 }
 
-int	parsing_table(int *state, int *rules, t_token **stack, t_token *input)
+// int	parsing_table(int *state, int *rules[], t_token **stack, t_token *input)
+t_operation	parsing_table(int *state, t_operation *rules, t_token **stack, t_token *input)
 {
 	if (*state == 0)
 	{

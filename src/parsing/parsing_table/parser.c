@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/19 16:26:02 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:42:11 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	debug_parser(t_token **stack, t_token **input, int state, int ope)
 t_token  *parser(t_token **input_tokens, t_token *stack)
 {
 	t_token		*input;
-	int			rules[8];
+	t_operation	rules[9];
 	int			action;
 	int			state;
 

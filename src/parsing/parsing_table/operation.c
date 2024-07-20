@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/19 15:58:00 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/19 19:26:37 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	shift_operation(t_token **stack, t_token **input)
 		return ;
 	}
 	new_node->data = (*input)->data;
-	new_node->type = (t_grammar)(*input)->type;
+	new_node->type = (*input)->type;
 	new_node->next = NULL;
 	tokens_add_back(stack, new_node);
 	*input = (*input)->next;

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/19 16:25:52 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:39:39 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void print_single_token_type(t_token_type tokens);
 
 /* binary tree utils */
 t_btree				*btree_create_node(t_token *item);
-t_btree *btree_create_cmd(void);
+t_btree 			*btree_create_cmd(void);
 bool				btree_is_empty(t_btree *tree);
 bool				btree_is_leaf(t_btree *tree);
 void				btree_free(t_btree *tree);
@@ -105,8 +105,10 @@ t_btree *create_ast(t_token *tokens);
 
 /* Parsing table */
 t_token		*parser(t_token **input_tokens, t_token *stack);
-int			parsing_table(int *state, int *rules, t_token **stack, t_token *input);
-void		get_grammar_rules(int *tab_rules);
+t_operation			parsing_table(int *state, t_operation *rules, t_token **stack, t_token *input);
+// int			parsing_table(int *state, int *rules[], t_token **stack, t_token *input);
+// void		get_grammar_rules(int *tab_rules[]);
+void		get_grammar_rules(t_operation *tab_rules);
 t_token		*find_in_stack(t_token **stack, int type);
 void		reduce_operation(t_token **stack, int *state);
 void		shift_operation(t_token **stack, t_token **input);
