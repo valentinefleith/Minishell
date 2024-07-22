@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:31:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/19 12:33:01 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:06:50 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_token	*create_node(char *buffer, int size)
 	if (!data)
 		return NULL;
 	node->data = ft_strtrim(data, " ");
+	free(data);
 	if (node->data == NULL)
 	{
 		free(node);

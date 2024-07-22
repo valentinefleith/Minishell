@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:58:22 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/17 17:08:46 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:28:03 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,23 @@ void ft_print_lexing(t_token *tokens)
 void print_single_token_type(t_token_type type)
 {
 	if (type == 0)
-		printf("WORD");
+		printf("WORD\n");
 	if (type == 1)
-		ft_printf("INPUT");
+		printf("INPUT\n");
 	if (type == 2)
-		ft_printf("HEREDOC");
+		printf("HEREDOC\n");
 	if (type == 3)
-		ft_printf("OUTPUT");
+		printf("OUTPUT\n");
 	if (type == 4)
-		ft_printf("APPEND");
+		printf("APPEND\n");
 	if (type == 5)
-		printf("PIPE");
+		printf("PIPE\n");
 	if (type == 6)
-		ft_printf("FILENAME");
+		printf("FILENAME\n");
 	if (type == 7)
-		ft_printf("UNDEFINED");
+		printf("UNDEFINED\n");
 	if (type == 8)
-		printf("CMD");
+		printf("CMD\n");
 }
 
 void ft_print_token_types(t_token *tokens)
