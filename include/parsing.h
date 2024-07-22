@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/20 17:24:47 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:46:01 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef enum e_token_type
 	PIPE,
 	ASSIGNMENT,
 	UNDEFINED,
+	COMMAND,
 }					t_token_type;
 
 typedef struct s_token
@@ -83,7 +84,7 @@ void				cmd_not_found(char *cmd_name);
 void				permission_denied(char *name);
 char				**handle_quotes(char **cmd_and_args);
 // t_cmd	**get_whole_pipeline(char *buffer, char **env);
-t_token				**tokenize_cmdline(char *buffer);
+t_token				*tokenize_cmdline(char *buffer);
 t_token				*create_node(char *buffer, int size);
 t_token				*get_last_token(t_token *tokens);
 void				tokens_add_back(t_token **tokens, t_token *new);
