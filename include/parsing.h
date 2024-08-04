@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/22 16:46:01 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/04 21:25:32 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void				no_such_file(char *filename);
 void				cmd_not_found(char *cmd_name);
 void				permission_denied(char *name);
 char				**handle_quotes(char **cmd_and_args);
+t_token *quote_error(t_token **tokens);
 // t_cmd	**get_whole_pipeline(char *buffer, char **env);
 t_token				*tokenize_cmdline(char *buffer);
 t_token				*create_node(char *buffer, int size);

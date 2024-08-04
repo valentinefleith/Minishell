@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/22 16:50:52 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/04 21:25:09 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,6 @@ static int	get_size_next_token(char *buffer)
 	return (size);
 }
 
-static void quote_errors_exit(char *buffer, t_token **tokens)
-{
-	ft_printf("unclosed quotes. processus exited.\n");
-	free(buffer);
-	ft_free_tokens(tokens);
-	exit(1);
-}
-
 t_token	*tokenize_cmdline(char *buffer)
 {
 	t_token	*tokens;
@@ -106,7 +98,7 @@ t_token	*tokenize_cmdline(char *buffer)
 	{
 		size = get_size_next_token(buffer);
 		if (size < 0)
-			quote_errors_exit(buffer, &tokens);
+			return quote_error(&tokens);
 		if (*buffer == ' ' && size == 1)
 		{
 			buffer++;
