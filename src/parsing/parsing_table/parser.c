@@ -6,119 +6,114 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/20 17:29:24 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:55:21 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "free.h"
 #include "minishell.h"
 
-void	debug_parser(t_token **stack, t_token **input, int state, int ope)
+t_token  **parser(t_token **input_tokens)
 {
-	static int i = 0;
-	
-	i += 1;
-	(void)ope;
-	printf("                                      \n");
-	printf("                                      \n");
-	printf("-------------- etape %d --------------\n", i);
-	printf("                                      \n");
-	printf("-------------- STATE %d --------------\n", state);
-	printf("                                      \n");
-	// printf("-------------- OPE ");
-	// if (ope == shift)
-	// 	printf("shift ");
-	// if (ope == reduce)
-	// 	printf("reduce ");
-	// if (ope == accept)
-	// 	printf("accept ");
-	// printf("--------------\n");
-	debug_print_input(input);
-	debug_print_stack(stack);
-}
-
-t_btree  *parser(t_token **input_tokens, t_btree *tree)
-{
-	t_operation	rules[9];
+	t_token		*tokens;
 	t_token		*stack;
-	t_token		*input;
+	t_token		**output;
 	int			action;
 	int			state;
 
 	if (!(*input_tokens))
 		return (NULL);
-	get_grammar_rules(rules);
-	input = *input_tokens;
+	tokens = *input_tokens;
 	stack = NULL;
-	state = 1;
-	action = shift;
-	shift_operation(&stack, &input);
+	output = malloc(sizeof(t_token *));
+	*output = NULL;
+	action = go_to;
+	state = 0;
 	while (action != accept)
 	{
-		action = parsing_table(&state, rules, &stack, input);
+		action = parsing_table(&stack, tokens, &state);
 		if (action == shift)
-			shift_operation(&stack, &input);
+			shift_action(&stack, &tokens);
 		else if (action == reduce)
-			reduce_operation(&stack, &tree, &state);
+			reduce_action(&stack, output, &state);
 		else if (action == error)
-			error_operation(&stack, &input);
-		// debug_parser(&stack, &input, state, action);
+			error_action(&stack, &tokens);
+		debug_parser(&stack, &tokens, state, action);
 	}
-	return (tree);
+	return (output);
 }
 
-// si on a une commande dans la stack alors
-//    on concatène la commande avec les cmd_suffix si il y en a
-//    on cree un noeud "command" pour l'arbre
-//    ce noeud "commande" pointe vers un autre noeud a sa droite si il existe cmd_prefix dans la stack
-//    ce noeud "commande" pointe vers un autre noeud a sa gauche qui contient la commande (ex: type = cmd data = echo/"salut")
-// le noeud "commande" est la tete actuelle de l'arbre pour l'instant
-// puis on supprime les elements de la stack qui ont servi a la creation des noeuds de l'arbre
-void	monitor_stack(t_token **stack, t_btree **tree)
+char	**cat_tokens_arg(t_token **stack, int target, int adding)
 {
-	t_btree	*root;
-	t_btree	*right_leaf;
-	t_btree	*left_leaf;
+	char	**concatenation;
 	t_token *node;
+	int 	i;
 
-	root = NULL;
-	right_leaf = NULL;
-	left_leaf = NULL;
-	if (find_in_stack(stack, cmd_suffix) != NULL)
-		concatenate_cmd_to_param(stack);
-	root = btree_create_node("command", command);
-	node = find_in_stack(stack, cmd_prefix);
-	if (node)
-		left_leaf = btree_create_node(node->data, cmd_prefix);
-	root->left = left_leaf;
-	node = find_in_stack(stack, command);
-	right_leaf = btree_create_node(node->data, cmd);
-	root->right = right_leaf;
-	if (btree_is_empty(*tree))
-		*tree = root;
-	else
-	{
-		if (btree_is_empty((*tree)->left))
-			(*tree)->left = root;
-		else
-			(*tree)->right = root;
-	}
-	// ft_free_tokens(stack);
-}
-
-void	concatenate_cmd_to_param(t_token **stack)
-{
-	// t_token	*cmd_suffix;
-	t_token	*node;
-	t_token	*cmd;
-
-	if (!*stack)
-		return ;
-	cmd = find_in_stack(stack, command);
-	node = cmd;
+	concatenation = malloc(get_cat_size(*stack, adding) * sizeof(char *) + 1);
+	if (!concatenation)
+		return (NULL);
+	node = find_in_stack(stack, target);
+	i = 0;
 	while (node)
 	{
-		if (node->type == cmd_suffix)
-			ft_strlcat(cmd->data, node->data, ft_strlen(cmd->data) + 1);
+		if (node->type == adding)
+		{
+			concatenation[i] = ft_strdup((char *)node->data);
+			if (!concatenation[i])
+			{
+				ft_free_tab(concatenation);
+				return (NULL);
+			}
+			i++;
+		}
 		node = node->next;
 	}
+	concatenation[i] = 0;
+	return (concatenation);
+}
+
+int	get_cat_size(t_token *stack, int type)
+{
+	int	nb;
+
+	nb = 1;
+	while (stack)
+	{
+		if (stack->type == type)
+			nb++;
+		stack = stack->next;
+	}
+	return (nb);
+}
+
+int	count_nodes(t_token *stack)
+{
+	int	i;
+
+	i = 0;
+	while (stack)
+	{
+		i++;
+		stack = stack->next;
+	}
+	return (i);
+}
+
+void	build_output(t_token **stack, t_token **output)
+{
+	t_token	*new;
+
+	if (find_in_stack(stack, cmd_suffix))
+		cat_tokens_type(stack, cmd_name, cmd_suffix);
+	new= NULL;
+	while (*stack)
+	{
+		new = malloc(sizeof(t_token));
+		new->type = (*stack)->type;
+		new->data = (*stack)->data;
+		new->next = NULL;
+		tokens_add_back(output, new);
+		*stack = (*stack)->next;
+	}
+	stack = ft_free_tokens(stack);
 }

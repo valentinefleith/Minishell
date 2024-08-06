@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:31:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/19 12:33:01 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:49:34 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_token	*create_node(char *buffer, int size)
 {
 	t_token	*node;
-	char *data;
+	char 	*data;
 
 	node = malloc(sizeof(t_token));
 	if (!node)
@@ -23,7 +23,8 @@ t_token	*create_node(char *buffer, int size)
 	data = ft_substr(buffer, 0, size);
 	if (!data)
 		return NULL;
-	node->data = ft_strtrim(data, " ");
+	// node->data = ft_split(data, ' ');
+	node->data = (char **)ft_strtrim(data, " ");
 	if (node->data == NULL)
 	{
 		free(node);

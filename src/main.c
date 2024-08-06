@@ -6,12 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/20 16:47:48 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/06 14:58:51 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parsing.h"
+#include "free.h"
 
 
 int	main(int argc, char **argv, char **env)
@@ -24,6 +25,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
+	(void)tree;
 	tokens = NULL;
 	buffer = NULL;
 	while (1)
@@ -41,10 +43,10 @@ int	main(int argc, char **argv, char **env)
 		}
 		tokens = tokenize_cmdline(buffer);
 		// ft_print_lexing(*tokens);
-		// ft_print_token_types(*tokens);
+		ft_print_token_types(*tokens);
 		tree = NULL;
-		tree = parser(tokens, tree);
-		print_structure(tree, 0);
+		tokens = parser(tokens);
+		// debug_print_stack(*tokens, "STACK FINAL");
 		//cmd = parse_user_prompt(buffer, env);
 		// execute_command(cmd, env);
 		// ft_printf("%s\n", buffer);
