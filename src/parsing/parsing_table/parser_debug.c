@@ -6,24 +6,21 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:40:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/19 13:15:48 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:59:58 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	debug_print_stack(t_token **stack_p)
+void	debug_print_stack(t_token *stack, char *list)
 {
-	t_token	*stack;
-
-	if (!stack_p || !(*stack_p))
+	if (!stack)
 	{
-		printf("STACK = NULL\n");
+		printf("%s = NULL\n", list);
 		return ;
 	}
 	else
-		printf("STACK = ");
-	stack = *stack_p;
+		printf("%s = ", list);
 	while (stack)
 	{
 		if (stack->type == command)
@@ -32,11 +29,29 @@ void	debug_print_stack(t_token **stack_p)
 			printf("WORD ");
 		else if (stack->type == cmd_name)
 			printf("cmd_name ");
-		else if (stack->type == program)
-			printf("program ");
+		else if (stack->type == redirection)
+			printf("redirection ");
 		else if (stack->type == cmd_suffix)
 			printf("cmd_suffix ");
-		printf("(%s) ", stack->data);
+		else if (stack->type == cmd_prefix)
+			printf("cmd_prefix ");
+		else if (stack->type == io_file)
+			printf("io_file ");
+		else if (stack->type == pipeline)
+			printf("pipeline ");
+		if (stack->type == INPUT)
+			printf("INPUT ");
+		else if (stack->type == HEREDOC)
+			printf("HEREDOC ");
+		else if (stack->type == OUTPUT)
+			printf("OUTPUT ");
+		else if (stack->type == PIPE)
+			printf("PIPE ");
+		else if (stack->type == APPEND)
+			printf("APPEND ");
+		else if (stack->type == UNDEFINED)
+			printf("UNDEFINED ");
+		// printf("(%s) ", stack->data);
 		stack = stack->next;
 	}
 	printf("\n");
@@ -73,4 +88,28 @@ void	debug_print_input(t_token **input_p)
 		input = input->next;
 	}
 	printf("\n");
+}
+
+void	debug_parser(t_token **stack, t_token **input, int state, int ope)
+{
+	static int i = 0;
+	
+	i += 1;
+	(void)ope;
+	printf("                                      \n");
+	printf("                                      \n");
+	printf("-------------- etape %d --------------\n", i);
+	printf("                                      \n");
+	printf("-------------- STATE %d --------------\n", state);
+	printf("                                      \n");
+	// printf("-------------- ACTION ");
+	// if (ope == shift)
+	// 	printf("shift ");
+	// if (ope == reduce)
+	// 	printf("reduce ");
+	// if (ope == accept)
+	// 	printf("accept ");
+	// printf("--------------\n");
+	debug_print_stack(*input, "INPUT");
+	debug_print_stack(*stack, "STACK");
 }

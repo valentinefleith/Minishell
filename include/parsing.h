@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/06 14:15:05 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:23:27 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ t_btree *create_ast(t_token *tokens);
 /* Parsing table */
 // t_btree  *parser(t_token **input_tokens, t_btree *tree);
 t_token  **parser(t_token **input_tokens);
-char	**cat_tokens_arg(t_token **stack, int target, int adding);
+char	**cat_tokens_arg(t_token *node, int add);
 int	get_cat_size(t_token *stack, int type);
 void	build_output(t_token **stack, t_token **output);
 int	count_nodes(t_token *stack);

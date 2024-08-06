@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/06 16:35:43 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:40:09 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	reduce_action(t_token **stack, t_token **output, int *state)
 	if (*state == 10 || *state == 14) // build_output; and clear stack !!
 	{
 		build_output(stack, output);
-		*state = 3;
+		*state = 8;
 		return ;
 	}
 	if (*state == 7)
@@ -76,7 +76,7 @@ void	reduce_type_redirection(t_token **stack)
 			break;
 		type_redir++;
 	}
-	new_node->data = cat_tokens_arg(stack, new_node->type, WORD);
+	new_node->data = cat_tokens_arg(new_node, WORD);
 	new_node->type = redirection;
 	if (new_node->next)
 	{
@@ -92,7 +92,7 @@ void	cat_tokens_type(t_token **stack, int target, int old_type)
 	new_node = find_in_stack(stack, target);
 	if (!new_node)
 		return ;
-	new_node->test = cat_tokens_arg(stack, target, old_type);
+	new_node->data = cat_tokens_arg(new_node, old_type);
 	if (new_node->next)
 	{
 		free(new_node->next);
@@ -125,7 +125,7 @@ void	shift_action(t_token **stack, t_token **input)
 
 void	error_action(t_token **stack, t_token **input)
 {
-	printf("Error: with the input, do not fit with the parsing table\n");
+	printf("Error: with the tokens list, do not fit with the parsing table\n");
 	debug_print_stack(*stack, "STACK");
 	debug_print_input(input);
 	ft_free_tokens(input);

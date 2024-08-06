@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/06 14:55:21 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/06 17:48:34 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,25 +38,24 @@ t_token  **parser(t_token **input_tokens)
 			reduce_action(&stack, output, &state);
 		else if (action == error)
 			error_action(&stack, &tokens);
-		debug_parser(&stack, &tokens, state, action);
+		// debug_parser(&stack, &tokens, state, action);
 	}
 	return (output);
 }
 
-char	**cat_tokens_arg(t_token **stack, int target, int adding)
+char	**cat_tokens_arg(t_token *node, int add)
 {
 	char	**concatenation;
-	t_token *node;
 	int 	i;
 
-	concatenation = malloc(get_cat_size(*stack, adding) * sizeof(char *) + 1);
+	concatenation = malloc(get_cat_size(node, add) * sizeof(char *) + 1);
 	if (!concatenation)
 		return (NULL);
-	node = find_in_stack(stack, target);
-	i = 0;
+	concatenation[0] = ft_strdup((char *)node->data);
+	i = 1;
 	while (node)
 	{
-		if (node->type == adding)
+		if (node->type == add)
 		{
 			concatenation[i] = ft_strdup((char *)node->data);
 			if (!concatenation[i])
@@ -105,7 +104,7 @@ void	build_output(t_token **stack, t_token **output)
 
 	if (find_in_stack(stack, cmd_suffix))
 		cat_tokens_type(stack, cmd_name, cmd_suffix);
-	new= NULL;
+	new = NULL;
 	while (*stack)
 	{
 		new = malloc(sizeof(t_token));
