@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/06 17:23:27 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/07 13:42:24 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef enum e_token_type
 typedef struct s_token
 {
 	char			**data;
-	char			**test;
 	int				type;
 	struct s_token	*next;
 	struct s_token	*prev;
@@ -112,38 +111,27 @@ t_btree *create_ast(t_token *tokens);
 
 
 /* Parsing table */
-// t_btree  *parser(t_token **input_tokens, t_btree *tree);
-t_token  **parser(t_token **input_tokens);
-char	**cat_tokens_arg(t_token *node, int add);
-int	get_cat_size(t_token *stack, int type);
-void	build_output(t_token **stack, t_token **output);
-int	count_nodes(t_token *stack);
 
-// t_action	parsing_table(int *state, t_action *rules, t_token **stack, t_token *input);
-t_action	parsing_table(t_token **stack, t_token *input, int *state);
-t_action	state_zero(t_token **stack, t_token *input, int *state);
-t_action	state_four(t_token **stack, t_token *input, int *state);
-t_action	state_five(t_token **stack, t_token *input, int *state);
-t_action	state_tens(t_token **stack, t_token *input, int *state);
+void		shift_action(t_token **stack, t_token **tokens);
+void		reduce_action(t_token **stack, t_token **output, int *state);
+void		reduce_type_redirection(t_token **stack);
+void		cat_tokens_type(t_token **stack, int target, int old_type);
+char		**cat_tokens_arg(t_token *node, int add);
 
+t_action	parsing_table(t_token **stack, t_token *tokens, int *state);
+t_action	state_zero(t_token **stack, t_token *tokens, int *state);
+t_action	state_four(t_token **stack, t_token *tokens, int *state);
+t_action	state_five(t_token **stack, t_token *tokens, int *state);
+t_action	state_tens(t_token **stack, t_token *tokens, int *state);
 
-void		get_grammar_rules(t_action *tab_rules);
+t_token		**parser(t_token **input_tokens);
+void		build_output(t_token **stack, t_token **output);
+void		error_action(t_token **stack, t_token **tokens);
+
 t_token		*find_in_stack(t_token **stack, int type);
-void		shift_action(t_token **stack, t_token **input);
-void		error_action(t_token **stack, t_token **input);
+t_action	find_in_loop(t_token *list, int *state, int start, int end);
 void		replace_type(t_token **stack, int old_type, int new_type);
+int			get_cat_size(t_token *stack, int type);
+int			count_nodes(t_token *stack);
 
-void	reduce_action(t_token **stack, t_token **output, int *state);
-void	reduce_type_redirection(t_token **stack);
-void	cat_tokens_type(t_token **stack, int target, int old_type);
-
-
-void		concatenate_cmd_to_param(t_token **stack);
-void		monitor_stack(t_token **stack, t_btree **tree);
-t_action	find_in_loop(t_token *list, int *state, int i, int count);
-/* Debug */
-void	debug_print_stack(t_token *stack_p, char *list);
-void	debug_print_input(t_token **input_p);
-void	debug_parser(t_token **stack, t_token **input, int state, int ope);
-
-#endif
+#endif**

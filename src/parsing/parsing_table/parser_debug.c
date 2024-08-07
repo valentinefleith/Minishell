@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:40:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/06 16:59:58 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:42:14 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	debug_print_stack(t_token *stack, char *list)
 	}
 	else
 		printf("%s = ", list);
+	int i = 0;
 	while (stack)
 	{
 		if (stack->type == command)
@@ -51,7 +52,15 @@ void	debug_print_stack(t_token *stack, char *list)
 			printf("APPEND ");
 		else if (stack->type == UNDEFINED)
 			printf("UNDEFINED ");
-		// printf("(%s) ", stack->data);
+		printf("( ");
+		while (stack->data[i])
+		{
+			if (!stack->data[i] || stack->data[i][0] == 0)
+				break ;
+			printf("%s ", stack->data[i]);
+			i++;
+		}
+		printf(") ");
 		stack = stack->next;
 	}
 	printf("\n");
@@ -112,4 +121,5 @@ void	debug_parser(t_token **stack, t_token **input, int state, int ope)
 	// printf("--------------\n");
 	debug_print_stack(*input, "INPUT");
 	debug_print_stack(*stack, "STACK");
+	printf("                                      \n");
 }

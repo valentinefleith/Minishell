@@ -6,12 +6,21 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/06 17:47:35 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/07 13:32:27 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * Determines the next action based on the current state and stack or tokens.
+ * @stack: The stack of tokens being processed.
+ * @tokens: The token in input.
+ * @state: The current state of the parser.
+ *
+ * This function evaluates the current state and token to decide the next action
+ * for the parser. It returns an action such as shift, reduce, accept, or error.
+ */
 t_action	parsing_table(t_token **stack, t_token *tokens, int *state)
 {
 	if (*state == 8 && tokens && tokens->type == PIPE)
@@ -40,7 +49,10 @@ t_action	parsing_table(t_token **stack, t_token *tokens, int *state)
 	return (error);
 }
 
-t_action	state_zero(t_token **stack, t_token *input, int *state)
+/**
+ *  Handles the parser's actions when in state 0.
+ */
+t_action	state_zero(t_token **stack, t_token *tokens, int *state)
 {
 	if (find_in_stack(stack, cmd_name))
 		*state = 4;
@@ -48,7 +60,7 @@ t_action	state_zero(t_token **stack, t_token *input, int *state)
 		*state = 5;
 	else if (find_in_stack(stack, redirection))
 		*state = 6;
-	else if (find_in_loop(input, state, WORD, APPEND + 1) == shift)
+	else if (find_in_loop(tokens, state, WORD, APPEND + 1) == shift)
 		return (shift);
 	return (go_to);
 }
@@ -110,45 +122,3 @@ t_action	state_tens(t_token **stack, t_token *tokens, int *state)
 		find_in_loop(tokens, state, INPUT, APPEND);
 	return (shift);
 }
-// void	get_grammar_rules(t_action *tab_rules)
-// {
-// 	tab_rules[0] =  error;
-// 	tab_rules[1] =  reduce;
-// 	tab_rules[2] =  accept;
-// 	tab_rules[3] =  reduce;
-// 	tab_rules[4] =  reduce;
-// 	tab_rules[5] =  error;
-// 	tab_rules[6] =  reduce;
-// 	tab_rules[7] =  reduce;
-// 	tab_rules[8] =  reduce;
-// 	tab_rules[9] =  error;
-// 	tab_rules[10] = shift;
-// }
-
-// t_operation	parsing_table(int *state, t_operation *rules, t_token **stack, t_token *input)
-// {
-// 	if (*state == 0)
-// 	{
-// 		if (find_in_stack(stack, program) != NULL && !input)
-// 			*state = 2;
-// 		else if (find_in_stack(stack, command) != NULL)
-// 			*state = 3;
-// 		else if (find_in_stack(stack, cmd_name) != NULL)
-// 			*state = 4;
-// 	}
-// 	if (*state == 4 && input != NULL && input->type == WORD)
-// 	{
-// 		*state = 6;
-// 		return (shift);
-// 	}
-// 	else if (*state == 4 && find_in_stack(stack, cmd_suffix) != NULL)
-// 		*state = 7;
-// 	if (*state == 7 && input != NULL && input->type == WORD)
-// 	{
-// 		*state = 8;
-// 		return (shift);
-// 	}
-// 	if (*state == 9)
-// 		find_loop(&input, state, 1, 5);
-// 	return (rules[*state]);
-// }

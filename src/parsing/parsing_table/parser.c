@@ -6,13 +6,19 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/06 17:48:34 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/07 13:41:28 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "free.h"
 #include "minishell.h"
 
+/**
+ * Parses the input tokens and builds an output (linked list).
+ * @input_tokens: The list of input tokens to be parsed.
+ *
+ * This function performs actions such as shift, reduce, and error
+ * according on the current state and tokens (parsing_table).
+ */
 t_token  **parser(t_token **input_tokens)
 {
 	t_token		*tokens;
@@ -43,65 +49,18 @@ t_token  **parser(t_token **input_tokens)
 	return (output);
 }
 
-char	**cat_tokens_arg(t_token *node, int add)
-{
-	char	**concatenation;
-	int 	i;
-
-	concatenation = malloc(get_cat_size(node, add) * sizeof(char *) + 1);
-	if (!concatenation)
-		return (NULL);
-	concatenation[0] = ft_strdup((char *)node->data);
-	i = 1;
-	while (node)
-	{
-		if (node->type == add)
-		{
-			concatenation[i] = ft_strdup((char *)node->data);
-			if (!concatenation[i])
-			{
-				ft_free_tab(concatenation);
-				return (NULL);
-			}
-			i++;
-		}
-		node = node->next;
-	}
-	concatenation[i] = 0;
-	return (concatenation);
-}
-
-int	get_cat_size(t_token *stack, int type)
-{
-	int	nb;
-
-	nb = 1;
-	while (stack)
-	{
-		if (stack->type == type)
-			nb++;
-		stack = stack->next;
-	}
-	return (nb);
-}
-
-int	count_nodes(t_token *stack)
-{
-	int	i;
-
-	i = 0;
-	while (stack)
-	{
-		i++;
-		stack = stack->next;
-	}
-	return (i);
-}
-
+/**
+ * Builds the output token list from the stack.
+ *
+ * This function concatenates tokens of specific types from the stack and
+ * adds them to the output token list. It also frees the stack after processing.
+ */
 void	build_output(t_token **stack, t_token **output)
 {
 	t_token	*new;
 
+	if (*stack)
+		debug_print_stack(*stack, "debug");
 	if (find_in_stack(stack, cmd_suffix))
 		cat_tokens_type(stack, cmd_name, cmd_suffix);
 	new = NULL;
@@ -115,4 +74,17 @@ void	build_output(t_token **stack, t_token **output)
 		*stack = (*stack)->next;
 	}
 	stack = ft_free_tokens(stack);
+}
+
+/**
+ *	Handles errors during parsing.
+ */
+void	error_action(t_token **stack, t_token **tokens)
+{
+	printf("Error: with the tokens list, do not fit with the parsing table\n");
+	// debug_print_stack(*stack, "STACK");
+	// debug_print_input(tokens);
+	ft_free_tokens(tokens);
+	ft_free_tokens(stack);
+	exit(EXIT_FAILURE);
 }
