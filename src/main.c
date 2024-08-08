@@ -6,10 +6,11 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/06 17:48:48 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:17:14 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "free.h"
 #include "minishell.h"
 #include "parsing.h"
 #include "free.h"
@@ -18,10 +19,9 @@
 int	main(int argc, char **argv, char **env)
 {
 	char	*buffer;
-	t_token	**tokens;
+	t_token	*tokens;
 	t_btree	*tree;
 
-	// t_cmd	cmd;
 	(void)argc;
 	(void)argv;
 	(void)env;
@@ -36,10 +36,11 @@ int	main(int argc, char **argv, char **env)
 		add_history(buffer);
 		if (!buffer)
 			continue ;
-		if (!ft_strncmp(buffer, "exit", 4))
+		if (ft_strlen(buffer) == ft_strlen("exit") && !ft_strncmp(buffer,
+				"exit", 4))
 		{
-			free_and_exit(tokens, EXIT_SUCCESS);
 			free(buffer);
+			exit(EXIT_SUCCESS);
 		}
 		tokens = tokenize_cmdline(buffer);
 		// ft_print_lexing(*tokens);
