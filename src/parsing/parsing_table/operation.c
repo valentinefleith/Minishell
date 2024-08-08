@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/08 15:09:28 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:34:08 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	shift_action(t_token **stack, t_token **tokens)
 		return ;
 	}
 	new_node->data = ft_strdup((*tokens)->data);
+	new_node->arg = NULL;
 	new_node->type = (*tokens)->type;
 	new_node->next = NULL;
 	tokens_add_back(stack, new_node);
@@ -46,11 +47,11 @@ void	shift_action(t_token **stack, t_token **tokens)
  * Reduces the stack based on the current state and modifies the output.
  *
  * This function performs different actions based on the value of the state:
- * - If the state is 1, it replaces the type WORD with cmd_name.
- * - If the state is 6, it replaces the type redirection with cmd_prefix.
+ * - If the state is 1, it replaces the type WORD with CMD_NAME.
+ * - If the state is 6, it replaces the type redirection with CMD_PREFIX.
  * - If the state is 7, it concatenates INPUT and WORD in the stack to form a redirection.
- * - If the state is 9, it replaces the type WORD with cmd_suffix.
- * - If the state is 13, it concatenates cmd_suffix and WORD in the stack.
+ * - If the state is 9, it replaces the type WORD with CMD_SUFFIX.
+ * - If the state is 13, it concatenates CMD_SUFFIX and WORD in the stack.
  * - If the state is 10 or 14, it builds the output from the stack and clears the stack, then sets the state to 8.
  * - If the state was 7, it sets the state to 6.
  * - Otherwise, it sets the state to 0.
@@ -60,20 +61,20 @@ void	reduce_action(t_token **stack, t_token **output, int *state)
 	if (!stack)
 		*state = 0;
 	if (*state == 1)
-		replace_type(stack, WORD, cmd_name);
+		replace_type(stack, WORD, CMD_NAME);
 	if (*state == 6)
-		replace_type(stack, redirection, cmd_prefix);
+		replace_type(stack, REDIR, CMD_PREFIX);
 	if (*state == 7)
 		reduce_type_redirection(stack);
 	if (*state == 9)
-		replace_type(stack, WORD, cmd_suffix);
+		replace_type(stack, WORD, CMD_SUFFIX);
 	/* Je retire l'etape 11 parce que ca pose probleme de melanger les redirections avec 
-		les cmd_suffix, quand on veut concatener une commande(cmd_name) et ses arguments(cmd_suffix) on veut pas
+		les CMD_SUFFIX, quand on veut concatener une commande(CMD_NAME) et ses arguments(CMD_SUFFIX) on veut pas
 		avoir les redirections melangees la dedans
 	if (*state == 11)
-		replace_type(stack, redirection, cmd_suffix); */
+		replace_type(stack, redirection, CMD_SUFFIX); */
 	if (*state == 13)
-		cat_tokens_type(stack, cmd_suffix, WORD);
+		cat_tokens_type(stack, CMD_SUFFIX, WORD);
 	if (*state == 10 || *state == 14)
 	{
 		build_output(stack, output);
@@ -110,7 +111,7 @@ void reduce_type_redirection(t_token **stack)
 		type_redir++;
 	}
 	new_node->arg = cat_tokens_arg(new_node, WORD);
-	new_node->type = redirection;
+	new_node->type = REDIR;
 	if (new_node->next)
 	{
 		free(new_node->next);
@@ -155,11 +156,12 @@ char	**cat_tokens_arg(t_token *node, int add)
 	char	**concatenation;
 	int 	i;
 
-	concatenation = malloc(get_cat_size(node, add) * sizeof(char *) + 2);
+	concatenation = malloc(get_cat_size(node) * sizeof(char *) + 1);
 	if (!concatenation)
 		return (NULL);
 	concatenation[0] = ft_strdup(node->data);
 	i = 1;
+	node = node->next;
 	while (node)
 	{
 		if (node->type == add)

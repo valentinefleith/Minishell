@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/08 15:18:06 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:31:15 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,24 @@ typedef struct s_cmd
 
 typedef enum e_grammar_rules
 {
-	cmd_name = 104,
-	cmd_prefix, // 105
-	redirection, // 106
-	io_file, // 107
-	cmd_suffix, // 108
-	pipeline, // 109
-	command, // 110
-	cmd,
-	program,
+	CMD_NAME = 104,
+	CMD_PREFIX,
+	REDIR,
+	CMD_SUFFIX,
+	PIPELINE,
+	COMMAND,
+	CMD,
 }					t_grammar;
 
 typedef enum e_token_type
 {
-	WORD, // 0
-	INPUT, // 1
-	HEREDOC, // 2
-	OUTPUT, // 3
-	APPEND, // 4 
-	PIPE, // 5
-	ASSIGNMENT,
+	WORD,
+	INPUT,
+	HEREDOC,
+	OUTPUT,
+	APPEND,
+	PIPE,
 	UNDEFINED,
-	COMMAND,
 }					t_token_type;
 
 typedef struct s_token
@@ -82,58 +78,73 @@ typedef struct s_btree
 	char			*item;
 }					t_btree;
 
-t_cmd				parse_user_prompt(char *buffer, char **env);
-t_cmd				parse_cmd_executable(char *buffer, char **paths);
-void				no_such_file(char *filename);
-void				cmd_not_found(char *cmd_name);
-void				permission_denied(char *name);
-char				**handle_quotes(char **cmd_and_args);
-// t_cmd	**get_whole_pipeline(char *buffer, char **env);
+/************************ Lexing *********************************************/
+
 t_token				*tokenize_cmdline(char *buffer);
+static void			quote_errors_exit(char *buffer, t_token **tokens);
+bool				check_quote_status(bool inside_quotes, bool inside_opposite_quotes);
+static int			handle_separator(char *buffer, int size);
+void				fill_token_types(t_token *tokens);
+
 t_token				*create_node(char *buffer, int size);
-t_token				*get_last_token(t_token *tokens);
 void				tokens_add_back(t_token **tokens, t_token *new);
 
-/* lexing_utils */
-// static t_token_type find_token_type(char *data, t_token *tokens);
-void				fill_token_types(t_token *tokens);
-void ft_print_lexing(t_token *tokens);
-void ft_print_token_types(t_token *tokens);
-void print_single_token_type(t_token_type tokens);
+t_token				*ft_free_tokens(t_token **tokens);
 
-/* binary tree utils */
-// t_btree				*btree_create_node(t_token *item);
+t_token				*get_last_token(t_token *tokens);
+t_token				*get_first_token(t_token *tokens);
+t_token 			*get_last_pipe(t_token *tokens);
+static int			get_size_next_token(char *buffer);
+
+/************************ Parsing table **************************************/
+
+void				shift_action(t_token **stack, t_token **tokens);
+void				reduce_action(t_token **stack, t_token **output, int *state);
+void				reduce_type_redirection(t_token **stack);
+void				cat_tokens_type(t_token **stack, int target, int old_type);
+char				**cat_tokens_arg(t_token *node, int add);
+
+t_action			parsing_table(t_token **stack, t_token *tokens, int *state);
+t_action			state_zero(t_token **stack, t_token *tokens, int *state);
+t_action			state_four(t_token **stack, t_token *tokens, int *state);
+t_action			state_five(t_token **stack, t_token *tokens, int *state);
+t_action			state_tens(t_token **stack, t_token *tokens, int *state);
+
+t_token				*parser(t_token **input_tokens);
+void				build_output(t_token **stack, t_token **output);
+void				error_action(t_token **stack, t_token **tokens);
+
+t_token				*find_in_stack(t_token **stack, int type);
+t_action			find_in_loop(t_token *list, int *state, int start, int end);
+void				replace_type(t_token **stack, int old_type, int new_type);
+int					get_cat_size(t_token *stack);
+int					count_nodes(t_token *stack);
+
+/************************ Binary Tree ****************************************/
+
+t_btree				**create_ast(t_token *tokens);
+static t_btree 		*create_command_node(t_token *tokens, t_token *next_pipe);
+static t_token 		*find_next_pipe(t_token *tokens);
+
 t_btree				*btree_create_node(char *data, int type);
-t_btree 			*btree_create_cmd(void);
-bool				btree_is_empty(t_btree *tree);
-bool				btree_is_leaf(t_btree *tree);
+t_btree				*btree_create_cmd(void);
+
 void				btree_free(t_btree *tree);
-void print_structure(t_btree *root, int level);
-t_btree *create_ast(t_token *tokens);
 
+bool				btree_is_leaf(t_btree *tree);
+bool				btree_is_empty(t_btree *tree);
 
-/* Parsing table */
+/************************ Debug **********************************************/
 
-void		shift_action(t_token **stack, t_token **tokens);
-void		reduce_action(t_token **stack, t_token **output, int *state);
-void		reduce_type_redirection(t_token **stack);
-void		cat_tokens_type(t_token **stack, int target, int old_type);
-char		**cat_tokens_arg(t_token *node, int add);
+void 				ft_print_token_types(t_token *tokens);
+void 				print_single_token_type(t_token_type type);
+void				ft_print_lexing(t_token *tokens);
 
-t_action	parsing_table(t_token **stack, t_token *tokens, int *state);
-t_action	state_zero(t_token **stack, t_token *tokens, int *state);
-t_action	state_four(t_token **stack, t_token *tokens, int *state);
-t_action	state_five(t_token **stack, t_token *tokens, int *state);
-t_action	state_tens(t_token **stack, t_token *tokens, int *state);
+void				debug_parser(t_token **stack, t_token **input, int state, int ope);
+void				debug_print_stack(t_token *stack, char *list);
+void				debug_print_input(t_token **input_p);
 
-t_token		**parser(t_token **input_tokens);
-void		build_output(t_token **stack, t_token **output);
-void		error_action(t_token **stack, t_token **tokens);
-
-t_token		*find_in_stack(t_token **stack, int type);
-t_action	find_in_loop(t_token *list, int *state, int start, int end);
-void		replace_type(t_token **stack, int old_type, int new_type);
-int			get_cat_size(t_token *stack, int type);
-int			count_nodes(t_token *stack);
+void				print_structure(t_btree *root, int level);
+static void			padding(char ch, int n);
 
 #endif

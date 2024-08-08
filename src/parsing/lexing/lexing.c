@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/22 16:50:52 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:28:22 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void	fill_token_types(t_token *tokens)
 			tokens->type = OUTPUT;
 		else if (!ft_strncmp(tokens->data, "|", 1))
 			tokens->type = PIPE;
-		else if (!ft_strncmp(tokens->data, "$", 1))
-			tokens->type = ASSIGNMENT;
 		else
 			tokens->type = WORD;
 		tokens = tokens->next;
@@ -56,35 +54,6 @@ bool	check_quote_status(bool inside_quotes, bool inside_opposite_quotes)
 	if (!inside_quotes)
 		return (true);
 	return (inside_opposite_quotes);
-}
-
-static int	get_size_next_token(char *buffer)
-{
-	int		size;
-	bool	inside_double_quotes;
-	bool	inside_single_quotes;
-	bool	inside_quotes;
-
-	inside_double_quotes = false;
-	inside_single_quotes = false;
-	inside_quotes = false;
-	size = 0;
-	while (buffer[size])
-	{
-		if (ft_strchr(" >|<", buffer[size]) && !inside_quotes)
-			return (handle_separator(buffer, size));
-		if (buffer[size] == DOUBLE_QUOTE && !inside_single_quotes)
-			inside_double_quotes = check_quote_status(inside_quotes,
-					inside_single_quotes);
-		if (buffer[size] == SINGLE_QUOTE && !inside_double_quotes)
-			inside_single_quotes = check_quote_status(inside_quotes,
-					inside_double_quotes);
-		size++;
-		inside_quotes = (inside_double_quotes || inside_single_quotes);
-	}
-	if (inside_quotes)
-		return (-1);
-	return (size);
 }
 
 static void quote_errors_exit(char *buffer, t_token **tokens)

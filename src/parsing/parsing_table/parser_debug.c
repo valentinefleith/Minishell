@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:40:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/08 15:08:25 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:32:22 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,18 @@ void	debug_print_stack(t_token *stack, char *list)
 	int i = 0;
 	while (stack)
 	{
-		if (stack->type == command)
+		if (stack->type == COMMAND)
 			printf("command ");
 		else if (stack->type == WORD)
 			printf("WORD ");
-		else if (stack->type == cmd_name)
+		else if (stack->type == CMD_NAME)
 			printf("cmd_name ");
-		else if (stack->type == redirection)
+		else if (stack->type == REDIR)
 			printf("redirection ");
-		else if (stack->type == cmd_suffix)
+		else if (stack->type == CMD_SUFFIX)
 			printf("cmd_suffix ");
-		else if (stack->type == cmd_prefix)
+		else if (stack->type == CMD_PREFIX)
 			printf("cmd_prefix ");
-		else if (stack->type == io_file)
-			printf("io_file ");
-		else if (stack->type == pipeline)
-			printf("pipeline ");
 		if (stack->type == INPUT)
 			printf("INPUT ");
 		else if (stack->type == HEREDOC)
@@ -53,12 +49,15 @@ void	debug_print_stack(t_token *stack, char *list)
 		else if (stack->type == UNDEFINED)
 			printf("UNDEFINED ");
 		printf("( ");
-		while (stack->arg[i])
+		if (stack->arg && stack->arg[i])
 		{
-			if (!stack->arg[i] || stack->arg[i][0] == 0)
-				break ;
-			printf("%s ", stack->arg[i]);
-			i++;
+			while (stack->arg[i])
+			{
+				if (!stack->arg[i] || stack->arg[i][0] == 0)
+					break ;
+				printf("%s ", stack->arg[i]);
+				i++;
+			}
 		}
 		printf(") ");
 		stack = stack->next;
@@ -90,8 +89,6 @@ void	debug_print_input(t_token **input_p)
 			printf("OUTPUT ");
 		else if (input->type == PIPE)
 			printf("PIPE ");
-		else if (input->type == ASSIGNMENT)
-			printf("ASSIGNMENT ");
 		else if (input->type == UNDEFINED)
 			printf("UNDEFINED ");
 		input = input->next;

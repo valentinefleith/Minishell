@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/07 13:32:27 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:30:24 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,11 @@ t_action	parsing_table(t_token **stack, t_token *tokens, int *state)
  */
 t_action	state_zero(t_token **stack, t_token *tokens, int *state)
 {
-	if (find_in_stack(stack, cmd_name))
+	if (find_in_stack(stack, CMD_NAME))
 		*state = 4;
-	else if (find_in_stack(stack, cmd_prefix))
+	else if (find_in_stack(stack, CMD_PREFIX))
 		*state = 5;
-	else if (find_in_stack(stack, redirection))
+	else if (find_in_stack(stack, REDIR))
 		*state = 6;
 	else if (find_in_loop(tokens, state, WORD, APPEND + 1) == shift)
 		return (shift);
@@ -69,9 +69,9 @@ t_action	state_four(t_token **stack, t_token *tokens, int *state)
 {
 	if (find_in_loop(tokens, state, INPUT, APPEND + 1) == shift)
 		return (shift);
-	if (find_in_stack(stack, cmd_suffix))
+	if (find_in_stack(stack, CMD_SUFFIX))
 		*state = 10;
-	else if (find_in_stack(stack, redirection) && tokens)
+	else if (find_in_stack(stack, REDIR) && tokens)
 		*state = 11;
 	else if (tokens && tokens->type == WORD)
 	{
@@ -85,7 +85,7 @@ t_action	state_four(t_token **stack, t_token *tokens, int *state)
 
 t_action	state_five(t_token **stack, t_token *tokens, int *state)
 {
-	if (find_in_stack(stack, cmd_name))
+	if (find_in_stack(stack, CMD_NAME))
 	{
 		*state = 12;
 		return (go_to);
@@ -109,9 +109,9 @@ t_action	state_tens(t_token **stack, t_token *tokens, int *state)
 		return (reduce);
 	if (*state == 12)
 	{
-		if (find_in_stack(stack, cmd_suffix))
+		if (find_in_stack(stack, CMD_SUFFIX))
 			*state = 10;
-		else if (find_in_stack(stack, redirection))
+		else if (find_in_stack(stack, REDIR))
 			*state = 11;
 		if (*state != 12)
 			return (go_to);

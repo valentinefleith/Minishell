@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:24 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/07 13:34:07 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:00:37 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,23 @@ void	replace_type(t_token **stack, int old_type, int new_type)
 	node->type = new_type;
 }
 
-int	get_cat_size(t_token *stack, int type)
+int	get_cat_size(t_token *stack)
 {
-	int	nb;
+	int	size;
+	int	i;
 
-	nb = 1;
+	size = 0;
 	while (stack)
 	{
-		if (stack->type == type)
-			nb++;
+		i = 0;
+		while (stack->data[i])
+		{
+			i++;
+			size++;
+		}
 		stack = stack->next;
 	}
-	return (nb);
+	return (size);
 }
 
 int	count_nodes(t_token *stack)
