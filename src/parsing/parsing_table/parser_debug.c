@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:40:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/07 12:42:14 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:08:25 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	debug_print_stack(t_token *stack, char *list)
 		else if (stack->type == UNDEFINED)
 			printf("UNDEFINED ");
 		printf("( ");
-		while (stack->data[i])
+		while (stack->arg[i])
 		{
-			if (!stack->data[i] || stack->data[i][0] == 0)
+			if (!stack->arg[i] || stack->arg[i][0] == 0)
 				break ;
-			printf("%s ", stack->data[i]);
+			printf("%s ", stack->arg[i]);
 			i++;
 		}
 		printf(") ");

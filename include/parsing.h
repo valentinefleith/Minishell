@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/07 13:42:24 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:07:29 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ typedef enum e_token_type
 
 typedef struct s_token
 {
-	char			**data;
+	char			*data;
+	char			**arg;
 	int				type;
 	struct s_token	*next;
 	struct s_token	*prev;
@@ -134,4 +135,4 @@ void		replace_type(t_token **stack, int old_type, int new_type);
 int			get_cat_size(t_token *stack, int type);
 int			count_nodes(t_token *stack);
 
-#endif**
+#endif

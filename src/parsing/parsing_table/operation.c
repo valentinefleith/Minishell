@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/07 13:28:00 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:09:28 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	shift_action(t_token **stack, t_token **tokens)
 		printf("Error: while allocation during shift action\n");
 		return ;
 	}
-	new_node->data = (char **)ft_strdup((char *)(*tokens)->data);
+	new_node->data = ft_strdup((*tokens)->data);
 	new_node->type = (*tokens)->type;
 	new_node->next = NULL;
 	tokens_add_back(stack, new_node);
@@ -63,7 +63,7 @@ void	reduce_action(t_token **stack, t_token **output, int *state)
 		replace_type(stack, WORD, cmd_name);
 	if (*state == 6)
 		replace_type(stack, redirection, cmd_prefix);
-	if (*state == 7) // concatenate (example) INPUT + WORD in stack to redirection
+	if (*state == 7)
 		reduce_type_redirection(stack);
 	if (*state == 9)
 		replace_type(stack, WORD, cmd_suffix);
@@ -72,7 +72,7 @@ void	reduce_action(t_token **stack, t_token **output, int *state)
 		avoir les redirections melangees la dedans
 	if (*state == 11)
 		replace_type(stack, redirection, cmd_suffix); */
-	if (*state == 13) // concatenate cmd_suffix + WORD;
+	if (*state == 13)
 		cat_tokens_type(stack, cmd_suffix, WORD);
 	if (*state == 10 || *state == 14)
 	{
@@ -109,7 +109,7 @@ void reduce_type_redirection(t_token **stack)
 			break;
 		type_redir++;
 	}
-	new_node->data = cat_tokens_arg(new_node, WORD);
+	new_node->arg = cat_tokens_arg(new_node, WORD);
 	new_node->type = redirection;
 	if (new_node->next)
 	{
@@ -135,7 +135,7 @@ void	cat_tokens_type(t_token **stack, int target, int old_type)
 	new_node = find_in_stack(stack, target);
 	if (!new_node)
 		return ;
-	new_node->data = cat_tokens_arg(new_node, old_type);
+	new_node->arg = cat_tokens_arg(new_node, old_type);
 	if (new_node->next)
 	{
 		free(new_node->next);
@@ -155,16 +155,16 @@ char	**cat_tokens_arg(t_token *node, int add)
 	char	**concatenation;
 	int 	i;
 
-	concatenation = malloc(get_cat_size(node, add) * sizeof(char *) + 1);
+	concatenation = malloc(get_cat_size(node, add) * sizeof(char *) + 2);
 	if (!concatenation)
 		return (NULL);
-	concatenation[0] = ft_strdup((char *)node->data);
+	concatenation[0] = ft_strdup(node->data);
 	i = 1;
 	while (node)
 	{
 		if (node->type == add)
 		{
-			concatenation[i] = ft_strdup((char *)node->data);
+			concatenation[i] = ft_strdup(node->data);
 			if (!concatenation[i])
 			{
 				ft_free_tab(concatenation);
