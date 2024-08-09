@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:47:13 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/16 17:32:57 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:32:16 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ void	ft_free_tab(char **strs)
 		free(strs[i]);
 		i++;
 	}
-	free(strs);
+	if (strs)
+		free(strs);
 }

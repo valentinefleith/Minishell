@@ -6,11 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/08 17:34:08 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/09 17:26:55 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "free.h"
 #include "minishell.h"
+#include "parsing.h"
 
 /**
 *	This function performs a "shift" action in a parser.
@@ -56,25 +58,25 @@ void	shift_action(t_token **stack, t_token **tokens)
  * - If the state was 7, it sets the state to 6.
  * - Otherwise, it sets the state to 0.
  */
-void	reduce_action(t_token **stack, t_token **output, int *state)
+void	reduce_action(t_token **stack, t_token **tokens, t_token **output, int *state)
 {
 	if (!stack)
 		*state = 0;
 	if (*state == 1)
-		replace_type(stack, WORD, CMD_NAME);
+		reduce_cmd_name(stack, tokens);
 	if (*state == 6)
 		replace_type(stack, REDIR, CMD_PREFIX);
 	if (*state == 7)
 		reduce_type_redirection(stack);
 	if (*state == 9)
-		replace_type(stack, WORD, CMD_SUFFIX);
+		cat_tokens_type(stack);
 	/* Je retire l'etape 11 parce que ca pose probleme de melanger les redirections avec 
 		les CMD_SUFFIX, quand on veut concatener une commande(CMD_NAME) et ses arguments(CMD_SUFFIX) on veut pas
 		avoir les redirections melangees la dedans
 	if (*state == 11)
 		replace_type(stack, redirection, CMD_SUFFIX); */
 	if (*state == 13)
-		cat_tokens_type(stack, CMD_SUFFIX, WORD);
+		cat_tokens_type(stack);
 	if (*state == 10 || *state == 14)
 	{
 		build_output(stack, output);
@@ -129,19 +131,22 @@ void reduce_type_redirection(t_token **stack)
  * If found, it concatenates the token's data with additional data of the specified old_type.
  * It frees the next node and sets it to NULL.
  */
-void	cat_tokens_type(t_token **stack, int target, int old_type)
+void	cat_tokens_type(t_token **stack)
 {
-	t_token *new_node;
+	t_token	*cmd;
+	int		pos;
 
-	new_node = find_in_stack(stack, target);
-	if (!new_node)
+	pos = 1;
+	cmd = find_in_stack(stack, CMD_NAME);
+	if (!cmd)
 		return ;
-	new_node->arg = cat_tokens_arg(new_node, old_type);
-	if (new_node->next)
-	{
-		free(new_node->next);
-		new_node->next = NULL;
-	}
+	while (cmd->arg[pos] != NULL)
+		pos++;
+	cmd->arg[pos] = ft_strdup(cmd->next->data);
+	if (!cmd->arg[pos])
+		return (ft_free_tab(cmd->arg));
+	free(cmd->next); //write giga free function;
+	cmd->next = NULL;
 }
 
 /**
