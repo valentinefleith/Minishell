@@ -6,200 +6,126 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/21 13:24:23 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/09 17:08:23 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "free.h"
+#include "libft.h"
 #include "minishell.h"
+#include "parsing.h"
 
-void	debug_parser(t_token **stack, t_token **input, int state, int ope)
+/**
+ * Parses the input tokens and builds an output (linked list).
+ * @input_tokens: The list of input tokens to be parsed.
+ *
+ * This function performs actions such as shift, reduce, and error
+ * according on the current state and tokens (parsing_table).
+ */
+t_token  *parser(t_token **input_tokens)
 {
-	static int i = 0;
-	
-	i += 1;
-	(void)ope;
-	printf("                                      \n");
-	printf("                                      \n");
-	printf("-------------- etape %d --------------\n", i);
-	printf("                                      \n");
-	printf("-------------- STATE %d --------------\n", state);
-	printf("                                      \n");
-	// printf("-------------- OPE ");
-	// if (ope == shift)
-	// 	printf("shift ");
-	// if (ope == reduce)
-	// 	printf("reduce ");
-	// if (ope == accept)
-	// 	printf("accept ");
-	// printf("--------------\n");
-	debug_print_input(input);
-	debug_print_stack(stack);
-}
-
-t_btree  *parser(t_token **input_tokens, t_btree *tree)
-{
-	t_operation	rules[9];
+	t_token		*tokens;
 	t_token		*stack;
-	t_token		*input;
+	t_token		*output;
 	int			action;
 	int			state;
 
 	if (!(*input_tokens))
 		return (NULL);
-	get_grammar_rules(rules);
-	input = *input_tokens;
+	tokens = *input_tokens;
 	stack = NULL;
-	state = 1;
-	action = shift;
-	shift_operation(&stack, &input);
+	output = malloc(sizeof(t_token *));
+	output = NULL;
+	action = go_to;
+	state = 0;
 	while (action != accept)
 	{
-		action = parsing_table(&state, rules, &stack, input);
+		action = parsing_table(&stack, tokens, &state);
 		if (action == shift)
-			shift_operation(&stack, &input);
+			shift_action(&stack, &tokens);
 		else if (action == reduce)
-			reduce_operation(&stack, &tree, &state);
+			reduce_action(&stack, &tokens, &output, &state);
 		else if (action == error)
-			error_operation(&stack, &input);
-		// debug_parser(&stack, &input, state, action);
+			error_action(&stack, &tokens);
+		debug_parser(&stack, &tokens, state, action);
 	}
-	return (tree);
+	return (output);
 }
 
-static int find_size_of_full_cmd(t_token *stack)
+/**
+ * Builds the output token list from the stack.
+ *
+ * This function concatenates tokens of specific types from the stack and
+ * adds them to the output token list. It also frees the stack after processing.
+ */
+void	build_output(t_token **stack, t_token **output)
 {
-	int nb;
-	
-	nb = 1; // je pars du principe ici qu'il y a toujours au moins un token `command`, c'est bien ca?
-	while (stack)
+	t_token	*new;
+
+   /* if (find_in_stack(stack, CMD_SUFFIX))*/
+		/*cat_tokens_type(stack, CMD_NAME, CMD_SUFFIX);*/
+	/*eltokens_type(stack, CMD_NAME, CMD_NAME);*/
+	new = NULL;
+	while (*stack)
 	{
-		if (stack->type == cmd_suffix)
-			nb++;
+		new = malloc(sizeof(t_token));
+		new->type = (*stack)->type;
+		new->arg = (*stack)->arg;
+		new->next = NULL;
+		tokens_add_back(output, new);
+		*stack = (*stack)->next;
+	}
+	*stack = ft_free_tokens(stack);
+}
+
+/**
+ *	Handles errors during parsing.
+ */
+void	error_action(t_token **stack, t_token **tokens)
+{
+	printf("Error: with the tokens list, do not fit with the parsing table\n");
+	// debug_print_stack(*stack, "STACK");
+	// debug_print_input(tokens);
+	ft_free_tokens(tokens);
+	ft_free_tokens(stack);
+	exit(EXIT_FAILURE);
+}
+
+static int	get_arg_size(t_token *stack)
+{
+	int	i;
+
+	i = 1;
+	while (stack && stack->type == WORD)
+	{
+		i++;
 		stack = stack->next;
 	}
-	return nb;
+	return (i);
 }
 
-static char **list_to_array(t_token *stack)
+void	reduce_cmd_name(t_token **stack, t_token **tokens)
 {
 	t_token *cmd;
-	char **full_cmd;
-	int i;
+	int		nb_arg;
+	int		i;
 
-	full_cmd = malloc(find_size_of_full_cmd(stack) * sizeof(char *) + 1);
-	if (!full_cmd)
-		return NULL;
-	cmd = find_in_stack(&stack, command);
-	while (cmd)
-	{
-		if (cmd->type == cmd_suffix)
-		{
-			full_cmd[i] = ft_strdup(cmd->data);
-			if (!full_cmd[i])
-			{
-				ft_free_tab(full_cmd);
-				return NULL;
-			}
-			i++;
-		}
-		cmd = cmd->next;
-	}
-	full_cmd[i] = 0;
-	return full_cmd;
-}
-
-// si on a une commande dans la stack alors
-//    on concatène la commande avec les cmd_suffix si il y en a
-//    on cree un noeud "command" pour l'arbre
-//    ce noeud "commande" pointe vers un autre noeud a sa droite si il existe cmd_prefix dans la stack
-//    ce noeud "commande" pointe vers un autre noeud a sa gauche qui contient la commande (ex: type = cmd data = echo/"salut")
-// le noeud "commande" est la tete actuelle de l'arbre pour l'instant
-// puis on supprime les elements de la stack qui ont servi a la creation des noeuds de l'arbre
-void	monitor_stack(t_token **stack, t_btree **tree)
-{
-	t_btree	*root;
-	t_token *node;
-
-	if (find_in_stack(stack, cmd_suffix) != NULL)
-		concatenate_cmd_to_param(stack);
-	root = btree_create_node("command", command);
-	if (btree_is_empty(root))
-		return;
-	node = find_in_stack(stack, cmd_prefix);
-	if (node)
-		root->left = btree_create_node(node->data, cmd_prefix);
-	node = find_in_stack(stack, command);
-	root->right = btree_create_node(node->data, cmd);
-	if (btree_is_empty(*tree))
-		*tree = root;
-	else
-	{
-		if (btree_is_empty((*tree)->left))
-			(*tree)->left = root;
-		else
-			(*tree)->right = root;
-	}
-	// ft_free_tokens(stack);
-}
-
-static t_token *get_last_suffix(t_token *stack)
-{
-	t_token *node;
-	node = stack;
-	while (stack)
-	{
-		if (stack->type == cmd_suffix)
-			node = stack;
-		stack = stack->next;
-	}
-	return node;
-}
-
-// Je t'ecris ici en pseudo code a quoi pourrait ressembler la nouvelle fonction
-// le probleme ici c'est que notre struct t_token prend un char * et pas un char **.
-// Peut etre qu'il faudrait :
-// 1) creer une nouvelle struct
-// ou 2) ajouter un char ** dans notre struct existante, mais ca necessite quand meme
-// de re faire des fonctions de construction en fonction de si on envoie un char *
-// ou un bien un char **. Je t'avoue que je sais pas trop ce qui est le mieux
-// et ca depend aussi de la facon dont tu construis ta stack etc. donc a voir selon
-// ce que tu penses etre le mieux!
-
-void concatenate_cmd_to_param(t_token **stack)
-{
-	t_token *new;
-	t_token *last_suffix;
-	char **concatenated;
-
-	concatenated = list_to_array(*stack);
-	if (!concatenated)
-		return;
-	new = create_node(concatenated); // la fonction create node est a refaire du coup enfin
-	// il faut pouvoir accepter les char ** en argument.
-	last_suffix = get_last_suffix(*stack);
-	new->next = last_suffix->next; //on connecte le nouveau noeud a la suite de la liste
-	last_suffix->next = NULL; // on ferme le debut de l'ancienne liste par un NULL
-	// ici trouver un moyen de free depuis le debut de la command jusqu'au last suffix
-	// sans perdre le pointeur vers *stack.
-	*stack = new;
-}
-
-
-/*void	concatenate_cmd_to_param(t_token **stack)
-{
-	// t_token	*cmd_suffix;
-	t_token	*node;
-	t_token	*cmd;
-
-	if (!*stack)
+	cmd = find_in_stack(stack, WORD);
+	nb_arg = get_arg_size(*tokens);
+	if (nb_arg == 0)
 		return ;
-	cmd = find_in_stack(stack, command);
-	node = cmd;
-	while (node)
+	cmd->arg = malloc(sizeof(char *) * nb_arg + 1);
+	if (!cmd->arg)
+		return ;
+	cmd->arg[0] = ft_strdup(cmd->data);
+	i = 1;
+	cmd->arg[nb_arg] = 0;
+	while (cmd->arg[i++])
+		cmd->arg[i] = NULL;
+	if (!cmd->arg[0])
 	{
-		if (node->type == cmd_suffix)
-			ft_strlcat(cmd->data, node->data, ft_strlen(cmd->data) + 1);
-		node = node->next;
+		ft_free_tab(cmd->arg);
+		return;
 	}
-}*/
+	replace_type(stack, WORD, CMD_NAME);
+}

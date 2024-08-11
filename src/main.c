@@ -6,12 +6,15 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/22 16:45:24 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/08 17:08:48 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "free.h"
 #include "minishell.h"
+#include "parsing.h"
+#include "free.h"
+
 
 int	main(int argc, char **argv, char **env)
 {
@@ -22,6 +25,9 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	(void)env;
+	(void)tree;
+	tokens = NULL;
+	buffer = NULL;
 	while (1)
 	{
 		// ft_printf("$> ");
@@ -38,11 +44,9 @@ int	main(int argc, char **argv, char **env)
 		}
 		tokens = tokenize_cmdline(buffer);
 		ft_print_token_types(tokens);
-		//tree = NULL;
-		//tree = parser(tokens, tree);
-		//print_structure(tree, 0);
-		ft_free_tokens(&tokens);
+		tree = NULL;
+		tokens = parser(&tokens);
+		debug_print_stack(tokens, "STACK FINAL");
 		free(buffer);
 	}
-	// rl_clear_history();
 }

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:41:51 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/20 16:25:25 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:36:20 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_btree *btree_create_cmd(void)
 	if (!new)
 		return NULL;
 	new->item = ft_strdup("command");
-	new->type = command;
+	new->type = COMMAND;
 	new->left = NULL;
 	new->right = NULL;
 	return (new);

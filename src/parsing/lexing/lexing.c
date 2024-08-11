@@ -27,8 +27,6 @@ void	fill_token_types(t_token *tokens)
 			tokens->type = OUTPUT;
 		else if (!ft_strncmp(tokens->data, "|", 1))
 			tokens->type = PIPE;
-		else if (!ft_strncmp(tokens->data, "$", 1))
-			tokens->type = ASSIGNMENT;
 		else
 			tokens->type = WORD;
 		tokens = tokens->next;
