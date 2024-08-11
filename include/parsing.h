@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/09 16:56:01 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/11 16:12:19 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_token				*create_node(char *buffer, int size);
 void				tokens_add_back(t_token **tokens, t_token *new);
 
 t_token				*ft_free_tokens(t_token **tokens);
+t_token				*quote_error(t_token **tokens);
 
 t_token				*get_last_token(t_token *tokens);
 t_token				*get_first_token(t_token *tokens);
@@ -97,8 +98,8 @@ t_token				*get_last_pipe(t_token *tokens);
 /************************ Parsing table **************************************/
 
 void				shift_action(t_token **stack, t_token **tokens);
-void				reduce_action(t_token **stack, t_token **tokens, t_token **output,
-						int *state);
+void				reduce_action(t_token **stack, t_token **tokens,
+						t_token **output, int *state);
 void				reduce_type_redirection(t_token **stack);
 char				**cat_tokens_arg(t_token *node, int add);
 void				cat_tokens_type(t_token **stack);
