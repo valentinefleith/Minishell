@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 10:19:30 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/08 17:22:25 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:33:30 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	btree_free(t_btree *tree)
 		return ;
 	btree_free(tree->left);
 	btree_free(tree->right);
-	free(tree->item);
+	if (tree->item)
+		ft_free_tab(tree->item);
 	free(tree);
 }

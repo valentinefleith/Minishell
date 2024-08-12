@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/09 16:56:01 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:54:05 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_btree
 	int				type;
 	struct s_btree	*left;
 	struct s_btree	*right;
-	char			*item;
+	char			**item;
 }					t_btree;
 
 /************************ Lexing *********************************************/
@@ -123,9 +123,9 @@ int					count_nb_arg(t_token *stack);
 
 /************************ Binary Tree ****************************************/
 
-t_btree				**create_ast(t_token *tokens);
+t_btree				*create_ast(t_token *tokens);
 
-t_btree				*btree_create_node(char *data, int type);
+t_btree				*btree_create_node(char **data, int type);
 t_btree				*btree_create_cmd(void);
 
 void				btree_free(t_btree *tree);
@@ -145,5 +145,6 @@ void				debug_print_stack(t_token *stack, char *list);
 void				debug_print_input(t_token **input_p);
 
 void				print_structure(t_btree *root, int level);
+void btree_print_details(t_btree *root, int level);
 
 #endif
