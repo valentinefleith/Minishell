@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:40:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/09 16:45:05 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:21:21 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ void	debug_print_stack(t_token *stack, char *list)
 		else if (stack->type == UNDEFINED)
 			printf("UNDEFINED ");
 		printf("( ");
+		i = 0;
 		if (stack->arg && stack->arg[i])
 		{
+			if (!stack->arg[i])
+				break ;
 			while (stack->arg[i])
 			{
-				if (!stack->arg[i] || stack->arg[i][0] == 0)
-					break ;
 				printf("%s ", stack->arg[i]);
 				i++;
 			}
@@ -96,7 +97,7 @@ void	debug_print_input(t_token **input_p)
 	printf("\n");
 }
 
-void	debug_parser(t_token **stack, t_token **input, int state, int ope)
+void	debug_parser(t_token *stack, t_token *input, int state, int ope)
 {
 	static int i = 0;
 	
@@ -108,15 +109,7 @@ void	debug_parser(t_token **stack, t_token **input, int state, int ope)
 	printf("                                      \n");
 	printf("-------------- STATE %d --------------\n", state);
 	printf("                                      \n");
-	// printf("-------------- ACTION ");
-	// if (ope == shift)
-	// 	printf("shift ");
-	// if (ope == reduce)
-	// 	printf("reduce ");
-	// if (ope == accept)
-	// 	printf("accept ");
-	// printf("--------------\n");
-	debug_print_stack(*input, "INPUT");
-	debug_print_stack(*stack, "STACK");
+	debug_print_stack(input, "INPUT");
+	debug_print_stack(stack, "STACK");
 	printf("                                      \n");
 }
