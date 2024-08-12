@@ -6,19 +6,19 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:24 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/08 17:00:37 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:10:36 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*find_in_stack(t_token **stack, int type)
+t_token	*find_in_stack(t_token *stack, int type)
 {
 	t_token	*node;
 
 	if (!stack)
 		return (NULL);
-	node = *stack;
+	node = stack;
 	while (node)
 	{
 		if (node->type == type)
@@ -49,7 +49,7 @@ t_action	find_in_loop(t_token *list, int *state, int start, int end)
 	return (error);
 }
 
-void	replace_type(t_token **stack, int old_type, int new_type)
+void	replace_type(t_token *stack, int old_type, int new_type)
 {
 	t_token	*node;
 
@@ -57,31 +57,26 @@ void	replace_type(t_token **stack, int old_type, int new_type)
 	node->type = new_type;
 }
 
-int	get_cat_size(t_token *stack)
+int	find_redir_type(t_token *stack)
 {
-	int	size;
-	int	i;
-
-	size = 0;
-	while (stack)
+	int	redir_type;
+	
+	redir_type = INPUT;
+	while (redir_type != APPEND + 1)
 	{
-		i = 0;
-		while (stack->data[i])
-		{
-			i++;
-			size++;
-		}
-		stack = stack->next;
+		if (find_in_stack(stack, redir_type))
+			return (redir_type);
+		redir_type++;
 	}
-	return (size);
+	return (redir_type);
 }
 
-int	count_nodes(t_token *stack)
+int	count_nb_arg(t_token *stack)
 {
 	int	i;
 
-	i = 0;
-	while (stack)
+	i = 1;
+	while (stack && stack->type == WORD)
 	{
 		i++;
 		stack = stack->next;

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/08 17:30:24 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/12 17:44:44 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * This function evaluates the current state and token to decide the next action
  * for the parser. It returns an action such as shift, reduce, accept, or error.
  */
-t_action	parsing_table(t_token **stack, t_token *tokens, int *state)
+t_action	parsing_table(t_token *stack, t_token *tokens, int *state)
 {
 	if (*state == 8 && tokens && tokens->type == PIPE)
 	{
@@ -52,27 +52,31 @@ t_action	parsing_table(t_token **stack, t_token *tokens, int *state)
 /**
  *  Handles the parser's actions when in state 0.
  */
-t_action	state_zero(t_token **stack, t_token *tokens, int *state)
+t_action	state_zero(t_token *stack, t_token *tokens, int *state)
 {
 	if (find_in_stack(stack, CMD_NAME))
 		*state = 4;
+	else if (find_in_stack(stack, CMD_PREFIX) && !tokens)
+		*state = 10;
 	else if (find_in_stack(stack, CMD_PREFIX))
 		*state = 5;
 	else if (find_in_stack(stack, REDIR))
 		*state = 6;
 	else if (find_in_loop(tokens, state, WORD, APPEND + 1) == shift)
 		return (shift);
-	return (go_to);
+	if (*state != 0)
+		return (go_to);
+	return (error);
 }
 
-t_action	state_four(t_token **stack, t_token *tokens, int *state)
+t_action	state_four(t_token *stack, t_token *tokens, int *state)
 {
 	if (find_in_loop(tokens, state, INPUT, APPEND + 1) == shift)
 		return (shift);
-	if (find_in_stack(stack, CMD_SUFFIX))
-		*state = 10;
+	// if (find_in_stack(stack, CMD_SUFFIX))
+	// 	*state = 10;
 	else if (find_in_stack(stack, REDIR) && tokens)
-		*state = 11;
+		*state = 10;
 	else if (tokens && tokens->type == WORD)
 	{
 		*state = 9;
@@ -83,7 +87,7 @@ t_action	state_four(t_token **stack, t_token *tokens, int *state)
 	return (go_to);
 }
 
-t_action	state_five(t_token **stack, t_token *tokens, int *state)
+t_action	state_five(t_token *stack, t_token *tokens, int *state)
 {
 	if (find_in_stack(stack, CMD_NAME))
 	{
@@ -98,7 +102,7 @@ t_action	state_five(t_token **stack, t_token *tokens, int *state)
 	return (error);
 }
 
-t_action	state_tens(t_token **stack, t_token *tokens, int *state)
+t_action	state_tens(t_token *stack, t_token *tokens, int *state)
 {
 	if (*state == 10 && tokens && tokens->type == WORD)
 	{

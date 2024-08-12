@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:29 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/22 16:47:18 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/08 15:18:30 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,15 @@ t_token *quote_error(t_token **tokens)
 {
 	ft_printf("unclosed quote.\n");
 	return ft_free_tokens(tokens);
+}
+
+void	ft_free_token_node(t_token **token)
+{
+	if ((*token)->data)
+		free((*token)->data);
+	if ((*token)->arg)
+		ft_free_tab((*token)->arg);
+	if (*token)
+		free(*token);
+	*token = NULL;
 }

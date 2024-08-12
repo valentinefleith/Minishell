@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/11 16:12:19 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:56:01 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,11 @@ void				fill_token_types(t_token *tokens);
 
 t_token				*create_node(char *buffer, int size);
 void				tokens_add_back(t_token **tokens, t_token *new);
-
-t_token				*ft_free_tokens(t_token **tokens);
 t_token				*quote_error(t_token **tokens);
+t_token				*ft_free_tokens(t_token **tokens);
+t_token				*ft_free_top_node(t_token **tokens);
+void				ft_free_token_node(t_token **token);
+
 
 t_token				*get_last_token(t_token *tokens);
 t_token				*get_first_token(t_token *tokens);
@@ -97,30 +99,27 @@ t_token				*get_last_pipe(t_token *tokens);
 
 /************************ Parsing table **************************************/
 
-void				shift_action(t_token **stack, t_token **tokens);
-void				reduce_action(t_token **stack, t_token **tokens,
+t_token				*shift_action(t_token *stack, t_token **tokens);
+t_token				*reduce_action(t_token *stack, t_token *tokens, 
 						t_token **output, int *state);
-void				reduce_type_redirection(t_token **stack);
-char				**cat_tokens_arg(t_token *node, int add);
-void				cat_tokens_type(t_token **stack);
-
-t_action			parsing_table(t_token **stack, t_token *tokens, int *state);
-t_action			state_zero(t_token **stack, t_token *tokens, int *state);
-t_action			state_four(t_token **stack, t_token *tokens, int *state);
-t_action			state_five(t_token **stack, t_token *tokens, int *state);
-t_action			state_tens(t_token **stack, t_token *tokens, int *state);
-
-t_token				*parser(t_token **input_tokens);
+void				cat_tokens(t_token *stack, int type);
+void				init_stack_arg(t_token *stack, t_token *tokens, int type);
 void				build_output(t_token **stack, t_token **output);
+
+t_action			parsing_table(t_token *stack, t_token *tokens, int *state);
+t_action			state_zero(t_token *stack, t_token *tokens, int *state);
+t_action			state_four(t_token *stack, t_token *tokens, int *state);
+t_action			state_five(t_token *stack, t_token *tokens, int *state);
+t_action			state_tens(t_token *stack, t_token *tokens, int *state);
+
+t_token				*parser(t_token *input_tokens);
 void				error_action(t_token **stack, t_token **tokens);
 
-t_token				*find_in_stack(t_token **stack, int type);
+t_token				*find_in_stack(t_token *stack, int type);
 t_action			find_in_loop(t_token *list, int *state, int start, int end);
-void				replace_type(t_token **stack, int old_type, int new_type);
-int					get_cat_size(t_token *stack);
-int					count_nodes(t_token *stack);
-
-void				reduce_cmd_name(t_token **stack, t_token **tokens);
+void				replace_type(t_token *stack, int old_type, int new_type);
+int					find_redir_type(t_token *stack);
+int					count_nb_arg(t_token *stack);
 
 /************************ Binary Tree ****************************************/
 
@@ -140,7 +139,7 @@ void				ft_print_token_types(t_token *tokens);
 void				print_single_token_type(t_token_type type);
 void				ft_print_lexing(t_token *tokens);
 
-void				debug_parser(t_token **stack, t_token **input, int state,
+void				debug_parser(t_token *stack, t_token *input, int state,
 						int ope);
 void				debug_print_stack(t_token *stack, char *list);
 void				debug_print_input(t_token **input_p);
