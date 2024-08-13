@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/12 18:11:08 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:30:42 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,20 @@ void	init_stack_arg(t_token *stack, t_token *tokens, int type)
 		nb_arg = count_nb_arg(tokens);
 	else
 		nb_arg = 2;
-	node->arg = malloc(sizeof(char *) * nb_arg + 1);
+	node->arg = malloc(sizeof(char *) * (nb_arg + 1));
 	if (!node->arg)
 		return ;
+	i = 0;
+	while (i < nb_arg + 1)
+	{
+		node->arg[i] = NULL;
+		i++;
+	}
 	node->arg[0] = ft_strdup(node->data);
 	if (!node->arg[0])
 	{
 		ft_free_tab(node->arg);
 		return ;
-	}
-	i = 1;
-	while (i < nb_arg + 1)
-	{
-		node->arg[i] = 0;
-		i++;
 	}
 }
 

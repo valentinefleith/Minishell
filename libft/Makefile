@@ -6,7 +6,7 @@
 #    By: vafleith <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/28 11:44:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/08/12 19:24:57 by vafleith         ###   ########.fr        #
+#    Updated: 2024/01/29 15:53:14 by vafleith         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRCS	=	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 			ft_atoi.c ft_calloc.c ft_strdup.c ft_substr.c ft_strjoin.c \
 			ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_strsdup.c \
 			ft_striteri.c ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c \
+			ft_get_index.c \
 			ft_putnbr_fd.c ft_printf.c ft_print_format.c \
 			ft_lstnew.c	\
 			ft_lstadd_front.c	\
