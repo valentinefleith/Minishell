@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.h                                             :+:      :+:    :+:   */
+/*   ft_get_index.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:49:08 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/08 17:09:34 by luvallee         ###   ########.fr       */
+/*   Created: 2024/08/13 13:58:59 by luvallee          #+#    #+#             */
+/*   Updated: 2024/08/13 16:13:44 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FREE_H
-# define FREE_H
+#include "libft.h"
 
-#include "parsing.h"
+int	ft_get_index(char *str, char c)
+{
+	int	i;
 
-void	ft_free_tab(char **strs);
-void	free_and_exit(t_token **tokens, int exit_status);
-t_token	*ft_free_tokens(t_token **tokens);
-
-#endif
+	if (!str)
+		return (0);
+	i = 0;
+	while (str[i] && str[i] != c)
+		i++;
+	return (i);
+}

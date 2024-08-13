@@ -6,14 +6,14 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/07/03 21:44:21 by vafleith         ###   ########.fr        #
+#    Updated: 2024/08/13 15:04:43 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = cc
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -g
 # CFLAGS += -Werror
 
 LIBFT_PATH = libft
@@ -32,8 +32,16 @@ SRC_DIR = src
 SRCS = main.c \
 	   pipex/checking_access.c pipex/cleaning.c pipex/linked_list_func.c \
 	   pipex/parsing.c pipex/pipex.c pipex/utils.c\
-	   parsing/parse_prompt.c parsing/parse_cmd.c parsing/bash_error_messages.c \
-	   parsing/lexing.c parsing/list_utils.c \
+	   parsing/lexing/lexing.c parsing/lexing/tokens_constructor.c \
+	   parsing/lexing/tokens_get.c parsing/lexing/tokens_destructor.c \
+	   parsing/lexing/tokens_print.c \
+	   parsing/btree/btree_constructor.c parsing/btree/btree_properties.c \
+	   parsing/btree/btree_destructor.c parsing/btree/btree_ast_build.c \
+	   parsing/btree/btree_print.c \
+	   parsing/parsing_table/parser.c parsing/parsing_table/parser_utils.c \
+	   parsing/parsing_table/operation.c parsing/parsing_table/parser_debug.c \
+	   parsing/parsing_table/parsing_table.c \
+	   parsing/env/env.c parsing/env/env_utils.c \
 	   free/ft_free_tab.c free/free_and_exit.c \
 	   execution/execute_command.c \
 	   builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c

@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.h                                             :+:      :+:    :+:   */
+/*   btree_properties.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:49:08 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/08 17:09:34 by luvallee         ###   ########.fr       */
+/*   Created: 2024/07/16 17:42:21 by vafleith          #+#    #+#             */
+/*   Updated: 2024/07/16 17:45:48 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FREE_H
-# define FREE_H
+#include "minishell.h"
 
-#include "parsing.h"
+bool	btree_is_empty(t_btree *tree)
+{
+	return (tree == NULL);
+}
 
-void	ft_free_tab(char **strs);
-void	free_and_exit(t_token **tokens, int exit_status);
-t_token	*ft_free_tokens(t_token **tokens);
-
-#endif
+bool	btree_is_leaf(t_btree *tree)
+{
+	if (btree_is_empty(tree))
+		return (false);
+	return (btree_is_empty(tree->left) && btree_is_empty(tree->right));
+}

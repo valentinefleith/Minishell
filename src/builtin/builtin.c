@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/07 20:08:38 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:15:43 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ void	ft_echo(char *arg, bool option)
 	else if (arg)
 		printf("%s\n", arg);
 }
-
-
 
 void	ft_cd(char *arg)
 {

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_utils.c                                       :+:      :+:    :+:   */
+/*   tokens_constructor.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/03 12:37:09 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/03 21:54:54 by vafleith         ###   ########.fr       */
+/*   Created: 2024/07/16 17:31:23 by vafleith          #+#    #+#             */
+/*   Updated: 2024/08/12 17:47:46 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_token	*create_node(char *buffer, int size)
 {
 	t_token	*node;
-	char *data;
+	char 	*data;
 
 	node = malloc(sizeof(t_token));
 	if (!node)
@@ -24,6 +24,8 @@ t_token	*create_node(char *buffer, int size)
 	if (!data)
 		return NULL;
 	node->data = ft_strtrim(data, " ");
+	node->arg = NULL;
+	free(data);
 	if (node->data == NULL)
 	{
 		free(node);
@@ -33,15 +35,6 @@ t_token	*create_node(char *buffer, int size)
 	node->next = NULL;
 	node->prev = NULL;
 	return (node);
-}
-
-t_token	*get_last_token(t_token *tokens)
-{
-	if (!tokens)
-		return (NULL);
-	while (tokens->next)
-		tokens = tokens->next;
-	return (tokens);
 }
 
 void	tokens_add_back(t_token **tokens, t_token *new)

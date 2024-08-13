@@ -6,21 +6,17 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/07 21:23:02 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/04 21:25:09 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "free.h"
 #include "minishell.h"
 
 void	fill_token_types(t_token *tokens)
 {
 	while (tokens)
 	{
-		if (tokens->type != UNDEFINED)
-		{
-			tokens = tokens->next;
-			continue ;
-		}
 		if (!ft_strncmp(tokens->data, "<<", 2))
 			tokens->type = HEREDOC;
 		else if (!ft_strncmp(tokens->data, ">>", 2))
@@ -33,9 +29,6 @@ void	fill_token_types(t_token *tokens)
 			tokens->type = PIPE;
 		else
 			tokens->type = WORD;
-		if ((tokens->type == INPUT || tokens->type == OUTPUT
-				|| tokens->type == APPEND) && tokens->next)
-			tokens->next->type = FILENAME;
 		tokens = tokens->next;
 	}
 }
@@ -56,8 +49,7 @@ static int	handle_separator(char *buffer, int size)
 	return (size);
 }
 
-// Il faudrait surement changer les noms des variables de cette fonction lol
-bool	handle_some_quotes(bool inside_quotes, bool inside_opposite_quotes)
+bool	check_quote_status(bool inside_quotes, bool inside_opposite_quotes)
 {
 	if (!inside_quotes)
 		return (true);
@@ -68,41 +60,43 @@ static int	get_size_next_token(char *buffer)
 {
 	int		size;
 	bool	inside_double_quotes;
-	bool	inside_simple_quotes;
+	bool	inside_single_quotes;
 	bool	inside_quotes;
 
 	inside_double_quotes = false;
-	inside_simple_quotes = false;
+	inside_single_quotes = false;
+	inside_quotes = false;
 	size = 0;
 	while (buffer[size])
 	{
-		inside_quotes = (inside_double_quotes || inside_simple_quotes);
 		if (ft_strchr(" >|<", buffer[size]) && !inside_quotes)
 			return (handle_separator(buffer, size));
-		if (buffer[size] == DOUBLE_QUOTE)
-			inside_double_quotes = handle_some_quotes(inside_quotes,
-					inside_simple_quotes);
-		if (buffer[size] == SINGLE_QUOTE)
-			inside_simple_quotes = handle_some_quotes(inside_quotes,
+		if (buffer[size] == DOUBLE_QUOTE && !inside_single_quotes)
+			inside_double_quotes = check_quote_status(inside_quotes,
+					inside_single_quotes);
+		if (buffer[size] == SINGLE_QUOTE && !inside_double_quotes)
+			inside_single_quotes = check_quote_status(inside_quotes,
 					inside_double_quotes);
 		size++;
+		inside_quotes = (inside_double_quotes || inside_single_quotes);
 	}
+	if (inside_quotes)
+		return (-1);
 	return (size);
 }
 
-t_token	**tokenize_cmdline(char *buffer)
+t_token	*tokenize_cmdline(char *buffer)
 {
-	t_token	**tokens;
+	t_token	*tokens;
 	t_token	*new;
 	int		size;
 
-	tokens = malloc(sizeof(t_token *));
-	if (!tokens)
-		return (NULL);
-	*tokens = NULL;
+	tokens = NULL;
 	while (*buffer)
 	{
 		size = get_size_next_token(buffer);
+		if (size < 0)
+			return quote_error(&tokens);
 		if (*buffer == ' ' && size == 1)
 		{
 			buffer++;
@@ -110,10 +104,10 @@ t_token	**tokenize_cmdline(char *buffer)
 		}
 		new = create_node(buffer, size);
 		if (!new)
-			return (ft_free_tokens(tokens));
-		tokens_add_back(tokens, new);
+			return (ft_free_tokens(&tokens));
+		tokens_add_back(&tokens, new);
 		buffer += size;
 	}
-	fill_token_types(*tokens);
+	fill_token_types(tokens);
 	return (tokens);
 }
