@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:24:49 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/12 19:53:49 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/13 17:32:29 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,18 @@ static void	padding(char ch, int n)
 
 static void ft_print_node_type(t_btree *node)
 {
-		if (node->type == COMMAND)
-			printf(" cmd");
-		if (node->type == CMD_NAME)
-			printf(" cmd_name");
-		if (node->type == CMD_SUFFIX)
-			printf(" cmd_suffix");
-		if (node->type == PIPE)
-			printf(" pipe");
-		if (node->type == CMD)
-			printf(" cmd");
+	if (node->type == COMMAND)
+		printf(" cmd");
+	if (node->type == CMD_NAME)
+		printf(" args");
+	if (node->type == CMD_SUFFIX)
+		printf(" cmd_suffix");
+	if (node->type == PIPE)
+		printf(" pipe");
+	if (node->type == CMD)
+		printf(" cmd");
+	if (node->type == REDIR || node->type == CMD_PREFIX)
+		printf(" redir");
 }
 
 void	print_structure(t_btree *root, int level)
