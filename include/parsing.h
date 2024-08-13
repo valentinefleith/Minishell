@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/12 18:12:54 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:21:05 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,13 @@ typedef struct s_btree
 	char			*item;
 }					t_btree;
 
+typedef struct s_env
+{
+	char			*name;
+	char			*data;
+	struct s_env	*next;
+}					t_env;
+
 /************************ Lexing *********************************************/
 
 t_token				*tokenize_cmdline(char *buffer);
@@ -132,6 +139,15 @@ void				btree_free(t_btree *tree);
 
 bool				btree_is_leaf(t_btree *tree);
 bool				btree_is_empty(t_btree *tree);
+
+/************************ Env ************************************************/
+
+t_env				*build_env_list(t_env *env, char **src_env);
+void				print_env_list(t_env *env);
+
+
+void				add_env_list(t_env **list, t_env *new);
+t_env				*free_env_list(t_env **list);
 
 /************************ Debug **********************************************/
 

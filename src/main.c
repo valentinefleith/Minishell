@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/12 15:29:37 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:31:47 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,13 @@ int	main(int argc, char **argv, char **env)
 				"exit", 4))
 		{
 			free(buffer);
-			// if (tokens)
-			// 	ft_free_tokens(&tokens);
 			exit(EXIT_SUCCESS);
 		}
 		tokens = tokenize_cmdline(buffer);
-		ft_print_token_types(tokens);
 		tree = NULL;
 		tokens = parser(tokens);
-		debug_print_stack(tokens, "STACK FINAL");
+		debug_print_stack(tokens, "INPUT for tree");
+		printf("\n");
 		if (tokens)
 			ft_free_tokens(&tokens);
 		free(buffer);
