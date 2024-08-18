@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/14 18:12:59 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/15 15:18:51 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output, int *s
 	if (*state == 1)
 	{
 		replace_type(stack, WORD, CMD);
-		init_arg(stack, tokens, CMD);
+		init_arg(stack, tokens, state, CMD);
 	}
 	if (*state == 3)
 		cat_tokens(stack, state, CMD);
 	if (*state == 6)
 	{
 		replace_type(stack, INPUT, REDIR);
-		init_arg(stack, tokens, REDIR);
+		init_arg(stack, tokens, state, REDIR);
 		cat_tokens(stack, state, REDIR);
 	}
 	else if (*state >= 4 && *state <= 15)
@@ -74,7 +74,7 @@ t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output, int *s
 	return (stack);
 }
 
-void	init_arg(t_token *stack, t_token *tokens, int type)
+void	init_arg(t_token *stack, t_token *tokens, int *state, int type)
 {
 	t_token	*node;
 	int		nb_arg;
@@ -88,18 +88,20 @@ void	init_arg(t_token *stack, t_token *tokens, int type)
 	node->arg = malloc(sizeof(char *) * (nb_arg + 1));
 	if (!node->arg)
 		return ;
-	i = 0;
-	while (i < nb_arg + 1)
-	{
-		node->arg[i] = NULL;
-		i++;
-	}
 	node->arg[0] = ft_strdup(node->data);
 	if (!node->arg[0])
 	{
 		ft_free_tab(node->arg);
 		return ;
+	i = 1;
+	while (i < nb_arg + 1)
+	{
+		node->arg[i] = NULL;
+		i++;
 	}
+	}
+	(void)state;
+	// checking_cmd_syntax(node, state);
 }
 
 void	cat_tokens(t_token *stack, int *state, int type)
@@ -108,7 +110,7 @@ void	cat_tokens(t_token *stack, int *state, int type)
 	int		pos;
 	
 	token = find_last_type(stack, type);
-	if (!token || !token->next || token->next->type != WORD)
+	if (!token || !token->arg || !token->next || token->next->type != WORD)
 	{
 		error_action(token, state);
 		return ;

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/14 18:16:59 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:30:05 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_token				*shift_action(t_token *stack, t_token **tokens, int *state);
 t_token				*reduce_action(t_token *stack, t_token *tokens, 
 						t_token **output, int *state);
 void				cat_tokens(t_token *stack, int *state, int type);
-void				init_arg(t_token *stack, t_token *tokens, int type);
+void				init_arg(t_token *stack, t_token *tokens, int *state, int type);
 t_token				*find_last_type(t_token *stack, int type);
 
 t_action			parsing_table(t_token *stack, t_token *tokens, int *state);
@@ -120,7 +120,7 @@ t_action			state_five(t_token *stack, t_token *tokens, int *state);
 t_action			state_tens(t_token *stack, t_token *tokens, int *state);
 
 t_token				*parser(t_token *tokens, t_env *env);
-void				build_output(t_token **stack, t_token **output, int *state);
+void				build_output(t_token **stack, t_token **output);
 t_token				*error_action(t_token *stack, int *state);
 
 t_token				*find_in_stack(t_token *stack, int type);
@@ -129,7 +129,7 @@ void				replace_type(t_token *stack, int old_type, int new_type);
 int					count_nb_arg(t_token *stack);
 t_token				*copy_token(t_token *stack, t_token *new);
 
-void				checking_cmd_error(t_token *node, t_token *tokens, int *state);
+void	checking_cmd_syntax(t_token *cmd, int *state);
 
 /************************ Binary Tree ****************************************/
 

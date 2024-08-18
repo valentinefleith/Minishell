@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/28 11:44:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/08/13 14:03:03 by luvallee         ###   ########.fr        #
+#    Updated: 2024/08/15 13:51:45 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ SRCS	=	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 			ft_lstdelone.c	\
 			ft_lstclear.c		\
 			ft_lstiter.c		\
-			ft_lstmap.c
+			ft_lstmap.c			\
+			ft_isblank.c
 
 
 OBJECTS = $(SRCS:%.c=%.o)
