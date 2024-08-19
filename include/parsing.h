@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/14 18:30:05 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:29:22 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,10 @@ typedef struct s_cmd
 
 typedef enum e_grammar_rules
 {
-	CMD_NAME = 104,
-	CMD_PREFIX,
+	CMD = 100,
 	REDIR,
-	CMD_SUFFIX,
-	PIPELINE,
 	COMMAND,
-	CMD,
+	PIPELINE,
 }					t_grammar;
 
 typedef enum e_token_type
@@ -129,7 +126,13 @@ void				replace_type(t_token *stack, int old_type, int new_type);
 int					count_nb_arg(t_token *stack);
 t_token				*copy_token(t_token *stack, t_token *new);
 
-void	checking_cmd_syntax(t_token *cmd, int *state);
+void	parsing_tokens_arg(t_token *output, t_env *env);
+char	*parsing_env_var(char *arg, t_env *env);
+int	get_new_str_len(char *arg, t_env *env);
+int	count_var_expansion(char *arg, t_env *env);
+char	*get_var_name(char *arg);
+t_env	*search_var_in_env(t_env *env_list, char *name);
+
 
 /************************ Binary Tree ****************************************/
 

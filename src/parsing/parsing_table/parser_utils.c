@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:24 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/15 15:20:27 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:40:00 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	count_nb_arg(t_token *stack)
 {
 	int	nb;
 
-	nb = 1;
-	whnble (stack && stack->type == WORD)
+	nb = 0;
+	while (stack && stack->type == WORD)
 	{
 		nb++;
 		stack = stack->next;

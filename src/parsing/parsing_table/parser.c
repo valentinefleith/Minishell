@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/15 15:06:35 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:30:10 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token  *parser(t_token *tokens, t_env *env)
 	output = NULL;
 	action = go_to;
 	state = 0;
-	while (action != accept)
+	while (action != accept && state != -1)
 	{
 		action = parsing_table(stack, tokens, &state);
 		if (action == shift)
@@ -45,11 +45,9 @@ t_token  *parser(t_token *tokens, t_env *env)
 			stack = reduce_action(stack, tokens, &output, &state);
 		else if (action == error)
 			stack = error_action(stack, &state);
-		if (state == -1)
-			break ;
 		debug_parser(stack, tokens, state, action);
 	}
-	// output = parsing_tokens_arg(&output, env);
+	parsing_tokens_arg(output, env);
 	return (output);
 }
 

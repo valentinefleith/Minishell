@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:24:49 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/09 13:37:06 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:37:23 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void	print_structure(t_btree *root, int level)
 		// printf ( "%d\n", root->type );
 		if (root->type == COMMAND)
 			printf(" command");
-		if (root->type == CMD_NAME)
-			printf(" cmd_name");
-		if (root->type == CMD_SUFFIX)
-			printf(" cmd_suffix");
+		// if (root->type == CMD)
+		// 	printf(" cmd_name");
+		// if (root->type == CMD_SUFFIX)
+		// 	printf(" cmd_suffix");
 		if (root->type == PIPE)
 			printf(" pipe");
 		if (root->type == CMD)

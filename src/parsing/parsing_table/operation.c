@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/15 15:18:51 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/19 16:51:26 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ void	init_arg(t_token *stack, t_token *tokens, int *state, int type)
 	int		i;
 	
 	node = find_last_type(stack, type);
-	if (type == CMD_NAME)
-		nb_arg = count_nb_arg(tokens);
+	if (type == CMD)
+		nb_arg = count_nb_arg(tokens) + 1;
 	else
 		nb_arg = 2;
 	node->arg = malloc(sizeof(char *) * (nb_arg + 1));
@@ -93,12 +93,12 @@ void	init_arg(t_token *stack, t_token *tokens, int *state, int type)
 	{
 		ft_free_tab(node->arg);
 		return ;
+	}
 	i = 1;
 	while (i < nb_arg + 1)
 	{
 		node->arg[i] = NULL;
 		i++;
-	}
 	}
 	(void)state;
 	// checking_cmd_syntax(node, state);
