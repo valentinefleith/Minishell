@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/19 16:29:22 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:38:36 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,13 +126,11 @@ void				replace_type(t_token *stack, int old_type, int new_type);
 int					count_nb_arg(t_token *stack);
 t_token				*copy_token(t_token *stack, t_token *new);
 
-void	parsing_tokens_arg(t_token *output, t_env *env);
-char	*parsing_env_var(char *arg, t_env *env);
-int	get_new_str_len(char *arg, t_env *env);
-int	count_var_expansion(char *arg, t_env *env);
-char	*get_var_name(char *arg);
-t_env	*search_var_in_env(t_env *env_list, char *name);
-
+void				parsing_env_var(t_token *output, t_env *env);
+t_env				*search_env_var(t_env *env_list, char *arg);
+char				*do_expansion_var(t_env *env, char *arg, char *new_arg);
+char				*get_var_name(char *arg);
+int					get_new_arg_len(t_env *env, char *arg);
 
 /************************ Binary Tree ****************************************/
 

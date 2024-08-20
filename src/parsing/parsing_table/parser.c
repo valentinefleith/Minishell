@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/19 16:30:10 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:38:39 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,39 @@ t_token  *parser(t_token *tokens, t_env *env)
 			stack = reduce_action(stack, tokens, &output, &state);
 		else if (action == error)
 			stack = error_action(stack, &state);
-		debug_parser(stack, tokens, state, action);
+		// debug_parser(stack, tokens, state, action);
 	}
-	parsing_tokens_arg(output, env);
+	parsing_env_var(output, env);
 	return (output);
+}
+
+/**
+ * Builds the output token list from the stack.
+ *
+ * This function concatenates tokens of specific types from the stack and
+ * adds them to the output token list. It also frees the stack after processing.
+ */
+void	build_output(t_token **stack, t_token **output)
+{
+	t_token	*new;
+	t_token	*save;
+
+	new = NULL;
+	save = *stack;
+	while (*stack)
+	{
+		new = copy_token(*stack, new);
+		tokens_add_back(output, new);
+		*stack = (*stack)->next;
+	}
+	*stack = save;
+	while (*stack)
+	{
+		save = (*stack)->next;
+		if (*stack)
+			free(*stack);
+		*stack = save;
+	}
 }
 
 /**

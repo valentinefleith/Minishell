@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:24 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/19 16:40:00 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:35:44 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,21 @@ void	replace_type(t_token *stack, int old_type, int new_type)
 		old_type++;
 	}
 	node->type = new_type;
+}
+
+t_token	*copy_token(t_token *stack, t_token *new)
+{
+	new = malloc(sizeof(t_token));
+	if (!new)
+	{
+		printf("Error: while allocation\n");
+		return (NULL);
+	}
+	new->type = stack->type;
+	new->arg = stack->arg;
+	new->data = stack->data;
+	new->next = NULL;
+	return (new);
 }
 
 int	count_nb_arg(t_token *stack)
