@@ -6,12 +6,12 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/04 21:25:09 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:24:37 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "free.h"
 #include "minishell.h"
+#include "parsing.h"
 
 void	fill_token_types(t_token *tokens)
 {

@@ -6,12 +6,10 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/12 18:14:00 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:25:22 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "free.h"
-#include "libft.h"
 #include "minishell.h"
 #include "parsing.h"
 

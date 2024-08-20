@@ -6,29 +6,46 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/12 20:13:32 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:27:25 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "free.h"
 #include "minishell.h"
-#include "parsing.h"
-#include "free.h"
 
+static char	**get_paths(char **env)
+{
+	int		seeking;
+	char	**split_paths;
+
+	seeking = -1;
+	while (*env)
+	{
+		seeking = ft_strncmp(*env, "PATH", 4);
+		if (!seeking)
+			break ;
+		env++;
+	}
+	if (seeking)
+		return (NULL);
+	split_paths = ft_split(*env + 5, ':');
+	if (!split_paths)
+		exit(1);
+	return (split_paths);
+}
 
 int	main(int argc, char **argv, char **env)
 {
 	char	*buffer;
 	t_token	*tokens;
 	t_btree	*tree;
+	char **paths;
 
 	(void)argc;
 	(void)argv;
-	(void)env;
+	paths = get_paths(env);
+	// check malloc paths etc.
 	while (1)
 	{
-		// ft_printf("$> ");
-		// buffer = get_next_line(0);
 		buffer = readline("$> ");
 		add_history(buffer);
 		if (!buffer)
@@ -40,12 +57,13 @@ int	main(int argc, char **argv, char **env)
 			exit(EXIT_SUCCESS);
 		}
 		tokens = tokenize_cmdline(buffer);
-		ft_print_token_types(tokens);
+		// ft_print_token_types(tokens);
 		tokens = parser(tokens);
-		debug_print_stack(tokens, "STACK FINAL");
+		// debug_print_stack(tokens, "STACK FINAL");
 		tree = create_ast(tokens);
-		print_structure(tree, 0);
-		btree_print_details(tree, 1);
+		// print_structure(tree, 0);
+		// btree_print_details(tree, 1);
+		execute_pipeline(tree, env, paths);
 		if (tokens)
 			ft_free_tokens(&tokens);
 		if (tree)

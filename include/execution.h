@@ -6,13 +6,18 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:19 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/05 17:19:38 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:23:32 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
-// void	execute_command(t_cmd cmd, char **env);
+#include "parsing.h"
+# include "libft.h"
+# include "minishell.h"
+
+void execute_pipeline(t_btree *root, char **env, char **paths);
+
 
 #endif
