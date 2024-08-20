@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:22:14 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/20 16:19:04 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:52:14 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ static char *get_full_cmd_path(char *command_name, char **paths)
 static void execute_single_command(t_btree *node, char **env, char **paths)
 {
 	char *full_cmd_path;
+	int status;
 
 	if (node->type != COMMAND)
 		return;
@@ -91,6 +92,7 @@ static void execute_single_command(t_btree *node, char **env, char **paths)
 		execve(full_cmd_path, node->left->item, env);
 		exit(1);
 	}
+	waitpid(pid, &status, 0);
 }
 
 void execute_pipeline(t_btree *root, char **env, char **paths)
