@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/13 16:15:43 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:22:18 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	ft_exit()
 	exit(EXIT_SUCCESS);
 }
 
-void	execute_builtin(t_builtin builtin, char *arg, bool option)
+void	execute_builtin(t_builtin builtin, char **cmd)
 {
 	if (builtin == PWD)
 		ft_pwd();
 	else if (builtin == ECHO)
-		ft_echo(arg, option);
+		ft_echo(cmd);
 	else if (builtin == EXIT)
 		ft_exit();
 }
@@ -38,17 +38,23 @@ void	ft_pwd(void)
 		error_builtin(PWD);
 }
 
-void	ft_echo(char *arg, bool option)
+void	ft_echo(char **cmd)
 {
-	if (option == true)
+	if (cmd[1] != 0 && !ft_strncmp(cmd[1], "-n", 2))
 	{
-		if (!arg)
-			return ;
-		else
-			printf("%s", arg);
+		for (int i = 2; cmd[i]; i++)
+		{
+			printf("%s", cmd[i]);
+		}
 	}
-	else if (arg)
-		printf("%s\n", arg);
+	else if (cmd[1])
+	{
+		for (int i = 1; cmd[i]; i++)
+		{
+			printf("%s", cmd[i]);
+		}
+		printf("\n");
+	}
 }
 
 void	ft_cd(char *arg)
