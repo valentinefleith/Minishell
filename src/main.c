@@ -6,28 +6,28 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/21 15:27:11 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:04:18 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**get_paths(char **env)
+static char	**get_paths(t_env *env_list)
 {
 	int		seeking;
 	char	**split_paths;
 
 	seeking = -1;
-	while (*env)
+	while (env_list)
 	{
-		seeking = ft_strncmp(*env, "PATH", 4);
+		seeking = ft_strncmp(env_list->name, "PATH", 4);
 		if (!seeking)
 			break ;
-		env++;
+		env_list = env_list->next;
 	}
 	if (seeking)
 		return (NULL);
-	split_paths = ft_split(*env + 5, ':');
+	split_paths = ft_split(env_list->data + 5, ':');
 	if (!split_paths)
 		exit(1);
 	return (split_paths);
@@ -38,11 +38,14 @@ int	main(int argc, char **argv, char **env)
 	char	*buffer;
 	t_token	*tokens;
 	t_btree	*tree;
+	char **paths;
 	t_env	*env_list;
 
 	(void)argc;
 	(void)argv;
-	paths = get_paths(env);
+	env_list = NULL;
+	env_list = build_env_list(env_list, env);
+	paths = get_paths(env_list);
 	// check malloc paths etc.
 	while (1)
 	{
@@ -56,7 +59,6 @@ int	main(int argc, char **argv, char **env)
 			free(buffer);
 			exit(EXIT_SUCCESS);
 		}
-		env_list = build_env_list(env_list, env);
 		tokens = tokenize_cmdline(buffer);
 		if (tokens == NULL)
 			continue;

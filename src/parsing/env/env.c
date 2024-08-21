@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:46:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/13 16:22:23 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:58:19 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_env	*build_env_list(t_env *env, char **src_env)
 	if (!src_env)
 		return (NULL);
 	i = 0;
-	new = NULL;
 	while (src_env[i])
 	{
 		limit = ft_get_index(src_env[i], '=');
