@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/20 16:27:25 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:27:11 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	main(int argc, char **argv, char **env)
 			exit(EXIT_SUCCESS);
 		}
 		tokens = tokenize_cmdline(buffer);
+		if (tokens == NULL)
+			continue;
 		// ft_print_token_types(tokens);
 		tokens = parser(tokens);
 		// debug_print_stack(tokens, "STACK FINAL");
