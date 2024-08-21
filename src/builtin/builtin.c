@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/21 16:22:18 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:36:13 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_pwd(void)
 		printf("%s\n", buffer);
 	else
 		error_builtin(PWD);
+	exit(1);
 }
 
 void	ft_echo(char **cmd)
@@ -55,6 +56,7 @@ void	ft_echo(char **cmd)
 		}
 		printf("\n");
 	}
+	exit(1);
 }
 
 void	ft_cd(char *arg)
