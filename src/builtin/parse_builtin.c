@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:36:18 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/04 13:46:39 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:56:07 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,15 @@ void	get_tab_builtin(char **tab_builtin)
 	tab_builtin[3] = "export";
 	tab_builtin[4] = "exit";
 	tab_builtin[5] = "cd";
-	tab_builtin[6] = NULL;
+	tab_builtin[6] = "env";
+	tab_builtin[7] = NULL;
 }
 
 t_builtin	is_builtin(char *buffer)
 {
 	int			i;
 	int			len;
-	char		*tab_builtin[7];
+	char		*tab_builtin[8];
 	t_builtin	builtin;
 	
 	i = 0;

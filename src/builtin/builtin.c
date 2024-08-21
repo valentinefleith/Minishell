@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/21 16:36:13 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:56:40 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	execute_builtin(t_builtin builtin, char **cmd)
 		ft_echo(cmd);
 	else if (builtin == EXIT)
 		ft_exit();
+	else if (builtin == ENV)
+		ft_env();
 }
 
 void	ft_pwd(void)

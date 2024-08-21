@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/21 16:22:14 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:55:34 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef enum e_builtin
 	EXPORT,
 	EXIT,
 	CD,
+	ENV,
 	NONE,
 }			t_builtin;
 
