@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:40:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/12 17:21:21 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/14 19:45:53 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,10 @@ void	debug_print_stack(t_token *stack, char *list)
 			printf("command ");
 		else if (stack->type == WORD)
 			printf("WORD ");
-		else if (stack->type == CMD_NAME)
-			printf("cmd_name ");
 		else if (stack->type == REDIR)
-			printf("redirection ");
-		else if (stack->type == CMD_SUFFIX)
-			printf("cmd_suffix ");
-		else if (stack->type == CMD_PREFIX)
-			printf("cmd_prefix ");
+			printf("REDIR ");
+		else if (stack->type == CMD)
+			printf("CMD ");
 		if (stack->type == INPUT)
 			printf("INPUT ");
 		else if (stack->type == HEREDOC)

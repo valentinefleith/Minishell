@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:24 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/12 18:10:36 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/20 17:35:44 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,13 @@
 
 t_token	*find_in_stack(t_token *stack, int type)
 {
-	t_token	*node;
-
 	if (!stack)
 		return (NULL);
-	node = stack;
-	while (node)
+	while (stack)
 	{
-		if (node->type == type)
-			return (node);
-		node = node->next;
+		if (stack->type == type)
+			return (stack);
+		stack = stack->next;
 	}
 	return (NULL);
 }
@@ -52,34 +49,40 @@ t_action	find_in_loop(t_token *list, int *state, int start, int end)
 void	replace_type(t_token *stack, int old_type, int new_type)
 {
 	t_token	*node;
-
+	
 	node = find_in_stack(stack, old_type);
+	while (!node)
+	{
+		node = find_in_stack(stack, old_type);
+		old_type++;
+	}
 	node->type = new_type;
 }
 
-int	find_redir_type(t_token *stack)
+t_token	*copy_token(t_token *stack, t_token *new)
 {
-	int	redir_type;
-	
-	redir_type = INPUT;
-	while (redir_type != APPEND + 1)
+	new = malloc(sizeof(t_token));
+	if (!new)
 	{
-		if (find_in_stack(stack, redir_type))
-			return (redir_type);
-		redir_type++;
+		printf("Error: while allocation\n");
+		return (NULL);
 	}
-	return (redir_type);
+	new->type = stack->type;
+	new->arg = stack->arg;
+	new->data = stack->data;
+	new->next = NULL;
+	return (new);
 }
 
 int	count_nb_arg(t_token *stack)
 {
-	int	i;
+	int	nb;
 
-	i = 1;
+	nb = 0;
 	while (stack && stack->type == WORD)
 	{
-		i++;
+		nb++;
 		stack = stack->next;
 	}
-	return (i);
+	return (nb);
 }

@@ -6,10 +6,11 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/20 16:25:51 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:01:29 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "free.h"
 #include "minishell.h"
 #include "parsing.h"
 
@@ -20,16 +21,16 @@
 *   The new node is then added to the end of the stack.
 *   The first token in the tokens list is removed and freed.
 */
-t_token	*shift_action(t_token *stack, t_token **tokens)
+t_token	*shift_action(t_token *stack, t_token **tokens, int *state)
 {
 	t_token	*shifted;
 	t_token	*save;
 	
-	if (!tokens)
-		return (stack);
+	if (!tokens || !*tokens)
+		return (error_action(stack, state));
 	shifted = malloc(sizeof(t_token));
 	if (!shifted)
-		return (stack); // gerer l'erreur et free ce qu'il faut;
+		return (stack);
 	shifted->data = ft_strdup((*tokens)->data);
 	shifted->arg = NULL;
 	shifted->type = (*tokens)->type;
@@ -48,104 +49,102 @@ t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output, int *s
 {
 	if (*state == 1)
 	{
-		replace_type(stack, WORD, CMD_NAME);
-		init_stack_arg(stack, tokens, CMD_NAME);
+		replace_type(stack, WORD, CMD);
+		init_arg(stack, tokens, state, CMD);
 	}
+	if (*state == 3)
+		cat_tokens(stack, state, CMD);
 	if (*state == 6)
-		replace_type(stack, REDIR, CMD_PREFIX);
-	if (*state == 7)
 	{
-		replace_type(stack, find_redir_type(stack), REDIR);
-		init_stack_arg(stack, tokens, REDIR);
-		cat_tokens(stack, REDIR);
+		replace_type(stack, INPUT, REDIR);
+		init_arg(stack, tokens, state, REDIR);
+		cat_tokens(stack, state, REDIR);
 	}
-	if (*state == 9 || *state == 13)
-		cat_tokens(stack, CMD_NAME);
-	if (*state == 10 || *state == 14)
+	else if (*state >= 4 && *state <= 15)
 	{
 		build_output(&stack, output);
-		*state = 8;
-		return (NULL);
+		if (!tokens)
+		{	
+			*state = 7;
+			return (stack);
+		}
 	}
-	*state = 0;
+	if (*state != -1)
+		*state = 0;
 	return (stack);
 }
 
-void	init_stack_arg(t_token *stack, t_token *tokens, int type)
+void	init_arg(t_token *stack, t_token *tokens, int *state, int type)
 {
 	t_token	*node;
 	int		nb_arg;
 	int		i;
 	
-	node = find_in_stack(stack, type);
-	if (type == CMD_NAME)
-		nb_arg = count_nb_arg(tokens);
+	node = find_last_type(stack, type);
+	if (type == CMD)
+		nb_arg = count_nb_arg(tokens) + 1;
 	else
 		nb_arg = 2;
 	node->arg = malloc(sizeof(char *) * (nb_arg + 1));
 	if (!node->arg)
 		return ;
-	i = 0;
-	while (i < nb_arg + 1)
-	{
-		node->arg[i] = NULL;
-		i++;
-	}
 	node->arg[0] = ft_strdup(node->data);
 	if (!node->arg[0])
 	{
 		ft_free_tab(node->arg);
 		return ;
 	}
+	i = 1;
+	while (i < nb_arg + 1)
+	{
+		node->arg[i] = NULL;
+		i++;
+	}
+	(void)state;
+	// checking_cmd_syntax(node, state);
 }
 
-void	cat_tokens(t_token *stack, int type)
+void	cat_tokens(t_token *stack, int *state, int type)
 {
 	t_token	*token;
+	size_t	len;
 	int		pos;
 	
-	token = find_in_stack(stack, type);
-	if (!token)
+	token = find_last_type(stack, type);
+	if (!token || !token->arg || !token->next || token->next->type != WORD)
+	{
+		error_action(token, state);
 		return ;
+	}
+	len = ft_strlen(token->next->data);
 	pos = 1;
 	while (token->arg[pos])
 		pos++;
-	token->arg[pos] = ft_strdup(token->next->data);
+	if ((token->next->data[0] == SINGLE_QUOTE 
+		|| token->next->data[0] == DOUBLE_QUOTE)
+		&& (token->next->data[len - 1] == SINGLE_QUOTE 
+		|| token->next->data[len - 1] == DOUBLE_QUOTE))
+		token->arg[pos] = ft_substr(token->next->data, 1, len - 1);
+	else
+		token->arg[pos] = ft_strdup(token->next->data);
 	if (!token->arg[pos])
 		return (ft_free_tab(token->arg));
 	ft_free_token_node(&token->next);
 	token->next = NULL;
 }
 
-/**
- * Builds the output token list from the stack.
- *
- * This function concatenates tokens of specific types from the stack and
- * adds them to the output token list. It also frees the stack after processing.
- */
-void	build_output(t_token **stack, t_token **output)
+t_token	*find_last_type(t_token *stack, int type)
 {
-	t_token	*new;
-	t_token	*save;
-
-	new = NULL;
-	save = *stack;
-	while (*stack)
+	t_token	*last;
+	
+	if (!stack)
+		return (NULL);
+	last = NULL;
+	while (stack)
 	{
-		new = malloc(sizeof(t_token));
-		new->type = (*stack)->type;
-		new->arg = (*stack)->arg;
-		new->data = (*stack)->data;
-		new->next = NULL;
-		tokens_add_back(output, new);
-		*stack = (*stack)->next;
+		if (stack->type == type)
+			last = stack;
+		stack = stack->next;
 	}
-	*stack = save;
-	while (*stack)
-	{
-		save = (*stack)->next;
-		if (*stack)
-			free(*stack);
-		*stack = save;
-	}
+	return (last);
 }

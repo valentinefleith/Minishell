@@ -38,7 +38,7 @@ int	main(int argc, char **argv, char **env)
 	char	*buffer;
 	t_token	*tokens;
 	t_btree	*tree;
-	char **paths;
+	t_env	*env_list;
 
 	(void)argc;
 	(void)argv;
@@ -56,11 +56,12 @@ int	main(int argc, char **argv, char **env)
 			free(buffer);
 			exit(EXIT_SUCCESS);
 		}
+		env_list = build_env_list(env_list, env);
 		tokens = tokenize_cmdline(buffer);
 		if (tokens == NULL)
 			continue;
 		// ft_print_token_types(tokens);
-		tokens = parser(tokens);
+		tokens = parser(tokens, env_list);
 		// debug_print_stack(tokens, "STACK FINAL");
 		tree = create_ast(tokens);
 		// print_structure(tree, 0);
