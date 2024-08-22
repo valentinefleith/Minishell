@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/12 11:38:18 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/22 18:42:37 by luvallee         ###   ########.fr       */
+/*   Created: 2024/08/22 18:33:05 by luvallee          #+#    #+#             */
+/*   Updated: 2024/08/22 18:39:40 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_echo(char **cmd)
 {
-	unsigned int	i;
+	int	i;
 
-	if (n == 0)
-		return (0);
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] && s2[i] && i < n - 1)
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	if (cmd[1] && !ft_strncmp(cmd[1], "-n", 2))
+	{
+		i = 2;
+		while (cmd[i])
+		{
+			printf("%s", cmd[i]);
+			i++;
+		}
+	}
+	else if (cmd[1])
+	{
+		i = 1;
+		while (cmd[i++])
+			printf("%s", cmd[i]);
+		printf("\n");
+	}
+	return (0);
 }

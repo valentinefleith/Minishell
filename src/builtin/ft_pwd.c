@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/12 11:38:18 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/22 18:42:37 by luvallee         ###   ########.fr       */
+/*   Created: 2024/08/22 18:21:54 by luvallee          #+#    #+#             */
+/*   Updated: 2024/08/22 18:24:32 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_pwd(t_env *env)
 {
-	unsigned int	i;
-
-	if (n == 0)
-		return (0);
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] && s2[i] && i < n - 1)
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	if (!env)
+		return (-1);
+	printf("%s\n", ft_getenv(env, "PWD")->data);
+	return (0);
 }
