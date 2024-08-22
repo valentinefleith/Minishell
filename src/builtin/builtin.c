@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/21 17:56:40 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/22 16:59:59 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ void	execute_builtin(t_builtin builtin, char **cmd)
 		ft_echo(cmd);
 	else if (builtin == EXIT)
 		ft_exit();
-	else if (builtin == ENV)
-		ft_env();
+	// else if (builtin == ENV)
+	// 	ft_env();
 }
 
 void	ft_pwd(void)
@@ -61,18 +61,18 @@ void	ft_echo(char **cmd)
 	exit(1);
 }
 
-void	ft_cd(char *arg)
-{
-	// si arg NULL = aller dans home
-	if (!arg)
-		chdir(getenv("HOME"));
-	else
-	{
-		// sinon -> changer la variable d'env OLDPWD avec le pwd actuel et puis
-		// uitliser la fonction chdir() pour changer de repertoire
-		// puis changer la variable d'env PWD avec le nouveau pwd ?
-	}
-}
+// void	ft_cd(char *arg)
+// {
+// 	// si arg NULL = aller dans home
+// 	if (!arg)
+// 		chdir(getenv("HOME"));
+// 	else
+// 	{
+// 		// sinon -> changer la variable d'env OLDPWD avec le pwd actuel et puis
+// 		// uitliser la fonction chdir() pour changer de repertoire
+// 		// puis changer la variable d'env PWD avec le nouveau pwd ?
+// 	}
+// }
 
 void	ft_export()
 {

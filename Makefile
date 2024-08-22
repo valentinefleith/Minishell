@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/08/20 17:39:24 by luvallee         ###   ########.fr        #
+#    Updated: 2024/08/22 14:45:23 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,9 @@ SRCS = main.c \
 	   parsing/env/env.c parsing/env/env_utils.c \
 	   free/ft_free_tab.c free/free_and_exit.c \
 	   execution/execute_command.c \
-	   builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c
+	   builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c \
+	   builtin/ft_env.c builtin/ft_cd.c
+
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
 OBJ_DIR = build

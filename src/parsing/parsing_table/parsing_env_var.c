@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:32:50 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/20 17:52:24 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:10:07 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,12 @@ void	parsing_env_var(t_token *output, t_env *env)
 	}
 }
 
-t_env	*search_env_var(t_env *env_list, char *arg)
+t_env	*search_env_var(t_env *env, char *arg)
 {
 	char	*name;
-	t_env	*env;
-	size_t	len;
+	t_env	*env_var;
 	
-	if (!env_list || !arg)
+	if (!env || !arg)
 		return (NULL);
 	name = NULL;
 	while (*arg)
@@ -55,14 +54,9 @@ t_env	*search_env_var(t_env *env_list, char *arg)
 		if (*arg == '$')
 		{
 			name = get_var_name(arg);
-			len = ft_strlen(name);
-			env = env_list;
-			while (env)
-			{
-				if (len == ft_strlen(env->name) && !ft_strncmp(env->name, name, len))
-					return (free(name), env);
-				env = env->next;
-			}
+			env_var = ft_getenv(env, name);
+			if (env_var)
+				return (free(name), env_var);
 		}
 		arg++;
 	}

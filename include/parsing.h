@@ -6,13 +6,14 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/20 16:22:20 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:10:57 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
+# include "minishell.h"
 # include "builtin.h"
 # include "libft.h"
 # include <stdbool.h>
@@ -75,12 +76,7 @@ typedef struct s_btree
 	char			**item;
 }					t_btree;
 
-typedef struct s_env
-{
-	char			*name;
-	char			*data;
-	struct s_env	*next;
-}					t_env;
+typedef struct s_env t_env;
 
 /************************ Lexing *********************************************/
 
@@ -166,6 +162,6 @@ void				debug_print_stack(t_token *stack, char *list);
 void				debug_print_input(t_token **input_p);
 
 void				print_structure(t_btree *root, int level);
-void btree_print_details(t_btree *root, int level);
+void 				btree_print_details(t_btree *root, int level);
 
 #endif

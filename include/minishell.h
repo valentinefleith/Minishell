@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/04 11:53:51 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/22 14:50:53 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,11 @@
 # include <readline/history.h>
 # include <stdbool.h>
 
+typedef struct s_env
+{
+	char			*name;
+	char			*data;
+	struct s_env	*next;
+}					t_env;
 
 #endif
