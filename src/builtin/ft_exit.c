@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_builtin.c                                    :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/02 14:57:26 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/23 13:28:37 by luvallee         ###   ########.fr       */
+/*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
+/*   Updated: 2024/08/23 15:39:26 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	error_builtin(t_builtin builtin, char *arg)
+void	ft_exit(t_env *env, t_btree *tree, int	exit_status)
 {
-	if (builtin == PWD)
-		printf("Error: while getting the working directory\n");
-	else if (builtin == CD)
-		printf("bash: cd: %s: No such file or directory\n", arg);
-	else if (builtin == EXPORT)
-		printf("bash: export: '%s': is not a valid identifier\n", arg);
-	else if (builtin == 7)
-		printf("Error: while allocation\n");
-	return (1);
+	if (env)
+		env = free_env_list(env);
+	if (tree)
+	{
+		btree_free(tree);
+		tree = NULL;	
+	}
+	exit(exit_status);
 }

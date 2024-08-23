@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/23 14:24:13 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:34:02 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,46 +35,43 @@ static char	**get_paths(t_env *env_list)
 
 int	main(int argc, char **argv, char **env)
 {
-	// char	*buffer;
-	// t_token	*tokens;
-	// t_btree	*tree;
-	// char **paths;
+	char	*buffer;
+	t_token	*tokens;
+	t_btree	*tree;
+	char **paths;
 	t_env	*env_list;
 
 	(void)argc;
 	(void)argv;
 	env_list = NULL;
 	env_list = build_env_list(env_list, env);
-	if (ft_export(env_list, "TEST=5") != 0)
-		printf("ERROR\n");
-	printf("%s=%s\n", ft_getenv(env_list, "TEST")->name, ft_getenv(env_list, "TEST")->data);
-	// paths = get_paths(env_list);
+	paths = get_paths(env_list);
 	// check malloc paths etc.
-	// while (1)
-	// {
-	// 	buffer = readline("$> ");
-	// 	add_history(buffer);
-	// 	if (!buffer)
-	// 		continue ;
-	// 	if (ft_strlen(buffer) == ft_strlen("exit") && !ft_strncmp(buffer,
-	// 			"exit", 4))
-	// 	{
-	// 		free(buffer);
-	// 		exit(EXIT_SUCCESS);
-	// 	}
-	// 	tokens = tokenize_cmdline(buffer);
-	// 	if (tokens == NULL)
-	// 		continue;
-	// 	tokens = parser(tokens, env_list);
-	// 	tree = create_ast(tokens);
-	// 	// print_structure(tree, 0);
-	// 	// btree_print_details(tree, 1);
-	// 	execute_pipeline(tree, env, paths);
-	// 	if (tokens)
-	// 		ft_free_tokens(&tokens);
-	// 	if (tree)
-	// 		btree_free(tree);
-	// 	free(buffer);
-	// }
+	while (1)
+	{
+		buffer = readline("$> ");
+		add_history(buffer);
+		if (!buffer)
+			continue ;
+		if (ft_strlen(buffer) == ft_strlen("exit") && !ft_strncmp(buffer,
+				"exit", 4))
+		{
+			free(buffer);
+			exit(EXIT_SUCCESS);
+		}
+		tokens = tokenize_cmdline(buffer);
+		if (tokens == NULL)
+			continue;
+		tokens = parser(tokens, env_list);
+		tree = create_ast(tokens);
+		// print_structure(tree, 0);
+		// btree_print_details(tree, 1);
+		execute_pipeline(tree, env, paths);
+		if (tokens)
+			ft_free_tokens(&tokens);
+		if (tree)
+			btree_free(tree);
+		free(buffer);
+	}
 	env_list = free_env_list(&env_list);
 }

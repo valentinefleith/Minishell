@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:22:14 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/22 18:27:36 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/23 15:52:34 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void execute_single_command(t_btree *node, char **env, char **paths)
 		t_builtin builtin_type = is_builtin(node->left->item[0]);
 		if (builtin_type != NONE)
 		{
-			return execute_builtin(builtin_type, node->left->item, env);	
+			return execute_builtin(builtin_type, node, node->left->item, env);	
 		}
 		full_cmd_path = get_full_cmd_path(node->left->item[0], paths);
 		execve(full_cmd_path, node->left->item, env);
