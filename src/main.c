@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/22 18:32:04 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/23 14:24:13 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,9 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	env_list = NULL;
 	env_list = build_env_list(env_list, env);
-	if (ft_pwd(env_list) != 0)
+	if (ft_export(env_list, "TEST=5") != 0)
 		printf("ERROR\n");
+	printf("%s=%s\n", ft_getenv(env_list, "TEST")->name, ft_getenv(env_list, "TEST")->data);
 	// paths = get_paths(env_list);
 	// check malloc paths etc.
 	// while (1)
