@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/08/23 15:40:40 by luvallee         ###   ########.fr        #
+#    Updated: 2024/08/25 15:31:48 by vafleith         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ SRCS = main.c \
 	   parsing/env/env.c parsing/env/env_utils.c \
 	   free/ft_free_tab.c free/free_and_exit.c \
 	   execution/execute_command.c \
-	   builtin/builtin.c builtin/error_builtin.c builtin/parse_builtin.c \
+	   builtin/builtin.c \
 	   builtin/ft_env.c builtin/ft_cd.c builtin/ft_pwd.c builtin/ft_echo.c builtin/ft_export.c \
 	   builtin/ft_unset.c builtin/ft_exit.c
 
