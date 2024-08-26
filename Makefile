@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/08/26 10:59:53 by vafleith         ###   ########.fr        #
+#    Updated: 2024/08/26 11:49:23 by vafleith         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRCS = main.c \
 	   parsing/parsing_table/parser.c parsing/parsing_table/parser_utils.c \
 	   parsing/parsing_table/operation.c parsing/parsing_table/parser_debug.c \
 	   parsing/parsing_table/parsing_table.c parsing/parsing_table/parsing_env_var.c \
-	   env/env.c env/env_utils.c \
+	   env/env.c env/env_utils.c env/env_refresh.c \
 	   free/ft_free_tab.c free/free_and_exit.c \
 	   execution/execute_command.c \
 	   builtin/builtin.c \

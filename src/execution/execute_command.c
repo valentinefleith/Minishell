@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:22:14 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/25 15:30:45 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:21:40 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static char *get_full_cmd_path(char *command_name, char **paths)
 	return (executable_path);
 }
 
-static void execute_single_command(t_btree *node, char **env, char **paths)
+static void execute_single_command(t_btree *node, t_env *envs, char **paths)
 {
 	char *full_cmd_path;
 	int status;
@@ -89,24 +89,25 @@ static void execute_single_command(t_btree *node, char **env, char **paths)
 	if (pid == 0)
 	{
 		t_builtin builtin_type = is_builtin(node->left->item[0]);
-		/*if (builtin_type != NONE)
+		if (builtin_type != NONE)
 		{
-			return execute_builtin(builtin_type, node, node->left->item, env);	
-		}*/
+			execute_builtin(builtin_type, node, node->left->item, envs);
+			return;
+		}
 		full_cmd_path = get_full_cmd_path(node->left->item[0], paths);
-		execve(full_cmd_path, node->left->item, env);
+		execve(full_cmd_path, node->left->item, envs->env_tab);
 		exit(1);
 	}
 	waitpid(pid, &status, 0);
 }
 
-void execute_pipeline(t_btree *root, char **env, char **paths)
+void execute_pipeline(t_btree *root, t_env *envs, char **paths)
 {
 	// base case
 	if (root->type == COMMAND)
-		return execute_single_command(root, env, paths);
+		return execute_single_command(root, envs, paths);
 	// recursive part
-	execute_single_command(root->left, env, paths);
-	return execute_pipeline(root->right, env, paths);
+	execute_single_command(root->left, envs, paths);
+	return execute_pipeline(root->right, envs, paths);
 }
 

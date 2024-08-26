@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:19 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/20 16:23:32 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:10:46 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include "libft.h"
 # include "minishell.h"
 
-void execute_pipeline(t_btree *root, char **env, char **paths);
+void execute_pipeline(t_btree *root, t_env *env, char **paths);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:18:19 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 11:02:49 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:59:48 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,17 @@ static t_env_list	*parse_export_arg(char *arg)
 	return (new_var);
 }
 
-int	ft_export(t_env_list *env, char *arg)
+int	ft_export(t_env *envs, char *arg)
 {
 	t_env_list	*new_var;
 	
 	if (!arg)
-		return (ft_env(env), 0);
+		return (ft_env(envs->env_list), 0);
 	else if (!ft_isalpha(*arg) && *arg != '_')
 		return (error_builtin(EXPORT, arg));
 	new_var = parse_export_arg(arg);
 	if (!new_var)
 		return (1);
-	add_env_list(&env, new_var);
-	return (0);
+	add_env_list(&envs->env_list, new_var);
+	return refresh_env_tab(envs);
 }

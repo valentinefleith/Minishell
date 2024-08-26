@@ -6,28 +6,28 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 10:31:12 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:55:19 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env_list *env)
+int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env *envs)
 {
 	if (builtin == PWD)
-		return (ft_pwd(env));
+		return (ft_pwd(envs));
 	else if (builtin == ECHO)
 		return (ft_echo(cmd));
 	else if (builtin == EXIT)
-		ft_exit(env, tree, 0);
+		ft_exit(envs, tree, 0);
 	else if (builtin == ENV)
-		return (ft_env(env));
+		return (ft_env(envs->env_list));
 	else if (builtin == CD)
-		return (ft_cd(env, cmd[0]));
+		return (ft_cd(envs, cmd[0]));
 	else if (builtin == EXPORT)
-		return (ft_export(env, cmd[0]));
+		return (ft_export(envs, cmd[0]));
 	else if (builtin == UNSET)
-		return (ft_unset(env, cmd));
+		return (ft_unset(envs, cmd));
 	return (-1);
 }
 

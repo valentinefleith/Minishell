@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:25:31 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 10:32:35 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:29:33 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static char	*update_data(t_env_list **env_var, char *new_data)
 	return (NULL);
 }
 
-int	ft_cd(t_env_list *env, char *path)
+int	ft_cd(t_env *envs, char *path)
 {
 	t_env_list	*oldpwd;
 	t_env_list	*pwd;
 	char	buffer[1024];
 	
-	oldpwd = ft_getenv(env, "OLDPWD");
-	pwd = ft_getenv(env, "PWD");
+	oldpwd = ft_getenv(envs->env_list, "OLDPWD");
+	pwd = ft_getenv(envs->env_list, "PWD");
 	if (!oldpwd || !pwd)
 		return (1);
 	if (!path || ft_strlen(path) == 0)
@@ -46,5 +46,6 @@ int	ft_cd(t_env_list *env, char *path)
 	pwd->data = update_data(&pwd, getcwd(buffer, 1023));
 	if (!pwd->data)
 		return (1);
-	return (0);
+	return refresh_env_tab(envs);
+	//return (0);
 }
