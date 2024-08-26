@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/26 10:28:40 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:05:23 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "minishell.h"
 # include "builtin.h"
+# include "env.h"
 # include "libft.h"
 # include <stdbool.h>
 
@@ -142,14 +143,6 @@ void				btree_free(t_btree *tree);
 bool				btree_is_leaf(t_btree *tree);
 bool				btree_is_empty(t_btree *tree);
 
-/************************ Env ************************************************/
-
-t_env_list				*build_env_list(t_env_list *env, char **src_env);
-void				print_env_list(t_env_list *env);
-
-
-void				add_env_list(t_env_list **list, t_env_list *new);
-t_env_list				*free_env_list(t_env_list **list);
 
 /************************ Debug **********************************************/
 

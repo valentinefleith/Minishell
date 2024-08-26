@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/26 10:25:56 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:03:22 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,6 @@ static char	**get_paths(t_env_list *env_list)
 	if (!split_paths)
 		exit(1);
 	return (split_paths);
-}
-
-t_env* init_envs(char **env)
-{
-	t_env_list *env_list;
-	char **env_tab;
-	t_env *envs;
-	
-	envs = malloc(sizeof(t_env));
-	if (!envs)
-		return NULL;
-	env_tab = ft_strsdup(env);
-	if (!env_tab)
-	{
-		return NULL;
-	}
-	env_list = NULL;
-	env_list = build_env_list(env_list, env);
-	envs->env_list = env_list;
-	envs->env_tab = env_tab;
-	return envs;
 }
 
 int	main(int argc, char **argv, char **env)

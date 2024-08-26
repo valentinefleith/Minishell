@@ -6,11 +6,33 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:46:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 10:30:32 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:06:00 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_env* init_envs(char **env)
+{
+	t_env_list *env_list;
+	char **env_tab;
+	t_env *envs;
+	
+	envs = malloc(sizeof(t_env));
+	if (!envs)
+		return NULL;
+	env_tab = ft_strsdup(env);
+	if (!env_tab)
+	{
+		return NULL;
+	}
+	env_list = NULL;
+	env_list = build_env_list(env_list, env);
+	envs->env_list = env_list;
+	envs->env_tab = env_tab;
+	return envs;
+}
+
 
 t_env_list	*build_env_list(t_env_list *env, char **src_env)
 {

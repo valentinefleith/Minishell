@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/26 10:18:07 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:02:29 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "free.h"
 # include "execution.h"
 # include "builtin.h"
+# include "env.h"
 
 
 # include <stdio.h>

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 10:25:06 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:39:07 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  */
 t_token  *parser(t_token *tokens, t_env_list *env)
 {
-	(void)env;
+	//(void)env;
 	t_token		*stack;
 	t_token		*output;
 	int			action;
