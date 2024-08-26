@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 11:53:21 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 13:48:34 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_btree t_btree;
 
 t_builtin	is_builtin(char *buffer);
 int			execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env *env);
-int			ft_cd(t_env *env, char *path);
+int			ft_cd(t_env *env, char **cmd);
 int			ft_env(t_env_list *env);
 int			ft_pwd(t_env *env);
 int			ft_echo(char **cmd);

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 11:55:19 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 13:46:06 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env *envs)
 	else if (builtin == ENV)
 		return (ft_env(envs->env_list));
 	else if (builtin == CD)
-		return (ft_cd(envs, cmd[0]));
+		return (ft_cd(envs, cmd));
 	else if (builtin == EXPORT)
 		return (ft_export(envs, cmd[0]));
 	else if (builtin == UNSET)
