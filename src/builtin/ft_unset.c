@@ -6,15 +6,15 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 14:26:03 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/23 15:12:32 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:33:56 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_unset(t_env *env, char **arg)
+int	ft_unset(t_env_list *env, char **arg)
 {
-	t_env	*var;
+	t_env_list	*var;
 	int		i;
 
 	i = 0;

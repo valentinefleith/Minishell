@@ -6,13 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/23 15:53:47 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:31:12 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env *env)
+int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env_list *env)
 {
 	if (builtin == PWD)
 		return (ft_pwd(env));

@@ -6,13 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/23 15:34:02 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:25:56 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**get_paths(t_env *env_list)
+static char	**get_paths(t_env_list *env_list)
 {
 	int		seeking;
 	char	**split_paths;
@@ -33,19 +33,39 @@ static char	**get_paths(t_env *env_list)
 	return (split_paths);
 }
 
+t_env* init_envs(char **env)
+{
+	t_env_list *env_list;
+	char **env_tab;
+	t_env *envs;
+	
+	envs = malloc(sizeof(t_env));
+	if (!envs)
+		return NULL;
+	env_tab = ft_strsdup(env);
+	if (!env_tab)
+	{
+		return NULL;
+	}
+	env_list = NULL;
+	env_list = build_env_list(env_list, env);
+	envs->env_list = env_list;
+	envs->env_tab = env_tab;
+	return envs;
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*buffer;
 	t_token	*tokens;
 	t_btree	*tree;
 	char **paths;
-	t_env	*env_list;
+	t_env*	envs;
 
 	(void)argc;
 	(void)argv;
-	env_list = NULL;
-	env_list = build_env_list(env_list, env);
-	paths = get_paths(env_list);
+	envs = init_envs(env);
+	paths = get_paths(envs->env_list);
 	// check malloc paths etc.
 	while (1)
 	{
@@ -61,8 +81,11 @@ int	main(int argc, char **argv, char **env)
 		}
 		tokens = tokenize_cmdline(buffer);
 		if (tokens == NULL)
+		{
 			continue;
-		tokens = parser(tokens, env_list);
+			free(buffer);
+		}
+		tokens = parser(tokens, envs->env_list);
 		tree = create_ast(tokens);
 		// print_structure(tree, 0);
 		// btree_print_details(tree, 1);
@@ -73,5 +96,5 @@ int	main(int argc, char **argv, char **env)
 			btree_free(tree);
 		free(buffer);
 	}
-	env_list = free_env_list(&env_list);
+	envs->env_list = free_env_list(&(envs->env_list));
 }

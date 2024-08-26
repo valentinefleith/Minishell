@@ -6,13 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:11 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/21 17:53:44 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:21:28 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_env	*get_last_node(t_env *list)
+static t_env_list	*get_last_node(t_env_list *list)
 {
 	if (!list)
 		return (NULL);
@@ -21,9 +21,9 @@ static t_env	*get_last_node(t_env *list)
 	return (list);
 }
 
-void	add_env_list(t_env **list, t_env *new)
+void	add_env_list(t_env_list **list, t_env_list *new)
 {
-	t_env *last;
+	t_env_list *last;
 	
 	if (!*list)
 	{
@@ -36,9 +36,9 @@ void	add_env_list(t_env **list, t_env *new)
 	}
 }
 
-t_env	*free_env_list(t_env **list)
+t_env_list	*free_env_list(t_env_list **list)
 {
-	t_env	*save;
+	t_env_list	*save;
 
 	while (*list)
 	{

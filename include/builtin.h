@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/23 15:54:58 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:27:25 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,22 @@ typedef enum e_builtin
 }			t_builtin;
 
 typedef struct s_env t_env;
+typedef struct s_env_list t_env_list;
 typedef struct s_btree t_btree;
 
 /* Builtins */
 
 t_builtin	is_builtin(char *buffer);
-int			execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env *env);
-int			ft_cd(t_env *env, char *path);
-int			ft_env(t_env *env);
-int			ft_pwd(t_env *env);
+int			execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env_list *env);
+int			ft_cd(t_env_list *env, char *path);
+int			ft_env(t_env_list *env);
+int			ft_pwd(t_env_list *env);
 int			ft_echo(char **cmd);
-int			ft_export(t_env *env, char *arg);
-int			ft_unset(t_env *env, char **arg);
-void		ft_exit(t_env *env, t_btree *tree, int	exit_status);
+int			ft_export(t_env_list *env, char *arg);
+int			ft_unset(t_env_list *env, char **arg);
+void		ft_exit(t_env_list *env, t_btree *tree, int	exit_status);
 int			error_builtin(t_builtin builtin, char *arg);
-t_env		*ft_getenv(t_env *env, char *name);
+t_env_list		*ft_getenv(t_env_list *env, char *name);
 
 
 #endif

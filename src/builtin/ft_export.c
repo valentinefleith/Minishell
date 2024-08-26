@@ -6,18 +6,18 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:18:19 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/23 14:21:25 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:33:38 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_env	*parse_export_arg(char *arg)
+static t_env_list	*parse_export_arg(char *arg)
 {
-	t_env	*new_var;
+	t_env_list	*new_var;
 	int		len;
 	
-	new_var = malloc(sizeof(t_env));
+	new_var = malloc(sizeof(t_env_list));
 	if (!new_var)
 		return (NULL);
 	len = 0;
@@ -38,9 +38,9 @@ static t_env	*parse_export_arg(char *arg)
 	return (new_var);
 }
 
-int	ft_export(t_env *env, char *arg)
+int	ft_export(t_env_list *env, char *arg)
 {
-	t_env	*new_var;
+	t_env_list	*new_var;
 	
 	if (!arg)
 		return (ft_env(env), 0);

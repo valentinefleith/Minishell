@@ -6,13 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:25:31 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/23 13:56:07 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:32:35 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*update_data(t_env **env_var, char *new_data)
+static char	*update_data(t_env_list **env_var, char *new_data)
 {
 	if (*env_var)
 	{
@@ -22,10 +22,10 @@ static char	*update_data(t_env **env_var, char *new_data)
 	return (NULL);
 }
 
-int	ft_cd(t_env *env, char *path)
+int	ft_cd(t_env_list *env, char *path)
 {
-	t_env	*oldpwd;
-	t_env	*pwd;
+	t_env_list	*oldpwd;
+	t_env_list	*pwd;
 	char	buffer[1024];
 	
 	oldpwd = ft_getenv(env, "OLDPWD");

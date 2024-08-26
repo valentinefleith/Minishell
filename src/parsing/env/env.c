@@ -6,17 +6,17 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:46:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/21 17:53:15 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:30:32 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*build_env_list(t_env *env, char **src_env)
+t_env_list	*build_env_list(t_env_list *env, char **src_env)
 {
 	int		i;
 	int		limit;
-	t_env	*new;
+	t_env_list	*new;
 	
 	if (!src_env)
 		return (NULL);
@@ -24,7 +24,7 @@ t_env	*build_env_list(t_env *env, char **src_env)
 	while (src_env[i])
 	{
 		limit = ft_get_index(src_env[i], '=');
-		new = malloc(sizeof(t_env));
+		new = malloc(sizeof(t_env_list));
 		if (!new)
 			return (NULL);
 		new->name = ft_substr(src_env[i], 0, limit);

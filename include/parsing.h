@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/22 17:10:57 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:28:40 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_btree
 	char			**item;
 }					t_btree;
 
+typedef struct s_env_list t_env_list;
 typedef struct s_env t_env;
 
 /************************ Lexing *********************************************/
@@ -112,7 +113,7 @@ t_action			state_four(t_token *stack, t_token *tokens, int *state);
 t_action			state_five(t_token *stack, t_token *tokens, int *state);
 t_action			state_tens(t_token *stack, t_token *tokens, int *state);
 
-t_token				*parser(t_token *tokens, t_env *env);
+t_token				*parser(t_token *tokens, t_env_list *env);
 void				build_output(t_token **stack, t_token **output);
 t_token				*error_action(t_token *stack, int *state);
 
@@ -122,11 +123,11 @@ void				replace_type(t_token *stack, int old_type, int new_type);
 int					count_nb_arg(t_token *stack);
 t_token				*copy_token(t_token *stack, t_token *new);
 
-void				parsing_env_var(t_token *output, t_env *env);
-t_env				*search_env_var(t_env *env_list, char *arg);
-char				*do_expansion_var(t_env *env, char *arg, char *new_arg);
+void				parsing_env_var(t_token *output, t_env_list *env);
+t_env_list				*search_env_var(t_env_list *env_list, char *arg);
+char				*do_expansion_var(t_env_list *env, char *arg, char *new_arg);
 char				*get_var_name(char *arg);
-int					get_new_arg_len(t_env *env, char *arg);
+int					get_new_arg_len(t_env_list *env, char *arg);
 
 
 /************************ Binary Tree ****************************************/
@@ -143,12 +144,12 @@ bool				btree_is_empty(t_btree *tree);
 
 /************************ Env ************************************************/
 
-t_env				*build_env_list(t_env *env, char **src_env);
-void				print_env_list(t_env *env);
+t_env_list				*build_env_list(t_env_list *env, char **src_env);
+void				print_env_list(t_env_list *env);
 
 
-void				add_env_list(t_env **list, t_env *new);
-t_env				*free_env_list(t_env **list);
+void				add_env_list(t_env_list **list, t_env_list *new);
+t_env_list				*free_env_list(t_env_list **list);
 
 /************************ Debug **********************************************/
 

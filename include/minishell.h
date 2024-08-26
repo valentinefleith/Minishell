@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/22 14:50:53 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:18:07 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,16 @@
 # include <readline/history.h>
 # include <stdbool.h>
 
-typedef struct s_env
+typedef struct s_env_list
 {
 	char			*name;
 	char			*data;
-	struct s_env	*next;
-}					t_env;
+	struct s_env_list	*next;
+}					t_env_list;
 
+typedef struct s_env 
+{
+	t_env_list *env_list;
+	char **env_tab;
+}				t_env;
 #endif

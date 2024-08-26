@@ -6,13 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:34:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/23 15:30:04 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:31:52 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_env(t_env *env)
+int	ft_env(t_env_list *env)
 {
 	if (!env)
 		return (1);
@@ -32,7 +32,7 @@ int	ft_env(t_env *env)
 	return (0);
 }
 
-t_env	*ft_getenv(t_env *env, char *name)
+t_env_list	*ft_getenv(t_env_list *env, char *name)
 {
 	size_t	len;
 

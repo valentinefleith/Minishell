@@ -6,13 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/14 16:32:50 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/22 17:10:07 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:28:20 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	parsing_env_var(t_token *output, t_env *env)
+void	parsing_env_var(t_token *output, t_env_list *env)
 {
 	char	*new_arg;
 	size_t	len;
@@ -41,10 +41,10 @@ void	parsing_env_var(t_token *output, t_env *env)
 	}
 }
 
-t_env	*search_env_var(t_env *env, char *arg)
+t_env_list	*search_env_var(t_env_list *env, char *arg)
 {
 	char	*name;
-	t_env	*env_var;
+	t_env_list	*env_var;
 	
 	if (!env || !arg)
 		return (NULL);
@@ -65,9 +65,9 @@ t_env	*search_env_var(t_env *env, char *arg)
 	return (NULL);
 }
 
-char	*do_expansion_var(t_env *env, char *arg, char *new_arg)
+char	*do_expansion_var(t_env_list *env, char *arg, char *new_arg)
 {
-	t_env	*var;
+	t_env_list	*var;
 	size_t	len;
 
 	len = 0;
@@ -94,9 +94,9 @@ char	*do_expansion_var(t_env *env, char *arg, char *new_arg)
 	return (new_arg);
 }
 
-int	get_new_arg_len(t_env *env, char *arg)
+int	get_new_arg_len(t_env_list *env, char *arg)
 {
-	t_env	*var;
+	t_env_list	*var;
 	size_t	len;
 	
 	if (!arg)
