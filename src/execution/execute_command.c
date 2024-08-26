@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:22:14 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/26 14:00:31 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:31:09 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,29 +79,6 @@ static char *get_full_cmd_path(char *command_name, char **paths)
 }
 
 
-/*static void execute_single_command(t_btree *node, t_env *envs, char **paths)*/
-/*{*/
-	/*char *full_cmd_path;*/
-	/*int status;*/
-
-	/*if (node->type != COMMAND)*/
-		/*return;*/
-	/*pid_t pid = fork();*/
-	/*if (pid == 0)*/
-	/*{*/
-		/*t_builtin builtin_type = is_builtin(node->left->item[0]);*/
-		/*if (builtin_type != NONE)*/
-		/*{*/
-			/*execute_builtin(builtin_type, node, node->left->item, envs);*/
-			/*return;*/
-		/*}*/
-		/*full_cmd_path = get_full_cmd_path(node->left->item[0], paths);*/
-		/*execve(full_cmd_path, node->left->item, envs->env_tab);*/
-		/*exit(1);*/
-	/*}*/
-	/*waitpid(pid, &status, 0);*/
-/*}*/
-
 static void execute_single_command(t_btree *node, t_env *envs, char **paths)
 {
 	char *full_cmd_path;
@@ -109,15 +86,20 @@ static void execute_single_command(t_btree *node, t_env *envs, char **paths)
 
 	if (node->type != COMMAND)
 		return;
-	t_builtin builtin_type = is_builtin(node->left->item[0]);
-	if (builtin_type != NONE)
+	pid_t pid = fork();
+	if (pid == 0)
 	{
-		execute_builtin(builtin_type, node, node->left->item, envs);
-		return;
+		t_builtin builtin_type = is_builtin(node->left->item[0]);
+		if (builtin_type != NONE)
+		{
+			execute_builtin(builtin_type, node, node->left->item, envs);
+			return;
+		}
+		full_cmd_path = get_full_cmd_path(node->left->item[0], paths);
+		execve(full_cmd_path, node->left->item, envs->env_tab);
+		exit(1);
 	}
-	full_cmd_path = get_full_cmd_path(node->left->item[0], paths);
-	execve(full_cmd_path, node->left->item, envs->env_tab);
-	exit(1);
+	waitpid(pid, &status, 0);
 }
 
 void execute_pipeline(t_btree *root, t_env *envs, char **paths)
