@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/26 11:02:29 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:43:19 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,21 @@ typedef struct s_env_list
 	struct s_env_list	*next;
 }					t_env_list;
 
-typedef struct s_env 
+typedef struct s_env
 {
 	t_env_list *env_list;
 	char **env_tab;
 }				t_env;
+
+typedef struct s_shell
+{
+	int				pid;
+	int				fd_in;
+	int				fd_out;
+	int				nb_cmd;
+	int				**pipe_fd;
+	char			**paths;
+	struct s_env	*envs;
+}					t_shell;
+
 #endif

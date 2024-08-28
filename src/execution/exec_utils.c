@@ -1,36 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_command.c                                  :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 21:22:14 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/28 15:38:38 by luvallee         ###   ########.fr       */
+/*   Created: 2024/08/28 11:33:09 by luvallee          #+#    #+#             */
+/*   Updated: 2024/08/28 17:46:44 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_path_no_env(char *cmd_name)
+int	count_pipe(t_btree *tree, int *nb_pipe)
 {
-	/*if (access(cmd_name, F_OK) != 0)
-	{
-		if (ft_strchr(cmd_name, '/'))
-			no_such_file(cmd_name);
-		else
-			cmd_not_found(cmd_name);
-		return (NULL);
-	}
-	if (access(cmd_name, X_OK) != 0)
-	{
-		permission_denied(cmd_name);
-		return (NULL);
-	}*/
-	return (ft_strdup(cmd_name));
+	if (!tree)
+		return (*nb_pipe);
+	if (tree->type == PIPE)
+		*nb_pipe += 1;
+	return (count_pipe(tree->right, nb_pipe));
 }
 
-static char	*get_path_env(char *cmd_name, char **paths)
+int	count_cmd(t_btree *tree, int *nb_cmd)
+{
+	if (!tree)
+		return (*nb_cmd);
+	if (tree->type == COMMAND)
+		*nb_cmd += 1;
+	if (tree->left->type == COMMAND)
+		*nb_cmd += 1;
+	return (count_cmd(tree->right, nb_cmd));
+}
+
+char	*get_path_env(char *cmd_name, char **paths)
 {
 	char	*cmd_attempt;
 	char	*tmp;
@@ -57,7 +59,8 @@ static char	*get_path_env(char *cmd_name, char **paths)
 	}
 	return (get_path_no_env(cmd_name));
 }
-static char *get_full_cmd_path(char *command_name, char **paths)
+
+char *get_full_cmd_path(char *command_name, char **paths)
 {
 	char	*executable_path;
 
@@ -78,36 +81,20 @@ static char *get_full_cmd_path(char *command_name, char **paths)
 	return (executable_path);
 }
 
-static void execute_single_command(t_btree *node, t_env *envs, char **paths)
+char	*get_path_no_env(char *cmd_name)
 {
-	char *full_cmd_path;
-	int status;
-
-	if (node->type != COMMAND)
-		return;
-	pid_t pid = fork();
-	if (pid == 0)
+	/*if (access(cmd_name, F_OK) != 0)
 	{
-		t_builtin builtin_type = is_builtin(node->left->item[0]);
-		if (builtin_type != NONE)
-		{
-			execute_builtin(builtin_type, node, node->left->item, envs);
-			return;
-		}
-		full_cmd_path = get_full_cmd_path(node->left->item[0], paths);
-		execve(full_cmd_path, node->left->item, envs->env_tab);
-		exit(1);
+		if (ft_strchr(cmd_name, '/'))
+			no_such_file(cmd_name);
+		else
+			cmd_not_found(cmd_name);
+		return (NULL);
 	}
-	waitpid(pid, &status, 0);
+	if (access(cmd_name, X_OK) != 0)
+	{
+		permission_denied(cmd_name);
+		return (NULL);
+	}*/
+	return (ft_strdup(cmd_name));
 }
-
-void execute_pipeline_bis(t_btree *root, t_env *envs, char **paths)
-{
-	// base case
-	if (root->type == COMMAND)
-		return execute_single_command(root, envs, paths);
-	// recursive part
-	execute_single_command(root->left, envs, paths);
-	return execute_pipeline(root->right, envs, paths);
-}
-

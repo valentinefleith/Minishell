@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_refresh.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:29:46 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/26 11:49:07 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:36:57 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ int	refresh_env_tab(t_env *envs)
 	nb_var = get_nb_var(env_list);
 	envs->env_tab = malloc((nb_var + 1) * sizeof(char *));
 	if (!envs->env_tab)
-	{
-		free_env_list(&envs->env_list);
-		return (1);
-	}
+		return (free_env_list(&envs->env_list), 1);
 	i = 0;
 	while (i < nb_var)
 	{

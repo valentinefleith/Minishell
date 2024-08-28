@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:18:19 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 11:59:48 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:58:45 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,5 @@ int	ft_export(t_env *envs, char *arg)
 	if (!new_var)
 		return (1);
 	add_env_list(&envs->env_list, new_var);
-	return refresh_env_tab(envs);
+	return (refresh_env_tab(envs));
 }

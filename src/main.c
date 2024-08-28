@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/26 11:10:25 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:56:01 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	main(int argc, char **argv, char **env)
 	char	*buffer;
 	t_token	*tokens;
 	t_btree	*tree;
-	char **paths;
-	t_env*	envs;
+	char 	**paths;
+	t_env	*envs;
 
 	(void)argc;
 	(void)argv;
@@ -52,12 +52,6 @@ int	main(int argc, char **argv, char **env)
 		add_history(buffer);
 		if (!buffer)
 			continue ;
-		if (ft_strlen(buffer) == ft_strlen("exit") && !ft_strncmp(buffer,
-				"exit", 4))
-		{
-			free(buffer);
-			exit(EXIT_SUCCESS);
-		}
 		tokens = tokenize_cmdline(buffer);
 		if (tokens == NULL)
 		{
@@ -68,7 +62,7 @@ int	main(int argc, char **argv, char **env)
 		tree = create_ast(tokens);
 		// print_structure(tree, 0);
 		// btree_print_details(tree, 1);
-		execute_pipeline(tree, envs, paths);
+		// update_exit_status(envs, launch_pipeline(tree, envs, paths));
 		if (tokens)
 			ft_free_tokens(&tokens);
 		if (tree)
@@ -77,3 +71,10 @@ int	main(int argc, char **argv, char **env)
 	}
 	envs->env_list = free_env_list(&(envs->env_list));
 }
+
+// if (ft_strlen(buffer) == ft_strlen("exit") && !ft_strncmp(buffer,
+// 				"exit", 4))
+// 		{
+// 			free(buffer);
+// 			exit(EXIT_SUCCESS);
+// 		}

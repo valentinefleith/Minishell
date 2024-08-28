@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:58:36 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/26 11:48:58 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/28 17:51:06 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 t_env_list	*build_env_list(t_env_list *env, char **src_env);
 t_env		*init_envs(char **env);
 void		print_env_list(t_env_list *env);
+void	update_exit_status(t_env_list *env_list, int exit_status);
+void		add_exit_status_var(t_env_list *env_list);
+
 int			refresh_env_tab(t_env *envs);
 
 void		add_env_list(t_env_list **list, t_env_list *new);

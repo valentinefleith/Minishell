@@ -1,27 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.h                                             :+:      :+:    :+:   */
+/*   error_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:49:08 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/28 15:23:48 by luvallee         ###   ########.fr       */
+/*   Created: 2024/08/28 17:16:13 by luvallee          #+#    #+#             */
+/*   Updated: 2024/08/28 17:29:18 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FREE_H
-# define FREE_H
+# include "minishell.h"
 
-#include "parsing.h"
-
-typedef struct s_shell t_shell;
-
-void	free_and_exit(t_token **tokens, int exit_status);
-void	free_process(t_shell *shell, t_btree *tree);
-
-void	ft_free_tab(char **strs);
-
-t_token	*ft_free_tokens(t_token **tokens);
-
-#endif
+void	error_execution(t_shell *shell, t_btree *tree, int exit_code)
+{
+	close_fd(shell);
+	free_process(shell, tree);
+	exit(exit_code);
+}
