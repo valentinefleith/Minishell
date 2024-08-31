@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/31 19:53:05 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/31 19:58:34 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 static int get_len_varname(char *data, int index)
 {
-	while(data[index] && data[index] != ' ')
-		index++;
-	return index;
+	int len = 0;
+	while(data[index + len] && data[index + len] != ' ')
+		len++;
+	return len;
 }
 
 static char *remove_varname(char *data, int index)
