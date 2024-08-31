@@ -6,12 +6,11 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/28 16:38:51 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/31 19:55:54 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "parsing.h"
 
 static char	**get_paths(t_env_list *env_list)
 {
@@ -53,12 +52,6 @@ int	main(int argc, char **argv, char **env)
 		add_history(buffer);
 		if (!buffer)
 			continue ;
-		if (ft_strlen(buffer) == ft_strlen("exit") && !ft_strncmp(buffer,
-				"exit", 4))
-		{
-			free(buffer);
-			exit(EXIT_SUCCESS);
-		}
 		tokens = tokenize_cmdline(buffer, envs);
 		if (tokens == NULL)
 		{
