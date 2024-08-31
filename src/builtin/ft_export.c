@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:18:19 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 11:59:48 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/31 18:44:29 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,27 @@ static t_env_list	*parse_export_arg(char *arg)
 	return (new_var);
 }
 
-int	ft_export(t_env *envs, char *arg)
+static int	is_arg_unique(char **cmd)
+{
+	int	i;
+
+	i = 0;
+	while (cmd[i])
+		i++;
+	return (i == 2);
+}
+
+int	ft_export(t_env *envs, char **arg)
 {
 	t_env_list	*new_var;
 	
 	if (!arg)
 		return (ft_env(envs->env_list), 0);
-	else if (!ft_isalpha(*arg) && *arg != '_')
-		return (error_builtin(EXPORT, arg));
-	new_var = parse_export_arg(arg);
+	if (!is_arg_unique(arg))
+		return 1;
+	if (!ft_isalpha(*arg[1]) && *arg[1] != '_')
+		return (error_builtin(EXPORT, arg[1]));
+	new_var = parse_export_arg(arg[1]);
 	if (!new_var)
 		return (1);
 	add_env_list(&envs->env_list, new_var);
