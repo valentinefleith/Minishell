@@ -6,21 +6,53 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/28 16:46:44 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/31 18:59:51 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int get_len_varname(char *data, int index)
+{
+	while(data[index] && data[index] != ' ')
+		index++;
+	return index;
+}
+
+static char *remove_varname(char *data, int index)
+{
+	int new_len;
+	char *new;
+
+	int len_varname = get_len_varname(data, index);
+	new_len = ft_strlen(data) - (len_varname + 1);
+	new = malloc((new_len + 1) * sizeof(char));
+	if (!new)
+		return NULL;
+	int i = 0;
+	while (data[i] && i < index)
+	{
+		new[i] = data[i];
+		i++;
+	}
+	while (data[i + len_varname])
+	{
+		new[i] = data[i + len_varname];
+		i++;
+	}
+	new[i] = '\0';
+	return new;
+}
 
 static char *replace_variable(char *data, int index, t_env_list *target_var)
 {
 	int new_len;
 	char *new;
 
+	if (!target_var)
+		return remove_varname(data, index);
 	if (target_var)
 		new_len = ft_strlen(data) - (1 + ft_strlen(target_var->name)) + ft_strlen(target_var->data);
-	else
-		new_len = ft_strlen(data) - 1;
 	new = malloc((1 + new_len) * sizeof(char));
 	if (!new)
 		return NULL;
@@ -63,12 +95,12 @@ static char *expand_variables(char *data, t_env *envs)
 	int i = 0;
 	t_env_list *target_var;
 
-	bool inside_double_quotes = false;
+	bool inside_single_quotes = false;
 	while (data[i])
 	{
-		if (data[i] == DOUBLE_QUOTE)
-			inside_double_quotes = !inside_double_quotes;
-		if (data[i] == '$' && !inside_double_quotes)
+		if (data[i] == SINGLE_QUOTE)
+			inside_single_quotes = !inside_single_quotes;
+		if (data[i] == '$' && !inside_single_quotes)
 		{
 			i++;
 			if (ft_isalpha(data[i]))
