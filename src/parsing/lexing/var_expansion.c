@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/31 19:19:51 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/31 19:28:00 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static char *replace_variable(char *data, int index, t_env_list *target_var)
 		j++;
 		i++;
 	}
-	int k = index + get_len_varname(data, index);
+	int k = index + 1 + ft_strlen(target_var->name);
 	while (i < new_len)
 	{
 		new[i] = data[k];
