@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/31 19:28:00 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/31 19:33:26 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static char *replace_variable(char *data, int index, t_env_list *target_var)
 
 static t_env_list *find_target_variable(t_env_list *env_list, char *data)
 {
-	while (env_list->next)
+	while (env_list)
 	{
 		if (!ft_strncmp(env_list->name, data, ft_strlen(env_list->name)))
 			return env_list;
