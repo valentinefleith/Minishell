@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/28 14:05:20 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/31 19:53:28 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ t_token						*get_first_token(t_token *tokens);
 t_token						*get_last_pipe(t_token *tokens);
 
 void						perform_var_expansion(t_token *tokens, t_env *envs);
+char						*remove_quotes(char *data);
 
 /************************ Parsing table **************************************/
 

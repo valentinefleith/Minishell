@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/31 19:33:26 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/31 19:53:05 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void perform_var_expansion(t_token *tokens, t_env *envs)
 	while (tokens)
 	{
 		tokens->data = expand_variables(tokens->data, envs);
+		tokens->data = remove_quotes(tokens->data);
 		if (tokens->data == NULL)
 		{
 			ft_free_tokens(&start);
