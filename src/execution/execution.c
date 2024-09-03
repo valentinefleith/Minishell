@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/28 17:55:04 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/29 12:27:20 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	launch_pipeline(t_btree *tree, t_env *envs, char **paths)
 	shell.pid = -1;
 	shell.fd_in = -1;
 	shell.fd_out = -1;
-	shell.nb_cmd = count_cmd(tree, 0);
+	shell.nb_cmd = 0;
+	shell.nb_cmd = count_cmd(tree, &shell.nb_cmd);
 	shell.pipe_fd = creating_pipe(tree);
 	if (!shell.pipe_fd)
 		return (-1);
@@ -37,10 +38,11 @@ void	execute_pipeline(t_btree *tree, t_shell *shell, int index)
 	if (!tree)
 		return ;
 	if (tree->type == COMMAND)
-	{
 		shell->pid = child_process(tree, shell, index + 1);
-	}
-	shell->pid = child_process(tree->left, shell, index + 1);
+	else
+		shell->pid = child_process(tree->left, shell, index + 1);
+	if (!tree->right || tree->right->type != PIPE || tree->right->type != COMMAND)
+		return ;
 	return (execute_pipeline(tree->right, shell, index));
 }
 
@@ -55,15 +57,21 @@ int	child_process(t_btree *tree, t_shell *shell, int index)
 	if (builtin_type != NONE)
 		return (execute_builtin(builtin_type, tree, tree->left->item, shell->envs));
 	pid = fork();
+	// pid = 0;
 	if (pid == 0)
 	{
+		debug_exec(tree, shell);
 		if (fd_redirection(tree, shell, index) == 1)
 		{
 			close_fd(shell);
 			free_process(shell, tree);
 			exit(EXIT_FAILURE);
 		}
-		close_fd(shell);
+		if (close_fd(shell) == -1)
+		{
+			free_process(shell, tree);
+			exit(EXIT_FAILURE);
+		}
 		cmd_execution(shell, tree);
 	}
 	return (pid);

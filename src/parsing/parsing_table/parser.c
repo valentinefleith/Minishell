@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 10:39:07 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/29 10:08:24 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * This function performs actions such as shift, reduce, and error
  * according on the current state and tokens (parsing_table).
  */
-t_token  *parser(t_token *tokens, t_env_list *env)
+t_token  *parser(t_token *tokens)
 {
 	//(void)env;
 	t_token		*stack;
@@ -45,7 +45,6 @@ t_token  *parser(t_token *tokens, t_env_list *env)
 			stack = error_action(stack, &state);
 		// debug_parser(stack, tokens, state, action);
 	}
-	//parsing_env_var(output, env);
 	return (output);
 }
 
