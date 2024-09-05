@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/09/04 17:28:26 by luvallee         ###   ########.fr        #
+#    Updated: 2024/09/05 17:26:42 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,4 +91,5 @@ re: fclean all
 
 valgrind_fd: $(NAME)
 	@valgrind --track-fds=yes --trace-children=yes \
+		--leak-check=full \
 	./$(NAME) $(ARGS)
