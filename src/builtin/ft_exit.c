@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 11:59:30 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:58:11 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ void	ft_exit(t_env *envs, t_btree *tree, int	exit_status)
 		ft_free_tab(envs->env_tab);
 		envs->env_tab = NULL;
 	}
-	free(envs);
+	if (envs)
+	{
+		free(envs);
+		envs = NULL;
+	}
 	if (tree)
 	{
 		btree_free(tree);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   parser_old_version.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/05 14:14:15 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:41:41 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	debug_parser(t_token **stack, t_token **input, int state, int ope)
 	debug_print_stack(stack);
 }
 
-t_btree  *parser(t_token **input_tokens, t_btree *tree)
+t_btree  *parser_bis(t_token **input_tokens, t_btree *tree)
 {
 	t_operation	rules[9];
 	t_token		*stack;

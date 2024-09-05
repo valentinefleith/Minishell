@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/31 19:31:47 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:40:08 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ void	init_arg(t_token *stack, t_token *tokens, int *state, int type)
 		i++;
 	}
 	(void)state;
-	// checking_cmd_syntax(node, state);
 }
 
 void	cat_tokens(t_token *stack, int *state, int type)

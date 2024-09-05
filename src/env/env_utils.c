@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:11 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/05 17:36:53 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:53:29 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ t_env_list	*free_env_list(t_env_list **list)
 {
 	t_env_list	*save;
 
+	if (!list || !*list)
+		return (NULL);
 	while (*list)
 	{
 		save = (*list)->next;
