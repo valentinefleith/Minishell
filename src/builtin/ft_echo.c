@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:33:05 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/23 12:04:18 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/31 20:00:15 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,19 @@ int	ft_echo(char **cmd)
 		i = 2;
 		while (cmd[i])
 		{
-			printf("%s", cmd[i]);
+			ft_printf("%s ", cmd[i]);
 			i++;
 		}
 	}
 	else if (cmd[1])
 	{
 		i = 1;
-		while (cmd[i++])
-			printf("%s", cmd[i]);
-		printf("\n");
+		while (cmd[i])
+		{
+			ft_printf("%s ", cmd[i]);
+			i++;
+		}
+		ft_printf("\n");
 	}
 	return (0);
 }

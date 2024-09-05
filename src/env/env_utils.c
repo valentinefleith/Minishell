@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:11 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/28 14:36:10 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:36:53 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,13 @@ t_env_list	*free_env_list(t_env_list **list)
 		*list = save;
 	}
 	return (NULL);
+}
+
+void		print_env_list(t_env_list *env)
+{
+	while(env)
+	{
+		printf("%s=%s\n", env->name, env->data);
+		env = env->next;
+	}
 }

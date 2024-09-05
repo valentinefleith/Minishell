@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/09/05 17:26:42 by luvallee         ###   ########.fr        #
+#    Updated: 2024/09/05 17:33:15 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ SRCS = main.c \
 	   pipex/parsing.c pipex/pipex.c pipex/utils.c\
 	   parsing/lexing/lexing.c parsing/lexing/tokens_constructor.c \
 	   parsing/lexing/tokens_get.c parsing/lexing/tokens_destructor.c \
-	   parsing/lexing/tokens_print.c \
+	   parsing/lexing/tokens_print.c parsing/lexing/var_expansion.c \
+	   parsing/lexing/quotes_removing.c \
 	   parsing/btree/btree_constructor.c parsing/btree/btree_properties.c \
 	   parsing/btree/btree_destructor.c parsing/btree/btree_ast_build.c \
 	   parsing/btree/btree_print.c \
