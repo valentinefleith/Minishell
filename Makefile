@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/08/28 17:30:09 by luvallee         ###   ########.fr        #
+#    Updated: 2024/09/04 17:28:26 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,3 +88,7 @@ fclean: clean
 
 .PHONY: re
 re: fclean all
+
+valgrind_fd: $(NAME)
+	@valgrind --track-fds=yes --trace-children=yes \
+	./$(NAME) $(ARGS)

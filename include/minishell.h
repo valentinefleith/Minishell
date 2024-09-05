@@ -1,3 +1,4 @@
+//  cat Makefile | grep minishell
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -48,13 +49,23 @@ typedef struct s_env
 
 typedef struct s_shell
 {
-	int				pid;
-	int				fd_in;
-	int				fd_out;
 	int				nb_cmd;
-	int				**pipe_fd;
+	int				pid;
+	int				read;
+	int				write;
 	char			**paths;
 	struct s_env	*envs;
 }					t_shell;
+
+// typedef struct s_shell
+// {
+// 	int				pid;
+// 	int				fd_in;
+// 	int				fd_out;
+// 	int				nb_cmd;
+// 	int				**pipe_fd;
+// 	char			**paths;
+// 	struct s_env	*envs;
+// }					t_shell;
 
 #endif

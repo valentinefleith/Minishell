@@ -6,91 +6,115 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/29 12:27:20 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:11:13 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	launch_pipeline(t_btree *tree, t_env *envs, char **paths)
+int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 {
-	t_shell	shell;
-	int 	index;
+	t_shell shell;
 	
 	shell.pid = -1;
-	shell.fd_in = -1;
-	shell.fd_out = -1;
 	shell.nb_cmd = 0;
-	shell.nb_cmd = count_cmd(tree, &shell.nb_cmd);
-	shell.pipe_fd = creating_pipe(tree);
-	if (!shell.pipe_fd)
-		return (-1);
+	count_cmd(root, &shell.nb_cmd);
+	shell.read = STDIN_FILENO;
+	shell.write = STDOUT_FILENO;
 	shell.paths = paths;
 	shell.envs = envs;
-	index = -1;
-	execute_pipeline(tree, &shell, index); // protect ?
-	close_fd(&shell);
+	execute_ast(root, &shell);
+	close_fd(&shell.read);
+	close_fd(&shell.write);
 	return (waiting(&shell, shell.pid));
 }
 
-void	execute_pipeline(t_btree *tree, t_shell *shell, int index)
+int	execute_ast(t_btree *root, t_shell *shell)
 {
-	if (!tree)
-		return ;
-	if (tree->type == COMMAND)
-		shell->pid = child_process(tree, shell, index + 1);
-	else
-		shell->pid = child_process(tree->left, shell, index + 1);
-	if (!tree->right || tree->right->type != PIPE || tree->right->type != COMMAND)
-		return ;
-	return (execute_pipeline(tree->right, shell, index));
+	int	pipe_fd[2];
+	
+	if (!root)
+		return (shell->pid);
+	if (root->type == COMMAND)
+		child_process(root, shell);
+	else if (root->type == PIPE)
+	{
+		if (pipe(pipe_fd) == -1)
+			return (perror("pipe"), -1);
+		shell->write = pipe_fd[1];
+		child_process(root->left, shell);
+		shell->read = pipe_fd[0];
+		if (root->right->type != PIPE)
+			shell->write = STDOUT_FILENO;
+	}
+	if (!root->right)
+		return (shell->pid);
+	else if (root->right->type != PIPE && root->right->type != COMMAND)
+		return (shell->pid);
+	return (execute_ast(root->right, shell));
 }
 
-int	child_process(t_btree *tree, t_shell *shell, int index)
+void	child_process(t_btree *tree, t_shell *shell)
 {
-	t_builtin	builtin_type;
-	int			pid;
-
-	if (!tree)
-		return (-1);
-	builtin_type = is_builtin (tree->left->item[0]);
-	if (builtin_type != NONE)
-		return (execute_builtin(builtin_type, tree, tree->left->item, shell->envs));
-	pid = fork();
-	// pid = 0;
-	if (pid == 0)
+	shell->read = file_redirection(tree, shell, shell->read, INPUT);
+	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
+	shell->pid = fork();
+	if (shell->pid == 0)
 	{
-		debug_exec(tree, shell);
-		if (fd_redirection(tree, shell, index) == 1)
-		{
-			close_fd(shell);
-			free_process(shell, tree);
-			exit(EXIT_FAILURE);
-		}
-		if (close_fd(shell) == -1)
-		{
-			free_process(shell, tree);
-			exit(EXIT_FAILURE);
-		}
+		if (dup2(shell->read, STDIN_FILENO) == -1)
+			perror("dup2: shell->read");
+		if (shell->read != STDIN_FILENO)
+			close_fd(&shell->read);
+		if (dup2(shell->write, STDOUT_FILENO) == -1)
+			perror("dup2: shell->write");
+		if (shell->write != STDOUT_FILENO)
+			close_fd(&shell->write);
 		cmd_execution(shell, tree);
 	}
-	return (pid);
+	else
+	{
+		close_fd(&shell->read);
+		close_fd(&shell->write);
+	}
 }
 
 int	cmd_execution(t_shell *shell, t_btree *tree)
 {
 	char		*full_cmd_path;
+	t_builtin	builtin_type;
 	int			exit_status;
 	
 	if (tree->type != COMMAND)
 		return (-1);
-	full_cmd_path = get_full_cmd_path(tree->left->item[0], shell->paths);
-	exit_status = checking_cmd_access(full_cmd_path);
-	if (exit_status == 0)
-		execve(full_cmd_path, tree->left->item, shell->envs->env_tab);
-	close_fd(shell);
+	builtin_type = is_builtin(tree->left->item[0]);
+	if (builtin_type != NONE)
+	{
+		exit_status = execute_builtin(builtin_type, tree,
+			tree->left->item, shell->envs);
+		
+	}
+	else
+	{
+		full_cmd_path = get_full_cmd_path(tree->left->item[0], shell->paths);
+		exit_status = checking_cmd_access(full_cmd_path);
+		if (exit_status == 0)
+			execve(full_cmd_path, tree->left->item, shell->envs->env_tab);
+	}
+	close_fd(&shell->read);
+	close_fd(&shell->write);
 	free_process(shell, tree);
 	exit(exit_status);
+}
+
+int	close_fd(int *fd)
+{
+	if (*fd >= 0 && *fd != STDIN_FILENO && *fd != STDOUT_FILENO)
+	{
+		if (close(*fd) == -1)
+			return (perror("Closing fd failed"), 1);
+		*fd = -1;
+	}
+	return (0);
 }
 
 int	waiting(t_shell *shell, int last_pid)

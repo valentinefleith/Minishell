@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 17:16:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/29 11:32:10 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/05 15:44:16 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 void	error_execution(t_shell *shell, t_btree *tree, int exit_code)
 {
-	close_fd(shell);
+	close_fd(&shell->write);
+	close_fd(&shell->read);
 	free_process(shell, tree);
 	exit(exit_code);
 }
 
-void	debug_exec(t_btree *tree, t_shell *shell)
+void	debug_exec(t_btree *tree, t_shell *shell, int index)
 {
 	if (!tree)
 	{
@@ -31,16 +32,17 @@ void	debug_exec(t_btree *tree, t_shell *shell)
 	print_structure(tree, 0);
 	btree_print_details(tree, 0);
 	
-	ft_putstr_fd("PID = ", 2);
-	ft_putnbr_fd(shell->pid, 2);
+	ft_putstr_fd("\n", 2);
+	ft_putstr_fd("ID process -> ", 2);
+	ft_putnbr_fd(index, 2);
 	ft_putstr_fd("\n", 2);
 	
 	ft_putstr_fd("FD IN = ", 2);
-	ft_putnbr_fd(shell->fd_in, 2);
+	ft_putnbr_fd(shell->read, 2);
 	ft_putstr_fd("\n", 2);
 	
 	ft_putstr_fd("FD OUT = ", 2);
-	ft_putnbr_fd(shell->fd_out, 2);
+	ft_putnbr_fd(shell->write, 2);
 	ft_putstr_fd("\n", 2);
 	ft_putstr_fd("-----------------------------------------------------------", 2);
 	ft_putstr_fd("\n", 2);
