@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/05 17:42:24 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:08:34 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,7 @@ t_token						*shift_action(t_token *stack, t_token **tokens,
 t_token						*reduce_action(t_token *stack, t_token *tokens,
 								t_token **output, int *state);
 void						cat_tokens(t_token *stack, int *state, int type);
-void						init_arg(t_token *stack, t_token *tokens,
-								int *state, int type);
+void						init_arg(t_token *stack, t_token *tokens, int type);
 t_token						*find_last_type(t_token *stack, int type);
 
 t_action					parsing_table(t_token *stack, t_token *tokens,

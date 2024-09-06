@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:46:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/28 17:50:33 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:14:32 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_env	*init_envs(char **env)
 {
-	t_env_list *env_list;
-	char **env_tab;
-	t_env *envs;
+	t_env_list	*env_list;
+	char		**env_tab;
+	t_env		*envs;
 	
 	envs = malloc(sizeof(t_env));
 	if (!envs)
@@ -26,7 +26,7 @@ t_env	*init_envs(char **env)
 		return (NULL);
 	env_list = NULL;
 	env_list = build_env_list(env_list, env);
-	add_exit_status_var(env_list);
+	// add_exit_status_var(env_list);
 	envs->env_list = env_list;
 	envs->env_tab = env_tab;
 	return (envs);

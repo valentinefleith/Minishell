@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:29 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/08 15:18:30 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:10:38 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ t_token *ft_free_tokens(t_token **tokens)
 		next = (*tokens)->next;
 		if (*tokens)
 		{
-			free((*tokens)->data);
+			if ((*tokens)->data)
+				free((*tokens)->data);
+			if ((*tokens)->arg)
+				ft_free_tab((*tokens)->arg);
 			free(*tokens);
 		}
 		*tokens = next;
@@ -30,7 +33,6 @@ t_token *ft_free_tokens(t_token **tokens)
 		free(tokens);*/
 	return (NULL);
 }
-
 
 t_token *quote_error(t_token **tokens)
 {

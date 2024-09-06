@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/05 17:40:08 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:52:15 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output, int *s
 	if (*state == 1)
 	{
 		replace_type(stack, WORD, CMD);
-		init_arg(stack, tokens, state, CMD);
+		init_arg(stack, tokens, CMD);
 	}
 	if (*state == 3)
 		cat_tokens(stack, state, CMD);
 	if (*state == 6)
 	{
 		replace_type(stack, INPUT, REDIR);
-		init_arg(stack, tokens, state, REDIR);
+		init_arg(stack, tokens, REDIR);
 		cat_tokens(stack, state, REDIR);
 	}
 	else if (*state >= 4 && *state <= 15)
@@ -73,7 +73,7 @@ t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output, int *s
 	return (stack);
 }
 
-void	init_arg(t_token *stack, t_token *tokens, int *state, int type)
+void	init_arg(t_token *stack, t_token *tokens, int type)
 {
 	t_token	*node;
 	int		nb_arg;
@@ -91,6 +91,7 @@ void	init_arg(t_token *stack, t_token *tokens, int *state, int type)
 	if (!node->arg[0])
 	{
 		ft_free_tab(node->arg);
+		node->arg[0] = NULL;
 		return ;
 	}
 	i = 1;
@@ -99,7 +100,6 @@ void	init_arg(t_token *stack, t_token *tokens, int *state, int type)
 		node->arg[i] = NULL;
 		i++;
 	}
-	(void)state;
 }
 
 void	cat_tokens(t_token *stack, int *state, int type)

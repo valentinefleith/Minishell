@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/05 17:51:08 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:19:05 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ int	main(int argc, char **argv, char **env)
 		}
 		tokens = parser(tokens);
 		tree = create_ast(tokens);
+		if (tokens)
+			ft_free_tokens(&tokens);
 		// print_structure(tree, 0);
 		// btree_print_details(tree, 0);
 		launch_pipeline(tree, envs, paths);
 		// update_exit_status(envs->env_list, launch_pipeline(tree, envs, paths));
-		if (tokens)
-			ft_free_tokens(&tokens);
 		if (tree)
 			btree_free(tree);
 		free(buffer);

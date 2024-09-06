@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:29:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/05 17:07:46 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:07:14 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char *find_input(t_btree *tree, t_shell *shell, char *name)
 		return (name);
 	if (tree->type == REDIR && !ft_strncmp(tree->item[0], "<<", 2))
 		name = parsing_heredoc(tree->item[1], ft_strlen(tree->item[1]));
-	if (tree->type == REDIR && !ft_strncmp(tree->item[0], "<", 1))
+	else if (tree->type == REDIR && !ft_strncmp(tree->item[0], "<", 1))
 	{
 		if (check_file_access(tree->item[1], INPUT) != 1)
 			name = tree->item[1];
@@ -93,19 +93,19 @@ char	*parsing_heredoc(char *limit, int len)
 		return (NULL);
 	while (1)
 	{
+		ft_putstr_fd("> ", STDOUT_FILENO);
 		input = get_next_line(STDIN_FILENO);
-		if (ft_strnstr(input, limit, len) && !ft_strncmp(&input[len], "\n", 1))
-			break ;
-		else if (!input)
+		if (!input)
 		{
-			ft_putstr_fd("here-document delimited by end-of-file", 2);
+			ft_putstr_fd("\nbash: here-document delimited by end-of-file", 2);
 			break ;
 		}
+		else if (ft_strnstr(input, limit, len) && !ft_strncmp(&input[len], "\n", 1))
+			break ;
 		else
 			write(fd, input, ft_strlen(input));
 		free(input);
 	}
 	free(input);
-	close(fd);
-	return ("here_doc");
+	return (close(fd), "here_doc");
 }
