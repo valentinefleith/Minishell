@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_expansion.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/31 19:58:34 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:19:49 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static t_env_list *find_target_variable(t_env_list *env_list, char *data)
 	return NULL;
 }
 
-static char *expand_variables(char *data, t_env *envs)
+static char	*expand_variables(char *data, t_env *envs)
 {
 	int i = 0;
 	t_env_list *target_var;
@@ -107,7 +107,7 @@ static char *expand_variables(char *data, t_env *envs)
 		if (data[i] == '$' && !inside_single_quotes)
 		{
 			i++;
-			if (ft_isalpha(data[i]))
+			if (ft_isalpha(data[i]) || data[i] == '?')
 			{
 				target_var = find_target_variable(envs->env_list, data + i);
 				data = replace_variable(data, i - 1, target_var);
@@ -122,7 +122,7 @@ static char *expand_variables(char *data, t_env *envs)
 	return data;
 }
 
-void perform_var_expansion(t_token *tokens, t_env *envs)
+void	perform_var_expansion(t_token *tokens, t_env *envs)
 {
 	t_token *start;
 

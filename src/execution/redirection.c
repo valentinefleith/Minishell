@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:29:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/06 15:07:14 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:08:54 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ int	file_redirection(t_btree *tree, t_shell *shell, int fd, int type)
 	{
 		close_fd(&fd);
 		fd = open_file(filename, type);
+		if (fd == -1)
+		{
+			free_process(shell, tree);
+			exit(EXIT_FAILURE);
+		}
 	}
 	return (fd);
 }

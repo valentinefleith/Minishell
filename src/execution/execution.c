@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/06 16:18:07 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:10:59 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 		builtin = is_builtin(root->left->item[0]);
 		if (builtin != NONE)
 			return (execute_builtin(builtin, root, root->left->item, envs));
-		
 	}
 	execute_ast(root, &shell);
 	// close_fd(&shell.read);
 	// close_fd(&shell.write);
 	if (access("here_doc", F_OK) != -1)
 		unlink("here_doc");
+	ft_free_tab(paths);
 	return (waiting(&shell, shell.pid));
 }
 
@@ -69,11 +69,11 @@ void	child_process(t_btree *tree, t_shell *shell)
 	int	exit_status;
 	
 	exit_status = 0;
-	shell->read = file_redirection(tree, shell, shell->read, INPUT);
-	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 	shell->pid = fork();
 	if (shell->pid == 0)
 	{
+		shell->read = file_redirection(tree, shell, shell->read, INPUT);
+		shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 		if (dup2(shell->read, STDIN_FILENO) == -1)
 			perror("dup2: shell->read");
 		close_fd(&shell->read);
@@ -137,7 +137,7 @@ int	waiting(t_shell *shell, int last_pid)
 		current_pid = wait(&status);
 		if (current_pid == -1)
 		{
-			
+			return (perror("wait: wrong pid"), -1);
 		}
 		if (current_pid == last_pid)
 		{

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/06 15:19:05 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:44:35 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,12 @@ int	main(int argc, char **argv, char **env)
 	char	*buffer;
 	t_token	*tokens;
 	t_btree	*tree;
-	char 	**paths;
 	t_env	*envs;
-
+	int		exit_status;
+	
 	(void)argc;
 	(void)argv;
 	envs = init_envs(env);
-	paths = get_paths(envs->env_list);
-	// check malloc paths etc.
 	while (1)
 	{
 		buffer = readline("$> ");
@@ -53,29 +51,13 @@ int	main(int argc, char **argv, char **env)
 		if (!buffer)
 			continue ;
 		tokens = tokenize_cmdline(buffer, envs);
-		if (tokens == NULL)
-		{
-			continue;
-			free(buffer);
-		}
 		tokens = parser(tokens);
 		tree = create_ast(tokens);
 		if (tokens)
 			ft_free_tokens(&tokens);
-		// print_structure(tree, 0);
-		// btree_print_details(tree, 0);
-		launch_pipeline(tree, envs, paths);
-		// update_exit_status(envs->env_list, launch_pipeline(tree, envs, paths));
-		if (tree)
-			btree_free(tree);
-		free(buffer);
+		exit_status = launch_pipeline(tree, envs, get_paths(envs->env_list));
+		update_exit_status(envs->env_list, exit_status);
+		free_main_process(buffer, tree);
 	}
-	envs->env_list = free_env_list(&(envs->env_list));
+	return (exit_status);
 }
-
-// if (ft_strlen(buffer) == ft_strlen("exit") && !ft_strncmp(buffer,
-// 				"exit", 4))
-// 		{
-// 			free(buffer);
-// 			exit(EXIT_SUCCESS);
-// 		}

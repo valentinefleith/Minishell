@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:46:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/06 16:14:32 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:18:53 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_env	*init_envs(char **env)
 		return (NULL);
 	env_list = NULL;
 	env_list = build_env_list(env_list, env);
-	// add_exit_status_var(env_list);
+	add_exit_status_var(env_list);
 	envs->env_list = env_list;
 	envs->env_tab = env_tab;
 	return (envs);
@@ -83,5 +83,6 @@ void	add_exit_status_var(t_env_list *env_list)
 		return ;
 	var_exit_code->name = ft_strdup("?");
 	var_exit_code->data = ft_strdup("0");
+	var_exit_code->next = NULL;
 	add_env_list(&env_list, var_exit_code);
 }

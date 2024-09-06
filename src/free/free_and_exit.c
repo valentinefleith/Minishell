@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:52:37 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/06 15:11:01 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:34:13 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,12 @@ void	free_process(t_shell *shell, t_btree *tree)
 		btree_free(tree);
 		tree = NULL;
 	}
+}
+
+void	free_main_process(char *buffer, t_btree *tree)
+{
+	if (buffer)
+		free(buffer);
+	if (tree)
+		btree_free(tree);
 }

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 17:16:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/05 15:44:16 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:09:31 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	error_execution(t_shell *shell, t_btree *tree, int exit_code)
 {
 	close_fd(&shell->write);
 	close_fd(&shell->read);
+	ft_putstr_fd("ICI\n", 2);
 	free_process(shell, tree);
 	exit(exit_code);
 }
