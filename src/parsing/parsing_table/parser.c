@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/09 17:52:54 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:55:53 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_token  *parser(t_token *tokens)
 		else if (action == reduce)
 			stack = reduce_action(stack, tokens, &output, &state);
 		else if (action == error)
-			stack = error_action(stack, tokens, &state);
+			stack = error_action(stack, &state);
 	}
 	return (output);
 }
@@ -78,13 +78,11 @@ void	build_output(t_token **stack, t_token **output)
 /**
  *	Handles errors during parsing.
  */
-t_token	*error_action(t_token *stack, t_token *token_list, int *state)
+t_token	*error_action(t_token *stack, int *state)
 {
 	t_token	*token;
 	
 	token = get_last_token(stack);
-	if (token_list)
-		printf("%s\n", token_list->data);
 	if (!ft_strncmp(stack->data, "<", 1) && ft_strlen(stack->data) == 1
 		&& !ft_strncmp(token->data, ">", 1) && ft_strlen(token->data) == 1)
 		printf("bash: syntax error near unexpected token 'newline'\n");
