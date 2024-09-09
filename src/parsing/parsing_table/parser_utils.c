@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:24 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/20 17:35:44 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:23:39 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ t_action	find_in_loop(t_token *list, int *state, int start, int end)
 			if (list && list->type == start)
 			{
 				if (start == 0)
-					*state = 1; // si word go to 1
+					*state = 1;
 				else
-					*state = 2; // si token redir go to 2 
+					*state = 2;
 				return (shift);
 			}
 			start++;

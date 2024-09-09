@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:14:01 by luvallee          #+#    #+#             */
-/*   Updated: 2024/06/28 09:16:22 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:13:57 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_closing_files(t_pipex *pipex, int count)
 			if (pipex->fd[i][j] != -1)
 			{
 				if (close(pipex->fd[i][j]) == ERROR)
-					ft_putstr_fd("Fail close fd\n", 2);
+					ft_putstr_fd("\e[31mFail close fd\e[0m\n", 2);
 				pipex->fd[i][j] = -1;
 			}
 			j++;

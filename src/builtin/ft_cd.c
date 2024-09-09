@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:25:31 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 14:25:26 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:10:53 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	is_arg_unique(char **cmd)
 
 static int	cd_error(void)
 {
-	ft_putstr_fd("bash: cd: too many arguments\n", 2);
+	ft_putstr_fd("\e[31mbash: cd: too many arguments\e[0m\n", 2);
 	return (1);
 }
 
@@ -56,7 +56,7 @@ int	ft_cd(t_env *envs, char **cmd)
 	{
 		path = getenv("HOME");
 		if (!path)
-			return (ft_putstr_fd("bash: cd: HOME not set\n", 2), 1);
+			return (ft_putstr_fd("\e[31mbash: cd: HOME not set\e[0m\n", 2), 1);
 	}
 	else
 		path = cmd[1];
