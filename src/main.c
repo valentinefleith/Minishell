@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/06 17:44:35 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/09 14:56:22 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	main(int argc, char **argv, char **env)
 	envs = init_envs(env);
 	while (1)
 	{
-		buffer = readline("$> ");
+		buffer = readline("\e[32;1m$> \e[0m");
 		add_history(buffer);
 		if (!buffer)
 			continue ;

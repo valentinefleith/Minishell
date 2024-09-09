@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:29:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/06 18:08:54 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:24:35 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,14 @@ int	open_file(char *filename, int file_type)
 		fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (file_type == HEREDOC)
 		fd = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
+	// if (fd == -1)
+	// 	perror(filename);
 	if (fd == -1)
-		perror(filename);
+	{
+		ft_putstr_fd("\e[31m", 2);
+		ft_putstr_fd(filename, 2);
+		ft_putstr_fd("\e[0m", 2);
+	}
 	return (fd);
 }
 
@@ -98,11 +104,11 @@ char	*parsing_heredoc(char *limit, int len)
 		return (NULL);
 	while (1)
 	{
-		ft_putstr_fd("> ", STDOUT_FILENO);
+		ft_putstr_fd("\e[32m> \e[0m", STDOUT_FILENO);
 		input = get_next_line(STDIN_FILENO);
 		if (!input)
 		{
-			ft_putstr_fd("\nbash: here-document delimited by end-of-file", 2);
+			ft_putstr_fd("\n\e[31mbash: here-document delimited by end-of-file\e[0m", 2);
 			break ;
 		}
 		else if (ft_strnstr(input, limit, len) && !ft_strncmp(&input[len], "\n", 1))

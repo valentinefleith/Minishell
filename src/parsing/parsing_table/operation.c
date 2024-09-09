@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/06 15:52:15 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:53:17 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token	*shift_action(t_token *stack, t_token **tokens, int *state)
 	t_token	*save;
 	
 	if (!tokens || !*tokens)
-		return (error_action(stack, state));
+		return (error_action(stack, *tokens, state));
 	shifted = malloc(sizeof(t_token));
 	if (!shifted)
 		return (stack);
@@ -105,25 +105,17 @@ void	init_arg(t_token *stack, t_token *tokens, int type)
 void	cat_tokens(t_token *stack, int *state, int type)
 {
 	t_token	*token;
-	//size_t	len;
 	int		pos;
 	
 	token = find_last_type(stack, type);
 	if (!token || !token->arg || !token->next || token->next->type != WORD)
 	{
-		error_action(token, state);
+		error_action(token, NULL, state);
 		return ;
 	}
-	//len = ft_strlen(token->next->data);
 	pos = 1;
 	while (token->arg[pos])
 		pos++;
-	//if ((token->next->data[0] == SINGLE_QUOTE 
-	//	|| token->next->data[0] == DOUBLE_QUOTE)
-	//	&& (token->next->data[len - 1] == SINGLE_QUOTE 
-	//	|| token->next->data[len - 1] == DOUBLE_QUOTE))
-	//	token->arg[pos] = ft_substr(token->next->data, 1, len - 1);
-	//else
 	token->arg[pos] = ft_strdup(token->next->data);
 	if (!token->arg[pos])
 		return (ft_free_tab(token->arg));
