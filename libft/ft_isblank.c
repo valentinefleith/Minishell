@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.h                                             :+:      :+:    :+:   */
+/*   ft_isblank.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:49:08 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/06 16:34:26 by luvallee         ###   ########.fr       */
+/*   Created: 2024/08/15 13:49:19 by luvallee          #+#    #+#             */
+/*   Updated: 2024/08/20 12:11:18 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FREE_H
-# define FREE_H
+#include "libft.h"
 
-#include "parsing.h"
-
-typedef struct s_shell t_shell;
-
-void	free_and_exit(t_token **tokens, int exit_status);
-void	free_process(t_shell *shell, t_btree *tree);
-void	free_main_process(char *buffer, t_btree *tree);
-
-void	ft_free_tab(char **strs);
-
-t_token	*ft_free_tokens(t_token **tokens);
-
-#endif
+int	ft_isblank(int c)
+{
+	if ((c >= 9 && c <= 13) || (c == 32))
+		return (1);
+	return (0);
+}

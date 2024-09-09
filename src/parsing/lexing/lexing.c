@@ -6,14 +6,14 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/04 21:25:09 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:24:30 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "free.h"
 #include "minishell.h"
+#include "parsing.h"
 
-void	fill_token_types(t_token *tokens)
+static void	fill_token_types(t_token *tokens)
 {
 	while (tokens)
 	{
@@ -49,7 +49,7 @@ static int	handle_separator(char *buffer, int size)
 	return (size);
 }
 
-bool	check_quote_status(bool inside_quotes, bool inside_opposite_quotes)
+static bool	check_quote_status(bool inside_quotes, bool inside_opposite_quotes)
 {
 	if (!inside_quotes)
 		return (true);
@@ -73,10 +73,10 @@ static int	get_size_next_token(char *buffer)
 			return (handle_separator(buffer, size));
 		if (buffer[size] == DOUBLE_QUOTE && !inside_single_quotes)
 			inside_double_quotes = check_quote_status(inside_quotes,
-					inside_single_quotes);
+				inside_single_quotes);
 		if (buffer[size] == SINGLE_QUOTE && !inside_double_quotes)
 			inside_single_quotes = check_quote_status(inside_quotes,
-					inside_double_quotes);
+				inside_double_quotes);
 		size++;
 		inside_quotes = (inside_double_quotes || inside_single_quotes);
 	}
@@ -85,7 +85,7 @@ static int	get_size_next_token(char *buffer)
 	return (size);
 }
 
-t_token	*tokenize_cmdline(char *buffer)
+t_token	*tokenize_cmdline(char *buffer, t_env *envs)
 {
 	t_token	*tokens;
 	t_token	*new;
@@ -96,7 +96,7 @@ t_token	*tokenize_cmdline(char *buffer)
 	{
 		size = get_size_next_token(buffer);
 		if (size < 0)
-			return quote_error(&tokens);
+			return (quote_error(&tokens));
 		if (*buffer == ' ' && size == 1)
 		{
 			buffer++;
@@ -109,5 +109,6 @@ t_token	*tokenize_cmdline(char *buffer)
 		buffer += size;
 	}
 	fill_token_types(tokens);
+	perform_var_expansion(tokens, envs);
 	return (tokens);
 }

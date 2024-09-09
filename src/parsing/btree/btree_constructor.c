@@ -6,11 +6,10 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:41:51 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/12 20:03:18 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/20 16:25:01 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "free.h"
 #include "minishell.h"
 
 t_btree	*btree_create_node(char **data, int type)

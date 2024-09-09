@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 22:40:20 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/13 17:32:11 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:51:03 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ static t_btree	*fill_cmd(t_token *tokens, t_token *next_pipe)
 {
 	while (tokens && tokens != next_pipe)
 	{
-		if (tokens->type == CMD_NAME)
+		if (tokens->type == CMD)
 			break ;
 		tokens = tokens->next;
 	}
-	return (btree_create_node(tokens->arg, CMD_NAME));
+	return (btree_create_node(tokens->arg, CMD));
 }
 
 static t_btree	*fill_redirections(t_token *tokens, t_token *next_pipe)
@@ -36,7 +36,7 @@ static t_btree	*fill_redirections(t_token *tokens, t_token *next_pipe)
 
 	while (tokens && tokens != next_pipe)
 	{
-		if (tokens->type == REDIR || tokens->type == CMD_PREFIX)
+		if (tokens->type == REDIR)
 			break ;
 		tokens = tokens->next;
 	}

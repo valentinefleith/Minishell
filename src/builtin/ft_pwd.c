@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.h                                             :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:49:08 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/06 16:34:26 by luvallee         ###   ########.fr       */
+/*   Created: 2024/08/22 18:21:54 by luvallee          #+#    #+#             */
+/*   Updated: 2024/08/26 11:22:30 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FREE_H
-# define FREE_H
+#include "minishell.h"
 
-#include "parsing.h"
-
-typedef struct s_shell t_shell;
-
-void	free_and_exit(t_token **tokens, int exit_status);
-void	free_process(t_shell *shell, t_btree *tree);
-void	free_main_process(char *buffer, t_btree *tree);
-
-void	ft_free_tab(char **strs);
-
-t_token	*ft_free_tokens(t_token **tokens);
-
-#endif
+int	ft_pwd(t_env *envs)
+{
+	t_env_list	*path;
+	
+	if (!envs->env_list)
+		return (-1);
+	path = ft_getenv(envs->env_list, "PWD");
+	if (path)
+		printf("%s\n",path->data);
+	else
+		return (error_builtin(PWD, NULL));
+	return (0);
+}

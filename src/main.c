@@ -6,50 +6,58 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/12 20:13:32 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/09 14:56:22 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "free.h"
 #include "minishell.h"
-#include "parsing.h"
-#include "free.h"
 
+static char	**get_paths(t_env_list *env_list)
+{
+	int		seeking;
+	char	**split_paths;
+
+	seeking = -1;
+	while (env_list)
+	{
+		seeking = ft_strncmp(env_list->name, "PATH", 4);
+		if (!seeking)
+			break ;
+		env_list = env_list->next;
+	}
+	if (seeking)
+		return (NULL);
+	split_paths = ft_split(env_list->data + 5, ':');
+	if (!split_paths)
+		exit(1);
+	return (split_paths);
+}
 
 int	main(int argc, char **argv, char **env)
 {
 	char	*buffer;
 	t_token	*tokens;
 	t_btree	*tree;
-
+	t_env	*envs;
+	int		exit_status;
+	
 	(void)argc;
 	(void)argv;
-	(void)env;
+	envs = init_envs(env);
 	while (1)
 	{
-		// ft_printf("$> ");
-		// buffer = get_next_line(0);
-		buffer = readline("$> ");
+		buffer = readline("\e[32;1m$> \e[0m");
 		add_history(buffer);
 		if (!buffer)
 			continue ;
-		if (ft_strlen(buffer) == ft_strlen("exit") && !ft_strncmp(buffer,
-				"exit", 4))
-		{
-			free(buffer);
-			exit(EXIT_SUCCESS);
-		}
-		tokens = tokenize_cmdline(buffer);
-		ft_print_token_types(tokens);
+		tokens = tokenize_cmdline(buffer, envs);
 		tokens = parser(tokens);
-		debug_print_stack(tokens, "STACK FINAL");
 		tree = create_ast(tokens);
-		print_structure(tree, 0);
-		btree_print_details(tree, 1);
 		if (tokens)
 			ft_free_tokens(&tokens);
-		if (tree)
-			btree_free(tree);
-		free(buffer);
+		exit_status = launch_pipeline(tree, envs, get_paths(envs->env_list));
+		update_exit_status(envs->env_list, exit_status);
+		free_main_process(buffer, tree);
 	}
+	return (exit_status);
 }

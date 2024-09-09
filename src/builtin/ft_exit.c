@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_builtin.c                                    :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/02 14:57:26 by luvallee          #+#    #+#             */
-/*   Updated: 2024/07/02 15:47:06 by luvallee         ###   ########.fr       */
+/*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
+/*   Updated: 2024/09/05 17:58:11 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error_builtin(t_builtin builtin)
+void	ft_exit(t_env *envs, t_btree *tree, int	exit_status)
 {
-	if (builtin == PWD)
+	if (envs->env_list)
+		envs->env_list = free_env_list(&envs->env_list);
+	if (envs->env_tab)
 	{
-		printf("Error: while getting th working directory\n");
-		// faut il exit ou continuer l'execution ?
+		ft_free_tab(envs->env_tab);
+		envs->env_tab = NULL;
 	}
-	else if (builtin == 7)
-		printf("Error: while allocation\n");
+	if (envs)
+	{
+		free(envs);
+		envs = NULL;
+	}
+	if (tree)
+	{
+		btree_free(tree);
+		tree = NULL;	
+	}
+	exit(exit_status);
 }

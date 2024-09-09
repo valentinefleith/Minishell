@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.h                                             :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:49:08 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/06 16:34:26 by luvallee         ###   ########.fr       */
+/*   Created: 2024/08/23 14:26:03 by luvallee          #+#    #+#             */
+/*   Updated: 2024/08/26 12:00:39 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FREE_H
-# define FREE_H
+#include "minishell.h"
 
-#include "parsing.h"
+int	ft_unset(t_env *envs, char **arg)
+{
+	t_env_list	*var;
+	int		i;
 
-typedef struct s_shell t_shell;
-
-void	free_and_exit(t_token **tokens, int exit_status);
-void	free_process(t_shell *shell, t_btree *tree);
-void	free_main_process(char *buffer, t_btree *tree);
-
-void	ft_free_tab(char **strs);
-
-t_token	*ft_free_tokens(t_token **tokens);
-
-#endif
+	i = 0;
+	while (arg[i])
+	{
+		var = ft_getenv(envs->env_list, arg[i]);
+		if (var && var->data)
+		{
+			free(var->data);
+			var->data = NULL;
+		}
+		i++;
+	}
+	return (refresh_env_tab(envs));
+}

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/12 17:44:44 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/08/14 18:15:58 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,28 +23,28 @@
  */
 t_action	parsing_table(t_token *stack, t_token *tokens, int *state)
 {
-	if (*state == 8 && tokens && tokens->type == PIPE)
-	{
-		*state = 0;
-		return (shift);
-	}
+	if (*state == 7)
+		return (accept);
 	if (*state == 0)
 		return (state_zero(stack, tokens, state));
 	if (*state == 2)
 	{
-		*state = 7;
+		*state = 6;
 		return (shift);
 	}
-	if (*state == 3 || (*state == 8 && !tokens))
-		return (accept);
 	if (*state == 4)
 		return (state_four(stack, tokens, state));
 	if (*state == 5)
 		return (state_five(stack, tokens, state));
-	if (*state == 10 || *state == 12)
+	if (*state == 9 && tokens && tokens->type == PIPE)
+	{
+		*state = 9;
+		return (shift);
+	}
+	if (*state == 11 || *state == 14)
 		return (state_tens(stack, tokens, state));
-	if (*state == 1 || *state == 6 || *state == 7 || *state == 9 
-		|| *state == 11 || *state == 13 || *state == 14)
+	if (*state == 1 || *state == 3 || *state == 6 || *state == 8 || *state == 9
+		|| *state == 10 || *state == 12 || *state == 13 || *state == 15)
 		return (reduce);
 	return (error);
 }
@@ -54,18 +54,18 @@ t_action	parsing_table(t_token *stack, t_token *tokens, int *state)
  */
 t_action	state_zero(t_token *stack, t_token *tokens, int *state)
 {
-	if (find_in_stack(stack, CMD_NAME))
+	if (find_in_stack(stack, CMD))
 		*state = 4;
-	else if (find_in_stack(stack, CMD_PREFIX) && !tokens)
-		*state = 10;
-	else if (find_in_stack(stack, CMD_PREFIX))
-		*state = 5;
 	else if (find_in_stack(stack, REDIR))
-		*state = 6;
-	else if (find_in_loop(tokens, state, WORD, APPEND + 1) == shift)
-		return (shift);
+		*state = 5;
+	if (stack && stack->type == PIPE)
+		return (error);
 	if (*state != 0)
 		return (go_to);
+	if (find_in_loop(tokens, state, WORD, APPEND + 1) == shift)
+		return (shift);
+	if (!stack && tokens->type == PIPE)
+		return (shift);
 	return (error);
 }
 
@@ -73,56 +73,59 @@ t_action	state_four(t_token *stack, t_token *tokens, int *state)
 {
 	if (find_in_loop(tokens, state, INPUT, APPEND + 1) == shift)
 		return (shift);
-	// if (find_in_stack(stack, CMD_SUFFIX))
-	// 	*state = 10;
-	else if (find_in_stack(stack, REDIR) && tokens)
-		*state = 10;
 	else if (tokens && tokens->type == WORD)
 	{
-		*state = 9;
+		*state = 3;
 		return (shift);
 	}
-	else if (!tokens || tokens->type == PIPE)
-		*state = 10;
-	return (go_to);
+	else if (find_in_stack(stack, REDIR))
+	{
+		*state = 9;
+		return (go_to);
+	}
+	else if (tokens && tokens->type == PIPE)
+	{
+		*state = 8;
+		return (shift);
+	}
+	return (reduce);
 }
 
 t_action	state_five(t_token *stack, t_token *tokens, int *state)
 {
-	if (find_in_stack(stack, CMD_NAME))
+	if (find_in_stack(stack, CMD))
+		*state = 11;
+	else if (find_in_loop(tokens, state, WORD, WORD + 1) == shift)
+		return (shift);
+	else if (tokens && tokens->type == PIPE)
 	{
-		*state = 12;
-		return (go_to);
-	}
-	else if (tokens && tokens->type == WORD)
-	{
-		*state = 1;
+		*state = 10;
 		return (shift);
 	}
-	return (error);
+	if (*state != 5)
+		return (go_to);
+	return (reduce);
 }
 
 t_action	state_tens(t_token *stack, t_token *tokens, int *state)
 {
-	if (*state == 10 && tokens && tokens->type == WORD)
+	if (*state == 11 && find_in_stack(stack, REDIR))
+		*state = 14;
+	else if (*state == 11 && find_in_loop(tokens, state, INPUT, APPEND +1) == shift)
+		return (shift);
+	else if (*state == 11 && tokens && tokens->type == PIPE)
 	{
 		*state = 13;
 		return (shift);
 	}
-	else if (*state == 10 && (!tokens || tokens->type == PIPE))
+	else if (*state == 11)
 		return (reduce);
-	if (*state == 12)
+	if (*state == 14 && tokens && tokens->type == PIPE)
 	{
-		if (find_in_stack(stack, CMD_SUFFIX))
-			*state = 10;
-		else if (find_in_stack(stack, REDIR))
-			*state = 11;
-		if (*state != 12)
-			return (go_to);
+		*state = 15;
+		return (shift);
 	}
-	if (*state == 12 && tokens && tokens->type == WORD)
-		*state = 9;
-	else if (*state == 12)
-		find_in_loop(tokens, state, INPUT, APPEND);
-	return (shift);
+	else if (*state == 14)
+		return (reduce);
+	return (error);
 }

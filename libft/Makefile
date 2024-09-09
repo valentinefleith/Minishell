@@ -37,7 +37,8 @@ SRCS	=	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c \
 			ft_lstdelone.c	\
 			ft_lstclear.c		\
 			ft_lstiter.c		\
-			ft_lstmap.c
+			ft_lstmap.c			\
+			ft_isblank.c
 
 
 OBJECTS = $(SRCS:%.c=%.o)

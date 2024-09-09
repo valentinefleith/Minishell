@@ -6,13 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:11 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/13 16:13:04 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/05 17:53:29 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_env	*get_last_node(t_env *list)
+static t_env_list	*get_last_node(t_env_list *list)
 {
 	if (!list)
 		return (NULL);
@@ -21,9 +21,9 @@ static t_env	*get_last_node(t_env *list)
 	return (list);
 }
 
-void	add_env_list(t_env **list, t_env *new)
+void	add_env_list(t_env_list **list, t_env_list *new)
 {
-	t_env *last;
+	t_env_list *last;
 	
 	if (!*list)
 	{
@@ -36,10 +36,12 @@ void	add_env_list(t_env **list, t_env *new)
 	}
 }
 
-t_env	*free_env_list(t_env **list)
+t_env_list	*free_env_list(t_env_list **list)
 {
-	t_env	*save;
+	t_env_list	*save;
 
+	if (!list || !*list)
+		return (NULL);
 	while (*list)
 	{
 		save = (*list)->next;
@@ -54,4 +56,13 @@ t_env	*free_env_list(t_env **list)
 		*list = save;
 	}
 	return (NULL);
+}
+
+void		print_env_list(t_env_list *env)
+{
+	while(env)
+	{
+		printf("%s=%s\n", env->name, env->data);
+		env = env->next;
+	}
 }

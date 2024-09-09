@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 15:59:09 by luvallee          #+#    #+#             */
-/*   Updated: 2024/06/28 09:16:33 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/09 15:14:31 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	ft_parsing(t_pipex *pipex, char **argv, int fd)
 	{
 		if (!argv[2] || !argv[2][0])
 		{
-			ft_putstr_fd("Error: missing delimiter\n", 2);
+			ft_putstr_fd("\e[31mError: missing delimiter\e[0m\n", 2);
 			exit(1);
 		}
 		else
@@ -64,7 +64,7 @@ void	ft_parsing_here_doc(char *lim, int fd, char *input)
 			break ;
 		else if (!input)
 		{
-			ft_putstr_fd("here-document delimited by end-of-file", 2);
+			ft_putstr_fd("\e[31mhere-document delimited by end-of-file\e[0m", 2);
 			break ;
 		}
 		else

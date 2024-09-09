@@ -1,28 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.h                                             :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 15:49:08 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/06 16:34:26 by luvallee         ###   ########.fr       */
+/*   Created: 2024/08/22 18:33:05 by luvallee          #+#    #+#             */
+/*   Updated: 2024/08/31 20:00:15 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FREE_H
-# define FREE_H
+#include "minishell.h"
 
-#include "parsing.h"
+int	ft_echo(char **cmd)
+{
+	int	i;
 
-typedef struct s_shell t_shell;
-
-void	free_and_exit(t_token **tokens, int exit_status);
-void	free_process(t_shell *shell, t_btree *tree);
-void	free_main_process(char *buffer, t_btree *tree);
-
-void	ft_free_tab(char **strs);
-
-t_token	*ft_free_tokens(t_token **tokens);
-
-#endif
+	if (cmd[1] && !ft_strncmp(cmd[1], "-n", 2))
+	{
+		i = 2;
+		while (cmd[i])
+		{
+			ft_printf("%s ", cmd[i]);
+			i++;
+		}
+	}
+	else if (cmd[1])
+	{
+		i = 1;
+		while (cmd[i])
+		{
+			ft_printf("%s ", cmd[i]);
+			i++;
+		}
+		ft_printf("\n");
+	}
+	return (0);
+}
