@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/09 15:53:17 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/09 17:56:31 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_token	*shift_action(t_token *stack, t_token **tokens, int *state)
 	t_token	*save;
 	
 	if (!tokens || !*tokens)
-		return (error_action(stack, *tokens, state));
+		return (error_action(stack,  state));
 	shifted = malloc(sizeof(t_token));
 	if (!shifted)
 		return (stack);
@@ -110,7 +110,7 @@ void	cat_tokens(t_token *stack, int *state, int type)
 	token = find_last_type(stack, type);
 	if (!token || !token->arg || !token->next || token->next->type != WORD)
 	{
-		error_action(token, NULL, state);
+		error_action(token, state);
 		return ;
 	}
 	pos = 1;
