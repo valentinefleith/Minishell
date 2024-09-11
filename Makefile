@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/09/11 12:09:08 by luvallee         ###   ########.fr        #
+#    Updated: 2024/09/11 14:04:16 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,8 @@ SRCS = main.c \
 	   execution/exec_utils.c execution/redirection.c execution/execution.c \
 	   execution/error_execution.c builtin/builtin.c \
 	   builtin/ft_env.c builtin/ft_cd.c builtin/ft_pwd.c builtin/ft_echo.c builtin/ft_export.c \
-	   builtin/ft_unset.c builtin/ft_exit.c
+	   builtin/ft_unset.c builtin/ft_exit.c \
+	   execution/signal_handler.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/11 12:09:53 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:17:31 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	child_process(t_btree *tree, t_shell *shell)
 	shell->pid = fork();
 	if (shell->pid == 0)
 	{
+		signal_monitor(true, false);
+		// signal_monitor(true);
 		shell->read = file_redirection(tree, shell, shell->read, INPUT);
 		shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 		if (dup2(shell->read, STDIN_FILENO) == -1)
@@ -86,6 +88,8 @@ void	child_process(t_btree *tree, t_shell *shell)
 		free_process(shell, tree);
 		exit(exit_status);
 	}
+	signal_monitor(false, false);
+	// signal_monitor(false);
 	close_fd(&shell->read);
 	close_fd(&shell->write);
 }
@@ -135,12 +139,12 @@ int	waiting(t_shell *shell, int last_pid)
 	while (i < shell->nb_cmd)
 	{
 		current_pid = wait(&status);
-		if (current_pid == -1)
-		{
-			return (perror("wait: wrong pid"), -1);
-		}
+		// if (current_pid == -1)
+		// 	return (perror("wait"), g_signal);
 		if (current_pid == last_pid)
 		{
+			if (WIFSIGNALED(status))
+				return (g_signal);
 			if (WIFEXITED(status))
 				return (WEXITSTATUS(status));
 		}

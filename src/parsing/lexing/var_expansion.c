@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/06 18:19:49 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:49:40 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ void	perform_var_expansion(t_token *tokens, t_env *envs)
 	t_token *start;
 
 	start = tokens;
+	update_exit_status(envs->env_list, 0);
 	while (tokens)
 	{
 		tokens->data = expand_variables(tokens->data, envs);

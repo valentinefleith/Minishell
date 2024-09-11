@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/09 17:56:18 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:32:19 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define SINGLE_QUOTE '\''
 # define DOUBLE_QUOTE '\"'
 
+typedef enum e_builtin t_builtin;
+
 typedef enum e_action
 {
 	shift,
@@ -31,15 +33,15 @@ typedef enum e_action
 	go_to,
 }							t_action;
 
-typedef struct s_cmd
-{
-	t_builtin				builtin_type;
-	char					*exec_path;
-	char					**cmd_and_args;
-	int						infile;
-	int						outfile;
-	struct s_cmd			*next;
-}							t_cmd;
+// typedef struct s_cmd
+// {
+// 	t_builtin				builtin_type;
+// 	char					*exec_path;
+// 	char					**cmd_and_args;
+// 	int						infile;
+// 	int						outfile;
+// 	struct s_cmd			*next;
+// }							t_cmd;
 
 typedef enum e_grammar_rules
 {
@@ -76,9 +78,6 @@ typedef struct s_btree
 	struct s_btree			*right;
 	char					**item;
 }							t_btree;
-
-typedef struct s_env_list	t_env_list;
-typedef struct s_env		t_env;
 
 /************************ Lexing *********************************************/
 
@@ -119,7 +118,7 @@ t_action					state_five(t_token *stack, t_token *tokens,
 t_action					state_tens(t_token *stack, t_token *tokens,
 								int *state);
 
-t_token  					*parser(t_token *tokens);
+t_token						*parser(t_token *tokens);
 void						build_output(t_token **stack, t_token **output);
 t_token						*error_action(t_token *stack, int *state);
 

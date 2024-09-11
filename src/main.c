@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/09 18:31:22 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:16:54 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static char	**get_paths(t_env_list *env_list)
 	return (split_paths);
 }
 
+int	g_signal = 0;
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*buffer;
@@ -46,6 +48,8 @@ int	main(int argc, char **argv, char **env)
 	envs = init_envs(env);
 	while (1)
 	{
+		// signal_monitor_interactive(envs->env_list);
+		signal_monitor(false, true);
 		buffer = readline("\e[32;1m$> \e[0m");
 		add_history(buffer);
 		if (!buffer)
