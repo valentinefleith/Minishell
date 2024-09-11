@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 22:40:20 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/21 15:51:03 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:37:39 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ static t_btree	*fill_cmd(t_token *tokens, t_token *next_pipe)
 			break ;
 		tokens = tokens->next;
 	}
+	if (!tokens)
+		return NULL;
 	return (btree_create_node(tokens->arg, CMD));
 }
 
@@ -58,15 +60,7 @@ static t_btree	*create_command_tree(t_token *tokens, t_token *next_pipe)
 	if (!command)
 		return (NULL);
 	command->left = fill_cmd(tokens, next_pipe);
-	// btree_create_node(tokens->arg, tokens->type);
-	// pour l'instant ca marche que si on a 1 seul truc dans la commande
 	command->right = fill_redirections(tokens, next_pipe);
-	//command->right = NULL;
-	// while (tokens != next_pipe)
-	//{
-	//
-	//	tokens = tokens->next;
-	//}
 	return (command);
 }
 
