@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 19:17:49 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/12 20:12:54 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:32:52 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**ft_strsdup(char **strs)
 	if (!strs)
 		return (NULL);
 	nb_of_elem = find_nb_of_elem(strs);
-	duplicate = malloc((nb_of_elem + 1) * sizeof(char *));
+	duplicate = ft_calloc(nb_of_elem + 1, sizeof(char *));
 	if (!duplicate)
 		return (NULL);
 	i = 0;
@@ -56,7 +56,6 @@ char	**ft_strsdup(char **strs)
 			return (ft_free_strs(duplicate));
 		i++;
 	}
-	duplicate[i] = 0;
 	return (duplicate);
 }
 
