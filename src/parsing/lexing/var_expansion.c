@@ -6,21 +6,11 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/11 11:56:45 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:53:15 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	get_len_varname(char *data, int index)
-{
-	int	len;
-
-	len = 0;
-	while (data[index + len] && data[index + len] != ' ')
-		len++;
-	return (len);
-}
 
 static char	*remove_varname(char *data, int index)
 {
@@ -84,7 +74,7 @@ static char	*replace_variable(char *data, int index, t_env_list *target_var)
 	int		new_len;
 	char	*new;
 
-	if (!target_var)
+	if (!target_var || !target_var->data)
 		return (remove_varname(data, index));
 	if (target_var)
 		new_len = ft_strlen(data) - (1 + ft_strlen(target_var->name))
@@ -95,17 +85,6 @@ static char	*replace_variable(char *data, int index, t_env_list *target_var)
 	copy_right_data(new, data, index, target_var, new_len);
 	free(data);
 	return (new);
-}
-
-static t_env_list	*find_target_variable(t_env_list *env_list, char *data)
-{
-	while (env_list)
-	{
-		if (!ft_strncmp(env_list->name, data, ft_strlen(env_list->name)))
-			return (env_list);
-		env_list = env_list->next;
-	}
-	return (NULL);
 }
 
 static char	*expand_variables(char *data, t_env *envs)
@@ -125,7 +104,7 @@ static char	*expand_variables(char *data, t_env *envs)
 			i++;
 			if (ft_isalnum(data[i]) || data[i] == '?' || data[i] == '_')
 			{
-				target_var = find_target_variable(envs->env_list, data + i);
+				target_var = find_target_variable(envs->env_list, data, i);
 				data = replace_variable(data, i - 1, target_var);
 				if (!data)
 					return (NULL);
@@ -151,7 +130,6 @@ void	perform_var_expansion(t_token *tokens, t_env *envs)
 		{
 			ft_free_tokens(&start);
 			return ;
-			// exit?
 		}
 		tokens = tokens->next;
 	}

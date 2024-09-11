@@ -6,13 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/11 19:02:43 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:30:08 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**get_paths(t_env_list *env_list)
+static char	**get_paths(t_env_list *env_list, char *buffer)
 {
 	int		seeking;
 	char	**split_paths;
@@ -29,7 +29,10 @@ static char	**get_paths(t_env_list *env_list)
 		return (NULL);
 	split_paths = ft_split(env_list->data + 5, ':');
 	if (!split_paths)
+	{
+		free(buffer);
 		exit(1);
+	}
 	return (split_paths);
 }
 
@@ -53,22 +56,23 @@ int	main(int argc, char **argv, char **env)
 	t_env	*envs;
 	int		exit_status;
 	t_btree	*tree;
-	char	**paths;
 
 	(void)argc;
 	(void)argv;
 	envs = init_envs(env);
+	if (!envs)
+		return (1);
 	while (1)
 	{
 		buffer = readline("\e[32;1m$> \e[0m");
 		add_history(buffer);
 		if (!buffer)
 			continue ;
-		paths = get_paths(envs->env_list);
-		if (!paths)
-			return (free(buffer), 1);
 		tree = parse_user_prompt(buffer, envs);
-		exit_status = launch_pipeline(tree, envs, paths);
+		if (!tree)
+			return (free(buffer), 1);
+		exit_status = launch_pipeline(tree, envs, get_paths(envs->env_list,
+					buffer));
 		update_exit_status(envs->env_list, exit_status);
 		free_main_process(buffer, tree);
 	}
