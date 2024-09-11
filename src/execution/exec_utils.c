@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:33:09 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/09 15:31:15 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:09:58 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*get_path_env(char *cmd_name, char **paths)
 		{
 			if (access(cmd_attempt, X_OK) == 0)
 				return (cmd_attempt);
-			//permission_denied(cmd_name);
+			permission_denied(cmd_name);
 		}
 		free(cmd_attempt);
 		i++;
@@ -60,7 +60,7 @@ char	*get_path_env(char *cmd_name, char **paths)
 	return (get_path_no_env(cmd_name));
 }
 
-char *get_full_cmd_path(char *command_name, char **paths)
+char	*get_full_cmd_path(char *command_name, char **paths)
 {
 	char	*executable_path;
 
@@ -68,22 +68,23 @@ char *get_full_cmd_path(char *command_name, char **paths)
 		executable_path = get_path_no_env(command_name);
 	else
 		executable_path = get_path_env(command_name, paths);
-	/*if (!executable_path)
+	if (!executable_path)
 	{
 		if (command_name && ft_strnstr(command_name, "./", 2))
 		{
-			ft_free_tab(command_name);
-			free_and_exit(paths, 126);
+			free(command_name);
+			//free_and_exit(paths, 126);
+			exit(126);
 		}
-		ft_free_tab(cmd.cmd_and_args);
-		free_and_exit(paths, 127);
-	}*/
+		free(command_name);
+		exit(127);
+	}
 	return (executable_path);
 }
 
 char	*get_path_no_env(char *cmd_name)
 {
-	/*if (access(cmd_name, F_OK) != 0)
+	if (access(cmd_name, F_OK) != 0)
 	{
 		if (ft_strchr(cmd_name, '/'))
 			no_such_file(cmd_name);
@@ -95,7 +96,7 @@ char	*get_path_no_env(char *cmd_name)
 	{
 		permission_denied(cmd_name);
 		return (NULL);
-	}*/
+	}
 	return (ft_strdup(cmd_name));
 }
 

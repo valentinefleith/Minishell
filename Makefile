@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/09/11 12:09:08 by luvallee         ###   ########.fr        #
+#    Updated: 2024/09/11 19:06:24 by vafleith         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ SRCS = main.c \
 	   env/env.c env/env_utils.c env/env_refresh.c \
 	   free/ft_free_tab.c free/free_and_exit.c \
 	   execution/exec_utils.c execution/redirection.c execution/execution.c \
-	   execution/error_execution.c builtin/builtin.c \
+	   execution/error_execution.c builtin/builtin.c execution/error_paths.c \
 	   builtin/ft_env.c builtin/ft_cd.c builtin/ft_pwd.c builtin/ft_echo.c builtin/ft_export.c \
 	   builtin/ft_unset.c builtin/ft_exit.c
 
