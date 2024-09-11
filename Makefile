@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/09/09 15:05:19 by luvallee         ###   ########.fr        #
+#    Updated: 2024/09/11 12:09:08 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,6 @@ READFLAGS = readline
 SRC_DIR = src
 
 SRCS = main.c \
-	   pipex/checking_access.c pipex/cleaning.c pipex/linked_list_func.c \
-	   pipex/parsing.c pipex/pipex.c pipex/utils.c\
 	   parsing/lexing/lexing.c parsing/lexing/tokens_constructor.c \
 	   parsing/lexing/tokens_get.c parsing/lexing/tokens_destructor.c \
 	   parsing/lexing/tokens_print.c parsing/lexing/var_expansion.c \

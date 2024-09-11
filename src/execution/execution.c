@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/09 18:21:00 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:09:53 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 			return (execute_builtin(builtin, root, root->left->item, envs));
 	}
 	execute_ast(root, &shell);
-	// close_fd(&shell.read);
-	// close_fd(&shell.write);
+	close_fd(&shell.read);
+	close_fd(&shell.write);
 	if (access("here_doc", F_OK) != -1)
 		unlink("here_doc");
 	ft_free_tab(paths);
@@ -69,8 +69,7 @@ void	child_process(t_btree *tree, t_shell *shell)
 	int	exit_status;
 	
 	exit_status = 0;
-	// shell->pid = fork();
-	shell->pid = 0;
+	shell->pid = fork();
 	if (shell->pid == 0)
 	{
 		shell->read = file_redirection(tree, shell, shell->read, INPUT);
