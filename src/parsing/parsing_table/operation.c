@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/09 17:56:31 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:49:05 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token	*shift_action(t_token *stack, t_token **tokens, int *state)
 	shifted->next = NULL;
 	tokens_add_back(&stack, shifted);
 	save = (*tokens)->next;
-	ft_free_token_node(tokens);
+	ft_free_token_node(*tokens);
 	*tokens = save;
 	return (stack);
 }
@@ -119,7 +119,7 @@ void	cat_tokens(t_token *stack, int *state, int type)
 	token->arg[pos] = ft_strdup(token->next->data);
 	if (!token->arg[pos])
 		return (ft_free_tab(token->arg));
-	ft_free_token_node(&token->next);
+	ft_free_token_node(token->next);
 	token->next = NULL;
 }
 

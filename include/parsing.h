@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/12 12:55:57 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:47:04 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ t_token						*tokenize_cmdline(char *buffer, t_env *envs);
 
 t_token						*create_node(char *buffer, int size);
 void						tokens_add_back(t_token **tokens, t_token *new);
-t_token						*quote_error(t_token **tokens);
-t_token						*ft_free_tokens(t_token **tokens);
+t_token						*quote_error(t_token *tokens);
+t_token						*ft_free_tokens(t_token *tokens);
 t_token						*ft_free_top_node(t_token **tokens);
-void						ft_free_token_node(t_token **token);
+void						ft_free_token_node(t_token *token);
 
 t_token						*get_last_token(t_token *tokens);
 t_token						*get_first_token(t_token *tokens);

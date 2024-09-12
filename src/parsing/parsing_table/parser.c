@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/09 17:55:53 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:49:28 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_token	*error_action(t_token *stack, int *state)
 	// 	printf("bash: syntax error near unexpected token '%s%s'\n", stack->data, token->data);
 	else
 		printf("bash: syntax error near unexpected token '%s'\n", token->data);
-	stack = ft_free_tokens(&stack);
+	stack = ft_free_tokens(stack);
 	*state = -1;
 	return (stack);
 }
