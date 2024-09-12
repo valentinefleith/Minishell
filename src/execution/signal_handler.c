@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:14:41 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/11 18:23:48 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:25:15 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	handle_signal(int signal)
 	}
 	if (signal == SIGQUIT)
 	{
-		ft_putstr_fd("\n", 2);
+		// ft_putstr_fd("\n", 2);
 		ft_putstr_fd("Quit (core dumped)", 2);
 		ft_putstr_fd("\n", 2);
 		g_signal = 131;
