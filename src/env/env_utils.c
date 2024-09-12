@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 14:46:11 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/05 17:53:29 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:42:04 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,26 +36,26 @@ void	add_env_list(t_env_list **list, t_env_list *new)
 	}
 }
 
-t_env_list	*free_env_list(t_env_list **list)
+t_env_list    *free_env_list(t_env_list *list)
 {
-	t_env_list	*save;
+    t_env_list    *save;
 
-	if (!list || !*list)
-		return (NULL);
-	while (*list)
-	{
-		save = (*list)->next;
-		if (*list)
-		{
-			if ((*list)->name)
-				free((*list)->name);
-			if ((*list)->data)
-				free((*list)->data);
-			free(*list);
-		}
-		*list = save;
-	}
-	return (NULL);
+    if (!list)
+        return (NULL);
+    while (list)
+    {
+        save = list->next;
+        if (list)
+        {
+            if (list->name)
+                free(list->name);
+            if (list->data)
+                free(list->data);
+            free(list);
+        }
+        list = save;
+    }
+    return (NULL);
 }
 
 void		print_env_list(t_env_list *env)

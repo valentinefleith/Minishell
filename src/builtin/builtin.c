@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/11 18:08:09 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:46:24 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env *envs)
 {
-	// signal_monitor(true, false);
 	if (builtin == PWD)
 		return (ft_pwd(envs));
 	else if (builtin == ECHO)

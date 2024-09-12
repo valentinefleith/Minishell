@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/12 13:02:27 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:32:35 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,8 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	envs = init_envs(env);
-	if (!envs)
-		return (1);
+	// if (!envs)
+	// 	return (1);
 	while (1)
 	{
 		signal_monitor(false, true);

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:18:19 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/05 17:36:44 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:02:03 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static t_env_list	*parse_export_arg(char *arg)
 		if (!ft_isalnum(arg[len]) && arg[len] != '_')
 		{
 			error_builtin(EXPORT, arg);
-			return (NULL);
+			return (free(new_var), NULL);
 		}
 		len++;
 	}

@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/09/12 13:00:57 by luvallee         ###   ########.fr        #
+#    Updated: 2024/09/12 14:27:35 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,19 @@ fclean: clean
 .PHONY: re
 re: fclean all
 
-valgrind_fd: $(NAME)
+#ARGS=0
+
+#set_args:
+#	@echo "PROMPT="
+#	@read > $(ARGS)
+#	export ARG=$(ARGS)
+
+valgrind_flags: $(NAME)
 	@valgrind --track-fds=yes --trace-children=yes \
-		--leak-check=full \
-	./$(NAME) $(ARGS)
+		--leak-check=full --show-leak-kinds=all \
+		--suppressions=fuck_readline \
+	./$(NAME)
+
+#bash_test: set_args
+#	@bash --posix
+#	$(ARGS)
