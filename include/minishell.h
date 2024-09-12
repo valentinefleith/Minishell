@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/11 18:17:22 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:00:40 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include "get_next_line.h"
 # include "libft.h"
 # include "parsing.h"
+# include "errors.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
