@@ -6,13 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/12 16:02:55 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:03:37 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**get_paths(t_env_list *env_list, char *buffer)
+static char	**get_paths(t_env_list *env_list)
 {
 	int		seeking;
 	char	**split_paths;
@@ -29,14 +29,11 @@ static char	**get_paths(t_env_list *env_list, char *buffer)
 		return (NULL);
 	split_paths = ft_split(env_list->data + 5, ':');
 	if (!split_paths)
-	{
-		free(buffer);
 		exit(1);
-	}
 	return (split_paths);
 }
 
-int	g_signal = 0;
+int				g_signal = 0;
 
 static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
 {
@@ -44,7 +41,18 @@ static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
 	t_token	*tokens;
 	t_btree	*tree;
 
+	if (!buffer)
+		return (NULL);
 	lexemes = tokenize_cmdline(buffer, envs);
+	if (!lexemes)
+	{
+		if (envs->env_tab)
+			ft_free_tab(envs->env_tab);
+		if (envs->env_list)
+			free_env_list(envs->env_list);
+		free(envs);
+		return (NULL);
+	}
 	tokens = parser(lexemes);
 	tree = create_ast(tokens);
 	if (tokens)
@@ -69,13 +77,12 @@ int	main(int argc, char **argv, char **env)
 		signal_monitor(false, true);
 		buffer = readline("\e[32;1m$> \e[0m");
 		add_history(buffer);
-		if (!buffer)
-			continue ;
 		tree = parse_user_prompt(buffer, envs);
+		if (buffer)
+			free(buffer);
 		if (!tree)
-			return (free(buffer), 1);
-		exit_status = launch_pipeline(tree, envs, get_paths(envs->env_list,
-					buffer));
+			continue ;
+		exit_status = launch_pipeline(tree, envs, get_paths(envs->env_list));
 		update_exit_status(envs->env_list, exit_status);
 		free_main_process(buffer, tree);
 	}
