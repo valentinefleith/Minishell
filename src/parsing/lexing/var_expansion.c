@@ -6,31 +6,25 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/11 17:49:40 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:01:38 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int get_len_varname(char *data, int index)
+static char	*remove_varname(char *data, int index)
 {
-	int len = 0;
-	while(data[index + len] && data[index + len] != ' ')
-		len++;
-	return len;
-}
+	int		new_len;
+	char	*new;
+	int		len_varname;
+	int		i;
 
-static char *remove_varname(char *data, int index)
-{
-	int new_len;
-	char *new;
-
-	int len_varname = get_len_varname(data, index);
+	len_varname = get_len_varname(data, index);
 	new_len = ft_strlen(data) - (len_varname + 1);
 	new = malloc((new_len + 1) * sizeof(char));
 	if (!new)
-		return NULL;
-	int i = 0;
+		return (NULL);
+	i = 0;
 	while (data[i] && i < index)
 	{
 		new[i] = data[i];
@@ -42,64 +36,65 @@ static char *remove_varname(char *data, int index)
 		i++;
 	}
 	new[i] = '\0';
-	return new;
+	return (new);
 }
 
-
-static char *replace_variable(char *data, int index, t_env_list *target_var)
+static void	copy_right_data(char *dest, char *src, int index,
+		t_env_list *target_var, int new_len)
 {
-	int new_len;
-	char *new;
+	int	i;
+	int	j;
+	int	k;
 
-	if (!target_var)
-		return remove_varname(data, index);
-	if (target_var)
-		new_len = ft_strlen(data) - (1 + ft_strlen(target_var->name)) + ft_strlen(target_var->data);
-	new = malloc((1 + new_len) * sizeof(char));
-	if (!new)
-		return NULL;
-	int i = 0;
+	i = 0;
 	while (i < index)
 	{
-		new[i] = data[i];
+		dest[i] = src[i];
 		i++;
 	}
-	int j = 0;
+	j = 0;
 	while (target_var->data[j])
 	{
-		new[i] = target_var->data[j];
+		dest[i] = target_var->data[j];
 		j++;
 		i++;
 	}
-	int k = index + 1 + ft_strlen(target_var->name);
+	k = index + 1 + ft_strlen(target_var->name);
 	while (i < new_len)
 	{
-		new[i] = data[k];
+		dest[i] = src[k];
 		i++;
 		k++;
 	}
-	new[i] = '\0';
-	free(data);
-	return new;
+	dest[i] = '\0';
 }
 
-static t_env_list *find_target_variable(t_env_list *env_list, char *data)
+static char	*replace_variable(char *data, int index, t_env_list *target_var)
 {
-	while (env_list)
-	{
-		if (!ft_strncmp(env_list->name, data, ft_strlen(env_list->name)))
-			return env_list;
-		env_list = env_list->next;
-	}
-	return NULL;
+	int		new_len;
+	char	*new;
+
+	if (!target_var || !target_var->data)
+		return (remove_varname(data, index));
+	if (target_var)
+		new_len = ft_strlen(data) - (1 + ft_strlen(target_var->name))
+			+ ft_strlen(target_var->data);
+	new = malloc((1 + new_len) * sizeof(char));
+	if (!new)
+		return (NULL);
+	copy_right_data(new, data, index, target_var, new_len);
+	free(data);
+	return (new);
 }
 
 static char	*expand_variables(char *data, t_env *envs)
 {
-	int i = 0;
-	t_env_list *target_var;
+	int			i;
+	t_env_list	*target_var;
+	bool		inside_single_quotes;
 
-	bool inside_single_quotes = false;
+	i = 0;
+	inside_single_quotes = false;
 	while (data[i])
 	{
 		if (data[i] == SINGLE_QUOTE)
@@ -107,24 +102,24 @@ static char	*expand_variables(char *data, t_env *envs)
 		if (data[i] == '$' && !inside_single_quotes)
 		{
 			i++;
-			if (ft_isalpha(data[i]) || data[i] == '?')
+			if (ft_isalnum(data[i]) || data[i] == '?' || data[i] == '_')
 			{
-				target_var = find_target_variable(envs->env_list, data + i);
+				target_var = find_target_variable(envs->env_list, data, i);
 				data = replace_variable(data, i - 1, target_var);
 				if (!data)
-					return NULL;
+					return (NULL);
 				i = 0;
 			}
 		}
 		else
 			i++;
 	}
-	return data;
+	return (data);
 }
 
 void	perform_var_expansion(t_token *tokens, t_env *envs)
 {
-	t_token *start;
+	t_token	*start;
 
 	start = tokens;
 	update_exit_status(envs->env_list, 0);
@@ -135,8 +130,7 @@ void	perform_var_expansion(t_token *tokens, t_env *envs)
 		if (tokens->data == NULL)
 		{
 			ft_free_tokens(&start);
-			return;
-			// exit?
+			return ;
 		}
 		tokens = tokens->next;
 	}

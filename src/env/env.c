@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:46:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/11 18:19:12 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 12:57:41 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_env	*init_envs(char **env)
 	add_exit_status_var(env_list);
 	envs->env_list = env_list;
 	envs->env_tab = env_tab;
-	// refresh_env_tab(envs);
 	return (envs);
 }
 

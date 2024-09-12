@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:29:46 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/09 18:29:10 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/11 18:19:35 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*ft_strjoin_char(char const *s1, char const *s2, char c)
 	size_t	joined_length;
 
 	joined_length = 1 + ft_strlen(s1) + ft_strlen(s2) + 1;
-	joined_strs = malloc(joined_length * sizeof(char));
+	joined_strs = ft_calloc(joined_length, sizeof(char));
 	if (joined_strs == NULL)
 		return (NULL);
 	ft_strlcpy(joined_strs, s1, ft_strlen(s1) + 1);
@@ -42,20 +42,19 @@ static char	*ft_strjoin_char(char const *s1, char const *s2, char c)
 
 int	refresh_env_tab(t_env *envs)
 {
-	int	nb_var;
-	int i;
-	t_env_list *env_list;
+	int			nb_var;
+	int			i;
+	t_env_list	*env_list;
 
 	ft_free_tab(envs->env_tab);
 	env_list = envs->env_list;
 	nb_var = get_nb_var(env_list);
-	envs->env_tab = malloc((nb_var + 1) * sizeof(char *));
+	envs->env_tab = ft_calloc(nb_var + 1, sizeof(char *));
 	if (!envs->env_tab)
 		return (free_env_list(&envs->env_list), 1);
 	i = 0;
 	while (i < nb_var)
 	{
-		envs->env_tab[i] = NULL;
 		envs->env_tab[i] = ft_strjoin_char(env_list->name, env_list->data, '=');
 		if (!envs->env_tab[i])
 		{
@@ -66,5 +65,5 @@ int	refresh_env_tab(t_env *envs)
 		i++;
 		env_list = env_list->next;
 	}
-	return 0;
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:19 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/05 15:44:00 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:07:03 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ char	*get_path_no_env(char *cmd_name);
 void	error_execution(t_shell *shell, t_btree *tree, int exit_code);
 void	debug_exec(t_btree *tree, t_shell *shell, int index);
 
+void	no_such_file(char *filename);
+void	cmd_not_found(char *cmd_name);
+void	permission_denied(char *name);
 
 // void	execute_pipeline(t_btree *tree, t_shell *shell, int index);
 // int	child_process(t_btree *tree, t_shell *shell, int index);

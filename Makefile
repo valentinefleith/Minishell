@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/09/11 14:04:16 by luvallee         ###   ########.fr        #
+#    Updated: 2024/09/12 13:00:57 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS = main.c \
 	   parsing/lexing/lexing.c parsing/lexing/tokens_constructor.c \
 	   parsing/lexing/tokens_get.c parsing/lexing/tokens_destructor.c \
 	   parsing/lexing/tokens_print.c parsing/lexing/var_expansion.c \
-	   parsing/lexing/quotes_removing.c \
+	   parsing/lexing/var_expansion_utils.c parsing/lexing/quotes_removing.c \
 	   parsing/btree/btree_constructor.c parsing/btree/btree_properties.c \
 	   parsing/btree/btree_destructor.c parsing/btree/btree_ast_build.c \
 	   parsing/btree/btree_print.c \
@@ -43,7 +43,7 @@ SRCS = main.c \
 	   env/env.c env/env_utils.c env/env_refresh.c \
 	   free/ft_free_tab.c free/free_and_exit.c \
 	   execution/exec_utils.c execution/redirection.c execution/execution.c \
-	   execution/error_execution.c builtin/builtin.c \
+	   execution/error_execution.c builtin/builtin.c execution/error_paths.c \
 	   builtin/ft_env.c builtin/ft_cd.c builtin/ft_pwd.c builtin/ft_echo.c builtin/ft_export.c \
 	   builtin/ft_unset.c builtin/ft_exit.c \
 	   execution/signal_handler.c

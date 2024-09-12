@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/12 12:53:26 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 12:55:57 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,9 @@ t_token						*get_last_pipe(t_token *tokens);
 
 void						perform_var_expansion(t_token *tokens, t_env *envs);
 char						*remove_quotes(char *data);
+int							get_len_varname(char *data, int index);
+t_env_list					*find_target_variable(t_env_list *env_list,
+								char *data, int index);
 
 /************************ Parsing table **************************************/
 
@@ -118,6 +121,7 @@ t_action					state_five(t_token *stack, t_token *tokens,
 t_action					state_tens(t_token *stack, t_token *tokens,
 								int *state);
 
+t_token						*parser(t_token *tokens);
 t_token						*parser(t_token *tokens);
 void						build_output(t_token **stack, t_token **output);
 t_token						*error_action(t_token *stack, int *state);
