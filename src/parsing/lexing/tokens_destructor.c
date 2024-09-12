@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:29 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/06 16:10:38 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:36:28 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ t_token *ft_free_tokens(t_token **tokens)
 		}
 		*tokens = next;
 	}
-	/*if (tokens)
-		free(tokens);*/
 	return (NULL);
 }
 

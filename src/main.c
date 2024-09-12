@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/12 18:03:37 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:43:04 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,7 @@ static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
 	lexemes = tokenize_cmdline(buffer, envs);
 	if (!lexemes)
 	{
-		if (envs->env_tab)
-			ft_free_tab(envs->env_tab);
-		if (envs->env_list)
-			free_env_list(envs->env_list);
-		free(envs);
+		alloc_error("lexer");
 		return (NULL);
 	}
 	tokens = parser(lexemes);
@@ -84,7 +80,7 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		exit_status = launch_pipeline(tree, envs, get_paths(envs->env_list));
 		update_exit_status(envs->env_list, exit_status);
-		free_main_process(buffer, tree);
+		free_main_process(tree);
 	}
 	return (exit_status);
 }
