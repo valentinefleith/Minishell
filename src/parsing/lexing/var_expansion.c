@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/12 18:48:05 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:45:55 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*remove_varname(char *data, int index)
 
 	len_varname = get_len_varname(data, index);
 	new_len = ft_strlen(data) - (len_varname + 1);
-	new = malloc((new_len + 1) * sizeof(char));
+	new = ft_calloc(new_len + 1, sizeof(char));
 	if (!new)
 		return (NULL);
 	i = 0;
@@ -35,7 +35,6 @@ static char	*remove_varname(char *data, int index)
 		new[i] = data[i + len_varname];
 		i++;
 	}
-	new[i] = '\0';
 	return (new);
 }
 
@@ -79,7 +78,7 @@ static char	*replace_variable(char *data, int index, t_env_list *target_var)
 	if (target_var)
 		new_len = ft_strlen(data) - (1 + ft_strlen(target_var->name))
 			+ ft_strlen(target_var->data);
-	new = malloc((1 + new_len) * sizeof(char));
+	new = ft_calloc(1 + new_len, sizeof(char));
 	if (!new)
 		return (NULL);
 	copy_right_data(new, data, index, target_var, new_len);
@@ -87,17 +86,25 @@ static char	*replace_variable(char *data, int index, t_env_list *target_var)
 	return (new);
 }
 
+/* TODO:
+ * fix invalid read when remove variable
+ * reduce to 25 lines*/
+
 static char	*expand_variables(char *data, t_env *envs)
 {
 	int			i;
 	t_env_list	*target_var;
 	bool		inside_single_quotes;
+	bool		inside_double_quotes;
 
 	i = 0;
 	inside_single_quotes = false;
+	inside_double_quotes = false;
 	while (data[i])
 	{
-		if (data[i] == SINGLE_QUOTE)
+		if (data[i] == DOUBLE_QUOTE && !inside_single_quotes)
+			inside_double_quotes = !inside_double_quotes;
+		if (data[i] == SINGLE_QUOTE && !inside_double_quotes)
 			inside_single_quotes = !inside_single_quotes;
 		if (data[i] == '$' && !inside_single_quotes)
 		{
