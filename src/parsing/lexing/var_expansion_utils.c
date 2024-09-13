@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 19:52:16 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/13 16:45:56 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/13 16:56:02 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	get_len_varname(char *data, int index)
 	int	len;
 
 	len = 0;
-	while (data[index + len] && ft_isalnum(data[index + len]))
+	while (data[index + len] && (ft_isalnum(data[index + len]) || ft_strchr("?_", data[index + len])))
 	//while (data[index + len] && data[index + len] != ' ')
 		len++;
 	return (len);
