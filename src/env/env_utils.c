@@ -56,9 +56,9 @@ t_env_list	*free_env_list(t_env_list *list)
 	return (NULL);
 }
 
-void	print_env_list(t_env_list *env)
+void		print_env_list(t_env_list *env)
 {
-	while (env)
+	while(env)
 	{
 		ft_printf("%s=%s\n", env->name, env->data);
 		env = env->next;
