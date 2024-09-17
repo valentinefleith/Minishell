@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/12 18:49:28 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/17 12:54:46 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@
  * This function performs actions such as shift, reduce, and error
  * according on the current state and tokens (parsing_table).
  */
-t_token  *parser(t_token *tokens)
+t_token	*parser(t_token *tokens)
 {
-	t_token		*stack;
-	t_token		*output;
-	int			action;
-	int			state;
+	t_token	*stack;
+	t_token	*output;
+	int		action;
+	int		state;
 
 	if (!tokens)
 		return (NULL);
@@ -41,7 +41,7 @@ t_token  *parser(t_token *tokens)
 		else if (action == reduce)
 			stack = reduce_action(stack, tokens, &output, &state);
 		else if (action == error)
-			stack = error_action(stack, &state);
+			stack = error_action(stack, &output, &state);
 	}
 	return (output);
 }
@@ -78,23 +78,26 @@ void	build_output(t_token **stack, t_token **output)
 /**
  *	Handles errors during parsing.
  */
-t_token	*error_action(t_token *stack, int *state)
+t_token	*error_action(t_token *stack, t_token **output, int *state)
 {
 	t_token	*token;
-	
+
 	token = get_last_token(stack);
 	if (!ft_strncmp(stack->data, "<", 1) && ft_strlen(stack->data) == 1
 		&& !ft_strncmp(token->data, ">", 1) && ft_strlen(token->data) == 1)
 		printf("bash: syntax error near unexpected token 'newline'\n");
-	else if (find_in_loop(token, state, INPUT, APPEND + 1) != error && !stack->next)
+	else if (find_in_loop(token, state, INPUT, APPEND + 1) != error
+		&& !stack->next)
 		printf("bash: syntax error near unexpected token 'newline'\n");
-	// else if (stack && token 
+	// else if (stack && token
 	// 	&& find_in_loop(token, state, INPUT, APPEND + 1) != error
 	// 	&& find_in_loop(token, state, INPUT, APPEND + 1) != error)
-	// 	printf("bash: syntax error near unexpected token '%s%s'\n", stack->data, token->data);
+	// 	printf("bash: syntax error near unexpected token '%s%s'\n", stack->data,
+			// token->data);
 	else
 		printf("bash: syntax error near unexpected token '%s'\n", token->data);
 	stack = ft_free_tokens(stack);
+	*output = ft_free_tokens(*output);
 	*state = -1;
 	return (stack);
 }

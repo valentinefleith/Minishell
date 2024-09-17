@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/12 17:23:39 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/17 11:43:49 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	execute_ast(t_btree *root, t_shell *shell)
 		shell->write = pipe_fd[1];
 		child_process(root->left, shell);
 		shell->read = pipe_fd[0];
-		if (root->right->type != PIPE)
+		if (root->right && root->right->type != PIPE)
 			shell->write = STDOUT_FILENO;
 	}
 	if (!root->right)
