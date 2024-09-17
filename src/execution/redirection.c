@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:29:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/11 13:48:07 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:52:08 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,11 @@ char *find_input(t_btree *tree, t_shell *shell, char *name)
 		name = parsing_heredoc(tree->item[1], ft_strlen(tree->item[1]));
 	else if (tree->type == REDIR && !ft_strncmp(tree->item[0], "<", 1))
 	{
+			ft_putstr_fd("ERROR\n", 2);
 		if (check_file_access(tree->item[1], INPUT) != 1)
 			name = tree->item[1];
 		else
-			error_execution(shell, tree, 1);
+			error_execution(shell, tree, EXIT_FAILURE);
 	}
 	if (tree->right != NULL)
 		find_input(tree->right, shell, name);

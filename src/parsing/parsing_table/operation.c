@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/17 13:23:13 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:09:06 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,13 +102,57 @@ void	init_arg(t_token *stack, t_token *tokens, int type)
 	}
 }
 
+static t_token *get_second_last_token(t_token *tokens)
+{
+	t_token	*second_last;
+	
+	second_last = NULL;
+	while (tokens)
+	{
+		if (tokens->next == NULL)
+			return (second_last);
+		else
+			second_last = tokens;
+		tokens = tokens->next;
+	}
+	return (second_last);
+}
+
+static int	special_input_arg(t_token *stack_token)
+{
+	t_token	*word_token;
+	t_token	*last_token;
+	int		pos;
+
+	if (!stack_token)
+		return (-1);
+	word_token = find_last_type(stack_token, WORD);
+	if (!word_token)
+		return (1);
+	pos = 1;
+	while (stack_token->arg[pos])
+		pos++;
+	stack_token->arg[pos] = ft_strdup(word_token->data);
+	if (!stack_token->arg[pos])
+		return (ft_free_tab(stack_token->arg), -1);
+	last_token = get_second_last_token(stack_token);
+	ft_free_token_node(word_token);
+	last_token->next = NULL;
+	return (0);
+}
+
 void	cat_tokens(t_token *stack, int *state, int type)
 {
 	t_token	*token;
 	int		pos;
 	
 	token = find_last_type(stack, type);
-	if (!token || !token->arg || !token->next || token->next->type != WORD)
+	if (token->next->type != WORD)
+	{
+		special_input_arg(token);
+		return ;
+	}
+	if (!token || !token->arg || !token->next)
 	{
 		error_action(token, NULL, state);
 		return ;
