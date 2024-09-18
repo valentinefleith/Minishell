@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:24 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/06 18:23:39 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/17 15:09:47 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,16 @@ t_token	*copy_token(t_token *stack, t_token *new)
 	return (new);
 }
 
+// hope there is no conflict with the filename of a REDIR
 int	count_nb_arg(t_token *stack)
 {
 	int	nb;
 
 	nb = 0;
-	while (stack && stack->type == WORD)
+	while (stack && stack->type != PIPE)
 	{
-		nb++;
+		if (stack->type == WORD)
+			nb++;
 		stack = stack->next;
 	}
 	return (nb);

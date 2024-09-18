@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/12 18:49:16 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/18 12:11:45 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
 		return (NULL);
 	}
 	tokens = parser(lexemes);
+	if (!tokens)
+		return (NULL);
 	tree = create_ast(tokens);
 	if (tokens)
 		ft_free_tokens(tokens);

@@ -6,28 +6,30 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/12 16:46:24 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:27:18 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env *envs)
+int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell)
 {
+	shell->read = file_redirection(tree, shell, shell->read, INPUT);
+	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 	if (builtin == PWD)
-		return (ft_pwd(envs));
+		return (ft_pwd(shell->envs));
 	else if (builtin == ECHO)
-		return (ft_echo(cmd));
+		return (ft_echo(cmd, shell->write));
 	else if (builtin == EXIT)
-		ft_exit(envs, tree, 0);
+		ft_exit(shell->envs, tree, 0);
 	else if (builtin == ENV)
-		return (ft_env(envs->env_list));
+		return (ft_env(shell->envs->env_list));
 	else if (builtin == CD)
-		return (ft_cd(envs, cmd));
+		return (ft_cd(shell->envs, cmd));
 	else if (builtin == EXPORT)
-		return (ft_export(envs, cmd));
+		return (ft_export(shell->envs, cmd));
 	else if (builtin == UNSET)
-		return (ft_unset(envs, cmd));
+		return (ft_unset(shell->envs, cmd));
 	return (-1);
 }
 
