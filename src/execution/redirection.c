@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:29:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/17 13:52:08 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:55:56 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char *find_input(t_btree *tree, t_shell *shell, char *name)
 		name = parsing_heredoc(tree->item[1], ft_strlen(tree->item[1]));
 	else if (tree->type == REDIR && !ft_strncmp(tree->item[0], "<", 1))
 	{
-			ft_putstr_fd("ERROR\n", 2);
 		if (check_file_access(tree->item[1], INPUT) != 1)
 			name = tree->item[1];
 		else
@@ -50,19 +49,28 @@ char *find_input(t_btree *tree, t_shell *shell, char *name)
 	}
 	if (tree->right != NULL)
 		find_input(tree->right, shell, name);
+	else
+		return (name);
 	return (name);
 }
 
 char	*find_output(t_btree *tree, t_shell *shell, char *name)
 {
+	int	fd;
+	
+	fd = -1;
 	if (!tree || !tree->item)
 		return (name);
 	if (tree->type == REDIR && (!ft_strncmp(tree->item[0], ">>", 2)
 		|| !ft_strncmp(tree->item[0], ">", 1)))
 	{
-		open_file(tree->item[1], OUTPUT);
+		fd = open_file(tree->item[1], OUTPUT);
 		if (check_file_access(tree->item[1], OUTPUT) != 1)
 			name = tree->item[1];
+		else
+			error_execution(shell, tree, 1);
+		if (fd != -1)
+			close(fd);
 		else
 			error_execution(shell, tree, 1);
 	}
@@ -82,14 +90,8 @@ int	open_file(char *filename, int file_type)
 		fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (file_type == HEREDOC)
 		fd = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
-	// if (fd == -1)
-	// 	perror(filename);
 	if (fd == -1)
-	{
-		ft_putstr_fd("\e[31m", 2);
-		ft_putstr_fd(filename, 2);
-		ft_putstr_fd("\e[0m", 2);
-	}
+		perror(filename);
 	return (fd);
 }
 
