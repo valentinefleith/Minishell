@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 14:48:19 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:18:21 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 	{
 		builtin = is_builtin(root->left->item[0]);
 		if (builtin != NONE)
-			return (ft_free_tab(paths), execute_builtin(builtin, root, root->left->item, &shell));
+			return (execute_builtin(builtin, root, root->left->item, &shell));
 	}
 	execute_ast(root, &shell);
 	close_fd(&shell.read);

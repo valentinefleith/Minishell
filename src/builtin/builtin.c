@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 14:56:52 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:48:34 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell
 	else if (builtin == ECHO)
 		exit_code = ft_echo(cmd, shell->write);
 	else if (builtin == EXIT)
+	{
+		ft_free_tab(shell->paths);
 		ft_exit(shell->envs, tree, 0);
+	}
 	else if (builtin == ENV)
 		exit_code = ft_env(shell->envs->env_list);
 	else if (builtin == CD)
@@ -33,9 +36,17 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell
 		exit_code = ft_export(shell->envs, cmd);
 	else if (builtin == UNSET)
 		exit_code = ft_unset(shell->envs, cmd);
+	free_builtin_process(shell, &exit_code);
+	return (exit_code);
+}
+
+void	free_builtin_process(t_shell *shell, int *exit_code)
+{
 	close_fd(&shell->read);
 	close_fd(&shell->write);
-	return (exit_code);
+	ft_free_tab(shell->paths);
+	if (shell->pid != -1)
+		*exit_code = shell->pid;
 }
 
 int	error_builtin(t_builtin builtin, char *arg)

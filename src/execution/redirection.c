@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:29:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 14:38:09 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:33:07 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*find_input(t_btree *tree, t_shell *shell, char *name)
 		if (check_file_access(tree->item[1], INPUT) != 1)
 			name = tree->item[1];
 		else
-			error_execution(shell, tree, EXIT_FAILURE);
+			return (error_execution(shell, tree, EXIT_FAILURE), NULL);
 	}
 	if (tree->right != NULL)
 		return (find_input(tree->right, shell, name));
@@ -65,11 +65,11 @@ char	*find_output(t_btree *tree, t_shell *shell, char *name)
 		if (check_file_access(tree->item[1], OUTPUT) != 1)
 			name = tree->item[1];
 		else
-			error_execution(shell, tree, 1);
+			return (error_execution(shell, tree, EXIT_FAILURE), NULL);
 		if (fd != -1)
 			close(fd);
 		else
-			error_execution(shell, tree, 1);
+			return (error_execution(shell, tree, EXIT_FAILURE), NULL);
 	}
 	if (tree->right != NULL)
 		return (find_output(tree->right, shell, name));

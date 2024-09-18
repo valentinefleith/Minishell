@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:52:37 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/12 18:48:32 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:16:41 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	free_and_exit(t_token *tokens, int exit_status)
 {
-	// if (paths)
-	// 	ft_free_tab(paths);
 	if (tokens)
 		ft_free_tokens(tokens);
 	exit(exit_status);

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 13:17:00 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:47:43 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int						ft_export(t_env *env, char **arg);
 int						ft_unset(t_env *env, char **arg);
 void					ft_exit(t_env *env, t_btree *tree, int exit_status);
 int						error_builtin(t_builtin builtin, char *arg);
+void					free_builtin_process(t_shell *shell, int *exit_code);
 t_env_list				*ft_getenv(t_env_list *env, char *name);
 
 #endif
