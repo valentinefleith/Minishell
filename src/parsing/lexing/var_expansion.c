@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/17 14:06:55 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:03:47 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ static char	*remove_varname(char *data, int index)
 	int		len_varname;
 	int		i;
 
-	len_varname = get_len_varname(data, index);
+	len_varname = get_len_varname(data, index + 1);
 	new_len = ft_strlen(data) - (len_varname + 1);
-	new = ft_calloc(new_len + 1, sizeof(char));
+	new = ft_calloc(new_len + 2, sizeof(char));
 	if (!new)
 		return (NULL);
 	i = 0;
@@ -30,11 +30,14 @@ static char	*remove_varname(char *data, int index)
 		new[i] = data[i];
 		i++;
 	}
+	data[i] = ' ';
+	i++;
 	while (data[i + len_varname])
 	{
 		new[i] = data[i + len_varname];
 		i++;
 	}
+	free(data);
 	return (new);
 }
 
