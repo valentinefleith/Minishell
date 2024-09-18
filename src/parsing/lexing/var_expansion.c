@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/13 16:45:55 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:03:47 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static char	*remove_varname(char *data, int index)
 		new[i] = data[i + len_varname];
 		i++;
 	}
+	free(data);
 	return (new);
 }
 
