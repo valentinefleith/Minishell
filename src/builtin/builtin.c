@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 13:27:18 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:56:52 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,28 @@
 
 int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell)
 {
+	int	exit_code;
+	
+	exit_code = -1;
 	shell->read = file_redirection(tree, shell, shell->read, INPUT);
 	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 	if (builtin == PWD)
-		return (ft_pwd(shell->envs));
+		exit_code = ft_pwd(shell->envs);
 	else if (builtin == ECHO)
-		return (ft_echo(cmd, shell->write));
+		exit_code = ft_echo(cmd, shell->write);
 	else if (builtin == EXIT)
 		ft_exit(shell->envs, tree, 0);
 	else if (builtin == ENV)
-		return (ft_env(shell->envs->env_list));
+		exit_code = ft_env(shell->envs->env_list);
 	else if (builtin == CD)
-		return (ft_cd(shell->envs, cmd));
+		exit_code = ft_cd(shell->envs, cmd);
 	else if (builtin == EXPORT)
-		return (ft_export(shell->envs, cmd));
+		exit_code = ft_export(shell->envs, cmd);
 	else if (builtin == UNSET)
-		return (ft_unset(shell->envs, cmd));
-	return (-1);
+		exit_code = ft_unset(shell->envs, cmd);
+	close_fd(&shell->read);
+	close_fd(&shell->write);
+	return (exit_code);
 }
 
 int	error_builtin(t_builtin builtin, char *arg)

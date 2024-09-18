@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 14:38:49 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 14:48:19 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,11 @@ void	child_process(t_btree *tree, t_shell *shell)
 	
 	exit_status = 0;
 	shell->pid = fork();
-	// shell->pid = 0;
 	if (shell->pid == 0)
 	{
 		signal_monitor(true, false);
 		shell->read = file_redirection(tree, shell, shell->read, INPUT);
 		shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
-		// ft_putstr_fd("read = ", 2);
-		// ft_putnbr_fd(shell->read, 2);
-		// ft_putstr_fd("\n", 2);
-		// ft_putstr_fd("write = ", 2);
-		// ft_putnbr_fd(shell->write, 2);
-		// ft_putstr_fd("\n", 2);
 		if (dup2(shell->read, STDIN_FILENO) == -1)
 			perror("dup2: shell->read");
 		close_fd(&shell->read);
