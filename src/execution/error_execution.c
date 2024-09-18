@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 17:16:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 12:18:51 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:44:28 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 void	error_execution(t_shell *shell, t_btree *tree, int exit_code)
 {
-	printf("COUCOU\n");
 	close_fd(&shell->write);
 	close_fd(&shell->read);
-	free_process(shell, tree);
-	exit(exit_code);
+	if (shell->pid != -1)
+	{
+		free_process(shell, tree);
+		exit(exit_code);
+	}
+	if (shell->pid == -1)
+		shell->pid = exit_code;
 }
 
 void	debug_exec(t_btree *tree, t_shell *shell, int index)
