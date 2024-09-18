@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/18 14:03:47 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/18 15:40:45 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,8 @@ static char	*replace_variable(char *data, int index, t_env_list *target_var)
 
 	if (!target_var || !target_var->data)
 		return (remove_varname(data, index));
-	if (target_var)
-		new_len = ft_strlen(data) - (1 + ft_strlen(target_var->name))
-			+ ft_strlen(target_var->data);
+	new_len = ft_strlen(data) - (1 + ft_strlen(target_var->name))
+		+ ft_strlen(target_var->data);
 	new = ft_calloc(1 + new_len, sizeof(char));
 	if (!new)
 		return (NULL);
