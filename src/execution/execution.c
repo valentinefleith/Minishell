@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/12 17:23:39 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/17 13:59:33 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	child_process(t_btree *tree, t_shell *shell)
 	int	exit_status;
 	
 	exit_status = 0;
-	shell->pid = fork();
+	shell->pid = 0;
 	if (shell->pid == 0)
 	{
 		signal_monitor(true, false);

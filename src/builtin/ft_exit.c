@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/12 17:44:57 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:23:22 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_exit(t_env *envs, t_btree *tree, int	exit_status)
 {
-	ft_putstr_fd("exit\n", 1);
+	ft_putstr_fd("process exited.\n", 1);
 	if (tree->left->item && tree->left->item[1])
 	{
 		printf("bash: exit: %s: no argument required\n", tree->left->item[1]);
