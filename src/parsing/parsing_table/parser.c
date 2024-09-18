@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 12:10:14 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 18:11:12 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ t_token	*parser(t_token *tokens)
 	int		action;
 	int		state;
 
-	if (!tokens)
-		return (NULL);
 	stack = NULL;
 	output = NULL;
 	action = go_to;
@@ -39,9 +37,13 @@ t_token	*parser(t_token *tokens)
 		if (action == shift)
 			stack = shift_action(stack, &tokens, &state);
 		else if (action == reduce)
+		{
 			stack = reduce_action(stack, tokens, &output, &state);
+			if (state != -1 && state != 7)
+				state = 0;
+		}
 		else if (action == error)
-			stack = error_action(stack, &output, &state);
+			stack = error_action(stack, output, &state);
 	}
 	return (output);
 }
@@ -78,7 +80,7 @@ void	build_output(t_token **stack, t_token **output)
 /**
  *	Handles errors during parsing.
  */
-t_token	*error_action(t_token *stack, t_token **output, int *state)
+t_token	*error_action(t_token *stack, t_token *output, int *state)
 {
 	t_token	*token;
 
@@ -89,16 +91,11 @@ t_token	*error_action(t_token *stack, t_token **output, int *state)
 	else if (find_in_loop(token, state, INPUT, APPEND + 1) != error
 		&& !stack->next)
 		printf("bash: syntax error near unexpected token 'newline'\n");
-	// else if (stack && token
-	// 	&& find_in_loop(token, state, INPUT, APPEND + 1) != error
-	// 	&& find_in_loop(token, state, INPUT, APPEND + 1) != error)
-	// 	printf("bash: syntax error near unexpected token '%s%s'\n", stack->data,
-			// token->data);
 	else
 		printf("bash: syntax error near unexpected token '%s'\n", token->data);
 	stack = ft_free_tokens(stack);
-	if (*output && output)
-		*output = ft_free_tokens(*output);
+	if (output)
+		output = ft_free_tokens(output);
 	*state = -1;
 	return (stack);
 }

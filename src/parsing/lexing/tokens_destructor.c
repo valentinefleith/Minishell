@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:32:29 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/12 18:46:26 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:59:12 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_token *ft_free_tokens(t_token *tokens)
 			if (tokens->arg)
 				ft_free_tab(tokens->arg);
 			free(tokens);
+			tokens = NULL;
 		}
 		tokens = next;
 	}
@@ -41,9 +42,15 @@ t_token *quote_error(t_token *tokens)
 void	ft_free_token_node(t_token *token)
 {
 	if (token->data)
+	{
 		free(token->data);
+		token->data = NULL;
+	}
 	if (token->arg)
+	{
 		ft_free_tab(token->arg);
+		token->arg = NULL;
+	}
 	if (token)
 		free(token);
 	token = NULL;

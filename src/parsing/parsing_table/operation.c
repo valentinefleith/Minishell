@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 13:43:32 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 18:10:42 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,20 @@
 #include "parsing.h"
 
 /**
-*	This function performs a "shift" action in a parser.
-*   It moves the first token from the tokens list to the stack.
-*   The new node's data and type are copied from the first token in the tokens list.
-*   The new node is then added to the end of the stack.
-*   The first token in the tokens list is removed and freed.
-*/
+ *	This function performs a "shift" action in a parser.
+ *   It moves the first token from the tokens list to the stack.
+
+	*   The new node's data and type are copied from the first token in the tokens list.
+ *   The new node is then added to the end of the stack.
+ *   The first token in the tokens list is removed and freed.
+ */
 t_token	*shift_action(t_token *stack, t_token **tokens, int *state)
 {
 	t_token	*shifted;
 	t_token	*save;
-	
+
 	if (!tokens || !*tokens)
-		return (error_action(stack,  NULL, state));
+		return (error_action(stack, NULL, state));
 	shifted = malloc(sizeof(t_token));
 	if (!shifted)
 		return (stack);
@@ -44,7 +45,8 @@ t_token	*shift_action(t_token *stack, t_token **tokens, int *state)
 /**
  * Reduces the stack based on the current state and modifies the output.
  */
-t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output, int *state)
+t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output,
+		int *state)
 {
 	if (*state == 1)
 	{
@@ -55,7 +57,9 @@ t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output, int *s
 		cat_tokens(stack, state, CMD);
 	if (*state == 6)
 	{
-		replace_type(stack, INPUT, REDIR);
+		if (replace_type(stack, INPUT, REDIR) == -1)
+			return (ft_free_tokens(tokens), error_action(stack, *output,
+					state));
 		init_arg(stack, tokens, REDIR);
 		cat_tokens(stack, state, REDIR);
 	}
@@ -63,13 +67,8 @@ t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output, int *s
 	{
 		build_output(&stack, output);
 		if (!tokens)
-		{	
 			*state = 7;
-			return (stack);
-		}
 	}
-	if (*state != -1)
-		*state = 0;
 	return (stack);
 }
 
@@ -78,7 +77,7 @@ void	init_arg(t_token *stack, t_token *tokens, int type)
 	t_token	*node;
 	int		nb_arg;
 	int		i;
-	
+
 	node = find_last_type(stack, type);
 	if (type == CMD)
 		nb_arg = count_nb_arg(tokens) + 1;
@@ -102,10 +101,10 @@ void	init_arg(t_token *stack, t_token *tokens, int type)
 	}
 }
 
-static t_token *get_second_last_token(t_token *tokens)
+static t_token	*get_second_last_token(t_token *tokens)
 {
 	t_token	*second_last;
-	
+
 	second_last = NULL;
 	while (tokens)
 	{
@@ -145,7 +144,7 @@ void	cat_tokens(t_token *stack, int *state, int type)
 {
 	t_token	*token;
 	int		pos;
-	
+
 	token = find_last_type(stack, type);
 	if (token->next->type != WORD)
 	{
@@ -170,7 +169,7 @@ void	cat_tokens(t_token *stack, int *state, int type)
 t_token	*find_last_type(t_token *stack, int type)
 {
 	t_token	*last;
-	
+
 	if (!stack)
 		return (NULL);
 	last = NULL;
