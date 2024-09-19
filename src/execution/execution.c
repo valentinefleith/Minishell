@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 15:50:46 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:02:23 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,6 @@ int	cmd_execution(t_shell *shell, t_btree *tree)
 		exit_status = checking_cmd_access(full_cmd_path);
 		if (exit_status == 0)
 			execve(full_cmd_path, tree->left->item, shell->envs->env_tab);
-		ft_putstr_fd("HELLO\n", 2);
 		if (full_cmd_path)
 			free(full_cmd_path);
 	}

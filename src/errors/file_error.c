@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:18:26 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/19 11:11:09 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:38:19 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static bool is_only_slash_dot(char *data)
 	return true;
 }
 
-t_token *check_file_error(t_token *tokens)
+t_token *check_file_error(t_token *tokens, t_env *envs)
 {
 	if (!tokens)
 		return tokens;
@@ -34,11 +34,8 @@ t_token *check_file_error(t_token *tokens)
 		ft_putstr_fd(": Is a directory.\n", 2);
 		ft_free_tokens(tokens);
 		tokens = NULL;
+		update_exit_status(envs->env_list, 126);
 		return tokens;
 	}
-	//if (ft_strchr(tokens->data, '/'))
-	//{
-	//	ft_putstr_fd("bash: ");
-	//}
 	return tokens;
 }

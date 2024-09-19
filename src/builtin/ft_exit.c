@@ -6,13 +6,13 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/17 14:23:22 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:17:48 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(t_env *envs, t_btree *tree, int	exit_status)
+void	ft_exit(t_shell *shell, t_btree *tree, int	exit_status)
 {
 	ft_putstr_fd("process exited.\n", 1);
 	if (tree->left->item && tree->left->item[1])
@@ -20,22 +20,23 @@ void	ft_exit(t_env *envs, t_btree *tree, int	exit_status)
 		printf("bash: exit: %s: no argument required\n", tree->left->item[1]);
 		exit_status = 2;
 	}
-	if (envs->env_list)
-		envs->env_list = free_env_list(envs->env_list);
-	if (envs->env_tab)
+	if (shell->envs->env_list)
+		shell->envs->env_list = free_env_list(shell->envs->env_list);
+	if (shell->envs->env_tab)
 	{
-		ft_free_tab(envs->env_tab);
-		envs->env_tab = NULL;
+		ft_free_tab(shell->envs->env_tab);
+		shell->envs->env_tab = NULL;
 	}
-	if (envs)
+	if (shell->envs)
 	{
-		free(envs);
-		envs = NULL;
+		free(shell->envs);
+		shell->envs = NULL;
 	}
 	if (tree)
 	{
 		btree_free(tree);
 		tree = NULL;	
 	}
+	ft_free_tab(shell->paths);
 	exit(exit_status);
 }

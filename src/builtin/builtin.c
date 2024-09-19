@@ -6,17 +6,33 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 15:48:34 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:19:12 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	check_builtin_access(t_btree *tree, t_shell *shell, int *exit_code)
+{
+	if (ft_strchr(tree->left->item[0], '/'))
+	{
+		printf("PLEASE\n");
+		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd(tree->item[0], 2);
+		ft_putstr_fd(": No such file or directory.\n", 2);
+		*exit_code = 127;
+		free_builtin_process(shell, exit_code);
+		return (*exit_code);
+	}
+	return (0);
+}
+
 int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell)
 {
 	int	exit_code;
 	
-	exit_code = -1;
+	if (check_builtin_access(tree, shell, &exit_code) != 0)
+		return (exit_code);
 	shell->read = file_redirection(tree, shell, shell->read, INPUT);
 	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 	if (builtin == PWD)
@@ -24,10 +40,7 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell
 	else if (builtin == ECHO)
 		exit_code = ft_echo(cmd, shell->write);
 	else if (builtin == EXIT)
-	{
-		ft_free_tab(shell->paths);
-		ft_exit(shell->envs, tree, 0);
-	}
+		ft_exit(shell, tree, 0);
 	else if (builtin == ENV)
 		exit_code = ft_env(shell->envs->env_list);
 	else if (builtin == CD)
