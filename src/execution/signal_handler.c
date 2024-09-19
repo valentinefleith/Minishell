@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:14:41 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/11 18:25:15 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:11:55 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	handle_signal_interactive(int signal)
 		rl_redisplay();
 		g_signal = 130;
 	}
+	// add pour sigquit
 }
 
 static void	handle_signal(int signal)

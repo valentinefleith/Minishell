@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/19 12:19:12 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:00:41 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ static void	get_tab_builtin(char **tab_builtin)
 	tab_builtin[7] = NULL;
 }
 
-t_builtin	is_builtin(char *buffer)
+t_builtin	is_builtin(char *maybe_builtin)
 {
 	int			i;
-	int			len;
+	size_t		len;
 	char		*tab_builtin[8];
 	t_builtin	builtin;
 	
@@ -103,12 +103,13 @@ t_builtin	is_builtin(char *buffer)
 	len = 0;
 	builtin = NONE;
 	get_tab_builtin(tab_builtin);
-	if (!buffer)
+	if (!maybe_builtin)
 		return (NONE);
 	while (i < NONE)
 	{
 		len = ft_strlen(tab_builtin[i]);
-		if (ft_strncmp(buffer, tab_builtin[i], len) == 0)
+		if (ft_strncmp(maybe_builtin, tab_builtin[i], len) == 0
+			&& len == ft_strlen(maybe_builtin))
 		{
 			builtin = i;
 			break ;

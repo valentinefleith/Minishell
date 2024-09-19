@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:29:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 15:33:07 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:23:06 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,7 @@ char	*parsing_heredoc(char *limit, int len)
 		input = get_next_line(STDIN_FILENO);
 		if (!input)
 		{
-			ft_putstr_fd("\n\e[31mbash: here-document delimited by end-of-file\e[0m",
-				2);
+			ft_putstr_fd("\nbash: here-document delimited by end-of-file", 2);
 			break ;
 		}
 		else if (ft_strnstr(input, limit, len) && !ft_strncmp(&input[len], "\n",
