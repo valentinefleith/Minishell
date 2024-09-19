@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:18:26 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/18 16:31:56 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:11:09 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,22 @@ static bool is_only_slash_dot(char *data)
 	return true;
 }
 
-void check_file_error(t_token *tokens, t_env *envs)
+t_token *check_file_error(t_token *tokens)
 {
 	if (!tokens)
-		return;
+		return tokens;
 	if (is_only_slash_dot(tokens->data))
 	{
 		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(tokens->data, 2);
 		ft_putstr_fd(": Is a directory.\n", 2);
-		tokens = ft_free_tokens(tokens);
-		return;
+		ft_free_tokens(tokens);
+		tokens = NULL;
+		return tokens;
 	}
 	//if (ft_strchr(tokens->data, '/'))
 	//{
 	//	ft_putstr_fd("bash: ");
 	//}
+	return tokens;
 }

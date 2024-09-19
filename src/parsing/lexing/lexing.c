@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/18 16:29:39 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:11:48 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_token	*tokenize_cmdline(char *buffer, t_env *envs)
 		tokens_add_back(&tokens, new);
 		buffer += size;
 	}
-	check_file_error(tokens, envs);
+	tokens = check_file_error(tokens);
 	fill_token_types(tokens);
 	perform_var_expansion(tokens, envs);
 	return (tokens);
