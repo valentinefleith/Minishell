@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/09/20 17:26:57 by luvallee         ###   ########.fr        #
+#    Updated: 2024/09/20 18:33:33 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,7 +45,7 @@ SRCS = main.c \
 	   execution/exec_utils.c execution/redirection.c execution/execution.c \
 	   execution/error_execution.c builtin/builtin.c execution/error_paths.c \
 	   builtin/ft_env.c builtin/ft_cd.c builtin/ft_pwd.c builtin/ft_echo.c builtin/ft_export.c \
-	   builtin/ft_unset.c builtin/ft_exit.c \
+	   builtin/ft_unset.c builtin/ft_exit.c builtin/ft_export_utils.c \
 	   execution/signal_handler.c \
 	   security/alloc_errors.c security/file_error.c security/parser_error.c
 

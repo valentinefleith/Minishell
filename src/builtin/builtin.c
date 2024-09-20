@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/19 16:00:41 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 13:31:41 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	check_builtin_access(t_btree *tree, t_shell *shell, int *exit_code)
 {
 	if (ft_strchr(tree->left->item[0], '/'))
 	{
-		printf("PLEASE\n");
 		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(tree->item[0], 2);
 		ft_putstr_fd(": No such file or directory.\n", 2);
@@ -27,26 +26,27 @@ static int	check_builtin_access(t_btree *tree, t_shell *shell, int *exit_code)
 	return (0);
 }
 
-int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell)
+int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd,
+		t_shell *shell)
 {
 	int	exit_code;
-	
+
 	if (check_builtin_access(tree, shell, &exit_code) != 0)
 		return (exit_code);
 	shell->read = file_redirection(tree, shell, shell->read, INPUT);
 	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 	if (builtin == PWD)
-		exit_code = ft_pwd(shell->envs);
+		exit_code = ft_pwd(shell->envs, shell->write);
 	else if (builtin == ECHO)
 		exit_code = ft_echo(cmd, shell->write);
 	else if (builtin == EXIT)
 		ft_exit(shell, tree, 0);
 	else if (builtin == ENV)
-		exit_code = ft_env(shell->envs->env_list);
+		exit_code = ft_env(shell->envs->env_list, shell->write, false);
 	else if (builtin == CD)
 		exit_code = ft_cd(shell->envs, cmd);
 	else if (builtin == EXPORT)
-		exit_code = ft_export(shell->envs, cmd);
+		exit_code = ft_export(shell->envs, cmd, shell->write);
 	else if (builtin == UNSET)
 		exit_code = ft_unset(shell->envs, cmd);
 	free_builtin_process(shell, &exit_code);
@@ -65,18 +65,15 @@ void	free_builtin_process(t_shell *shell, int *exit_code)
 int	error_builtin(t_builtin builtin, char *arg)
 {
 	if (builtin == PWD)
-		printf("Error: while getting the working directory\n");
-	else if (builtin == CD)
-		printf("bash: cd: %s: No such file or directory\n", arg);
-	else if (builtin == EXPORT)
-		printf("bash: export: '%s': is not a valid identifier\n", arg);
-	else if (builtin == ENV)
-	{
-		printf("bash: env: No such file or directory\n");
-		return (127);
-	}
+		return (error_pwd());
+	if (builtin == CD)
+		return (error_cd(arg));
+	if (builtin == EXPORT)
+		return (error_export(arg));
+	if (builtin == ENV)
+		return (error_env());
 	else if (builtin == 7)
-		printf("Error: while allocation\n");
+		ft_putendl_fd("Error: while allocation\n", 2);
 	return (1);
 }
 
@@ -98,7 +95,7 @@ t_builtin	is_builtin(char *maybe_builtin)
 	size_t		len;
 	char		*tab_builtin[8];
 	t_builtin	builtin;
-	
+
 	i = 0;
 	len = 0;
 	builtin = NONE;
