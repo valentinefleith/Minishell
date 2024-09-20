@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/14 18:15:58 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 18:04:41 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_action	state_zero(t_token *stack, t_token *tokens, int *state)
 		return (go_to);
 	if (find_in_loop(tokens, state, WORD, APPEND + 1) == shift)
 		return (shift);
-	if (!stack && tokens->type == PIPE)
+	if (!stack && tokens && tokens->type == PIPE)
 		return (shift);
 	return (error);
 }
@@ -85,6 +85,8 @@ t_action	state_four(t_token *stack, t_token *tokens, int *state)
 	}
 	else if (tokens && tokens->type == PIPE)
 	{
+		if (!tokens->next)
+			return (error);
 		*state = 8;
 		return (shift);
 	}

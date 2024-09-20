@@ -6,29 +6,60 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/31 18:41:44 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:00:41 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env *envs)
+static int	check_builtin_access(t_btree *tree, t_shell *shell, int *exit_code)
 {
+	if (ft_strchr(tree->left->item[0], '/'))
+	{
+		printf("PLEASE\n");
+		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd(tree->item[0], 2);
+		ft_putstr_fd(": No such file or directory.\n", 2);
+		*exit_code = 127;
+		free_builtin_process(shell, exit_code);
+		return (*exit_code);
+	}
+	return (0);
+}
+
+int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell)
+{
+	int	exit_code;
+	
+	if (check_builtin_access(tree, shell, &exit_code) != 0)
+		return (exit_code);
+	shell->read = file_redirection(tree, shell, shell->read, INPUT);
+	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 	if (builtin == PWD)
-		return (ft_pwd(envs));
+		exit_code = ft_pwd(shell->envs);
 	else if (builtin == ECHO)
-		return (ft_echo(cmd));
+		exit_code = ft_echo(cmd, shell->write);
 	else if (builtin == EXIT)
-		ft_exit(envs, tree, 0);
+		ft_exit(shell, tree, 0);
 	else if (builtin == ENV)
-		return (ft_env(envs->env_list));
+		exit_code = ft_env(shell->envs->env_list);
 	else if (builtin == CD)
-		return (ft_cd(envs, cmd));
+		exit_code = ft_cd(shell->envs, cmd);
 	else if (builtin == EXPORT)
-		return (ft_export(envs, cmd));
+		exit_code = ft_export(shell->envs, cmd);
 	else if (builtin == UNSET)
-		return (ft_unset(envs, cmd));
-	return (-1);
+		exit_code = ft_unset(shell->envs, cmd);
+	free_builtin_process(shell, &exit_code);
+	return (exit_code);
+}
+
+void	free_builtin_process(t_shell *shell, int *exit_code)
+{
+	close_fd(&shell->read);
+	close_fd(&shell->write);
+	ft_free_tab(shell->paths);
+	if (shell->pid != -1)
+		*exit_code = shell->pid;
 }
 
 int	error_builtin(t_builtin builtin, char *arg)
@@ -61,10 +92,10 @@ static void	get_tab_builtin(char **tab_builtin)
 	tab_builtin[7] = NULL;
 }
 
-t_builtin	is_builtin(char *buffer)
+t_builtin	is_builtin(char *maybe_builtin)
 {
 	int			i;
-	int			len;
+	size_t		len;
 	char		*tab_builtin[8];
 	t_builtin	builtin;
 	
@@ -72,12 +103,13 @@ t_builtin	is_builtin(char *buffer)
 	len = 0;
 	builtin = NONE;
 	get_tab_builtin(tab_builtin);
-	if (!buffer)
+	if (!maybe_builtin)
 		return (NONE);
 	while (i < NONE)
 	{
 		len = ft_strlen(tab_builtin[i]);
-		if (ft_strncmp(buffer, tab_builtin[i], len) == 0)
+		if (ft_strncmp(maybe_builtin, tab_builtin[i], len) == 0
+			&& len == ft_strlen(maybe_builtin))
 		{
 			builtin = i;
 			break ;

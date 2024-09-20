@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/31 18:41:53 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/19 11:17:13 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 typedef enum e_builtin
 {
-	PWD, 
+	PWD,
 	ECHO,
 	UNSET,
 	EXPORT,
@@ -27,25 +27,24 @@ typedef enum e_builtin
 	CD,
 	ENV,
 	NONE,
-}			t_builtin;
+}						t_builtin;
 
-typedef struct s_env t_env;
-typedef struct s_env_list t_env_list;
-typedef struct s_btree t_btree;
+typedef struct s_btree	t_btree;
+typedef struct s_shell	t_shell;
 
 /* Builtins */
 
-t_builtin	is_builtin(char *buffer);
-int			execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_env *env);
-int			ft_cd(t_env *env, char **cmd);
-int			ft_env(t_env_list *env);
-int			ft_pwd(t_env *env);
-int			ft_echo(char **cmd);
-int			ft_export(t_env *env, char **arg);
-int			ft_unset(t_env *env, char **arg);
-void		ft_exit(t_env *env, t_btree *tree, int	exit_status);
-int			error_builtin(t_builtin builtin, char *arg);
-t_env_list		*ft_getenv(t_env_list *env, char *name);
-
+t_builtin				is_builtin(char *buffer);
+int						execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell);
+int						ft_cd(t_env *env, char **cmd);
+int						ft_env(t_env_list *env);
+int						ft_pwd(t_env *env);
+int						ft_echo(char **cmd, int fd);
+int						ft_export(t_env *env, char **arg);
+int						ft_unset(t_env *env, char **arg);
+void					ft_exit(t_shell *shell, t_btree *tree, int exit_status);
+int						error_builtin(t_builtin builtin, char *arg);
+void					free_builtin_process(t_shell *shell, int *exit_code);
+t_env_list				*ft_getenv(t_env_list *env, char *name);
 
 #endif

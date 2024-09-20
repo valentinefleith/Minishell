@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/09 15:25:20 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:02:23 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 	{
 		builtin = is_builtin(root->left->item[0]);
 		if (builtin != NONE)
-			return (execute_builtin(builtin, root, root->left->item, envs));
+			return (execute_builtin(builtin, root, root->left->item, &shell));
 	}
 	execute_ast(root, &shell);
-	// close_fd(&shell.read);
-	// close_fd(&shell.write);
+	close_fd(&shell.read);
+	close_fd(&shell.write);
 	if (access("here_doc", F_OK) != -1)
 		unlink("here_doc");
 	ft_free_tab(paths);
@@ -54,7 +54,7 @@ int	execute_ast(t_btree *root, t_shell *shell)
 		shell->write = pipe_fd[1];
 		child_process(root->left, shell);
 		shell->read = pipe_fd[0];
-		if (root->right->type != PIPE)
+		if (root->right && root->right->type != PIPE)
 			shell->write = STDOUT_FILENO;
 	}
 	if (!root->right)
@@ -72,6 +72,7 @@ void	child_process(t_btree *tree, t_shell *shell)
 	shell->pid = fork();
 	if (shell->pid == 0)
 	{
+		signal_monitor(true, false);
 		shell->read = file_redirection(tree, shell, shell->read, INPUT);
 		shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 		if (dup2(shell->read, STDIN_FILENO) == -1)
@@ -81,11 +82,11 @@ void	child_process(t_btree *tree, t_shell *shell)
 			perror("dup2: shell->write");
 		close_fd(&shell->write);
 		exit_status = cmd_execution(shell, tree);
-		close_fd(&shell->read);
-		close_fd(&shell->write);
-		free_process(shell, tree);
-		exit(exit_status);
+		exit_child_process(shell, tree, exit_status);
 	}
+	else if (shell->pid == -1)
+		exit_child_process(shell, tree, -12);
+	signal_monitor(false, false);
 	close_fd(&shell->read);
 	close_fd(&shell->write);
 }
@@ -95,12 +96,12 @@ int	cmd_execution(t_shell *shell, t_btree *tree)
 	char		*full_cmd_path;
 	t_builtin	builtin_type;
 	int			exit_status;
-	
+
 	if (tree->type != COMMAND)
 		return (-1);
 	builtin_type = is_builtin(tree->left->item[0]);
 	if (builtin_type != NONE)
-		exit_status = execute_builtin(builtin_type, tree, tree->left->item, shell->envs);
+		exit_status = execute_builtin(builtin_type, tree, tree->left->item, shell);
 	else
 	{
 		full_cmd_path = get_full_cmd_path(tree->left->item[0], shell->paths);
@@ -135,16 +136,26 @@ int	waiting(t_shell *shell, int last_pid)
 	while (i < shell->nb_cmd)
 	{
 		current_pid = wait(&status);
-		if (current_pid == -1)
-		{
-			return (perror("wait: wrong pid"), -1);
-		}
+		// if (current_pid == -1) // rentre en conflit avec les signaux...
+		// 	return (perror("wait"), g_signal);
 		if (current_pid == last_pid)
 		{
+			if (WIFSIGNALED(status))
+				return (g_signal);
 			if (WIFEXITED(status))
 				return (WEXITSTATUS(status));
 		}
 		i++;
 	}
 	return (status);
+}
+
+void	exit_child_process(t_shell *shell, t_btree *tree, int exit_status)
+{
+	if (exit_status == -12)
+		perror("fork");
+	close_fd(&shell->read);
+	close_fd(&shell->write);
+	free_process(shell, tree);
+	exit(exit_status);
 }

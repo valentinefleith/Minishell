@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/09 14:56:22 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:52:09 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,60 @@ static char	**get_paths(t_env_list *env_list)
 	return (split_paths);
 }
 
+int				g_signal = 0;
+
+static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
+{
+	t_token	*lexemes;
+	t_token	*tokens;
+	t_btree	*tree;
+
+	if (!buffer)
+		return (NULL);
+	lexemes = tokenize_cmdline(buffer, envs);
+	if (!lexemes)
+	{
+		alloc_error("lexer");
+		return (NULL);
+	}
+	tokens = parser(lexemes);
+	if (!tokens)
+	{
+		// if (lexemes)
+		// 	lexemes = ft_free_tokens(lexemes);
+		return (NULL);
+	}
+	tree = create_ast(tokens);
+	if (tokens)
+		ft_free_tokens(tokens);
+	return (tree);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*buffer;
-	t_token	*tokens;
-	t_btree	*tree;
 	t_env	*envs;
 	int		exit_status;
-	
+	t_btree	*tree;
+
 	(void)argc;
 	(void)argv;
 	envs = init_envs(env);
+	if (!envs)
+		alloc_error("envs");
 	while (1)
 	{
-		buffer = readline("\e[32;1m$> \e[0m");
+		signal_monitor(false, true);
+		buffer = readline("\e[32;1mMiniShell$> \e[0m");
 		add_history(buffer);
-		if (!buffer)
+		tree = parse_user_prompt(buffer, envs);
+		if (buffer)
+			free(buffer);
+		if (!tree)
 			continue ;
-		tokens = tokenize_cmdline(buffer, envs);
-		tokens = parser(tokens);
-		tree = create_ast(tokens);
-		if (tokens)
-			ft_free_tokens(&tokens);
 		exit_status = launch_pipeline(tree, envs, get_paths(envs->env_list));
 		update_exit_status(envs->env_list, exit_status);
-		free_main_process(buffer, tree);
+		free_main_process(tree);
 	}
 	return (exit_status);
 }

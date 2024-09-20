@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:24 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/06 18:23:39 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/18 17:50:07 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,17 +46,20 @@ t_action	find_in_loop(t_token *list, int *state, int start, int end)
 	return (error);
 }
 
-void	replace_type(t_token *stack, int old_type, int new_type)
+int	replace_type(t_token *stack, int old_type, int new_type)
 {
 	t_token	*node;
 	
 	node = find_in_stack(stack, old_type);
 	while (!node)
 	{
-		node = find_in_stack(stack, old_type);
 		old_type++;
+		node = find_in_stack(stack, old_type);
 	}
+	if (new_type == REDIR && node && node->next->type == old_type)
+		return (-1);
 	node->type = new_type;
+	return (0);
 }
 
 t_token	*copy_token(t_token *stack, t_token *new)
@@ -74,14 +77,16 @@ t_token	*copy_token(t_token *stack, t_token *new)
 	return (new);
 }
 
+// hope there is no conflict with the filename of a REDIR
 int	count_nb_arg(t_token *stack)
 {
 	int	nb;
 
 	nb = 0;
-	while (stack && stack->type == WORD)
+	while (stack && stack->type != PIPE)
 	{
-		nb++;
+		if (stack->type == WORD)
+			nb++;
 		stack = stack->next;
 	}
 	return (nb);

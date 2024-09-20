@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/28 16:24:30 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:54:23 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ static bool	check_quote_status(bool inside_quotes, bool inside_opposite_quotes)
 	return (inside_opposite_quotes);
 }
 
+
+
 static int	get_size_next_token(char *buffer)
 {
 	int		size;
@@ -96,7 +98,7 @@ t_token	*tokenize_cmdline(char *buffer, t_env *envs)
 	{
 		size = get_size_next_token(buffer);
 		if (size < 0)
-			return (quote_error(&tokens));
+			return (quote_error(tokens));
 		if (*buffer == ' ' && size == 1)
 		{
 			buffer++;
@@ -104,10 +106,11 @@ t_token	*tokenize_cmdline(char *buffer, t_env *envs)
 		}
 		new = create_node(buffer, size);
 		if (!new)
-			return (ft_free_tokens(&tokens));
+			return (ft_free_tokens(tokens));
 		tokens_add_back(&tokens, new);
 		buffer += size;
 	}
+	tokens = check_file_error(tokens, envs);
 	fill_token_types(tokens);
 	perform_var_expansion(tokens, envs);
 	return (tokens);
