@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:34:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 16:40:31 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:54:00 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ int	ft_env(t_env_list *env, int fd, bool option)
 			if (env->data)
 			{
 				ft_putstr_fd("=", fd);
+				if (option)
+					ft_putstr_fd("\"", fd);
 				ft_putstr_fd(env->data, fd);
+				if (option)
+					ft_putstr_fd("\"", fd);
 			}
 			ft_putstr_fd("\n", fd);
 		}
