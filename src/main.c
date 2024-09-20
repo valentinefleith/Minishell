@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/19 14:52:09 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:27:42 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		signal_monitor(false, true);
-		buffer = readline("\e[32;1mMiniShell$> \e[0m");
+		buffer = readline("\e[35;1;3mMiniShell\e[0m \e[32;1m$> \e[0m");
 		add_history(buffer);
 		tree = parse_user_prompt(buffer, envs);
 		if (buffer)

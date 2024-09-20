@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:33:09 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/12 12:56:33 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:00:36 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,6 @@ char	*get_full_cmd_path(char *command_name, char **paths)
 		executable_path = get_path_no_env(command_name);
 	else
 		executable_path = get_path_env(command_name, paths);
-	if (!executable_path)
-	{
-		if (command_name && ft_strnstr(command_name, "./", 2))
-		{
-			free(command_name);
-			//free_and_exit(paths, 126);
-			exit(126);
-		}
-		free(command_name);
-		exit(127);
-	}
 	return (executable_path);
 }
 
@@ -114,8 +103,14 @@ int	check_file_access(char *filename, int file_type)
 	return (0);
 }
 
-int	checking_cmd_access(char *path)
+int	checking_cmd_access(char *cmd_name, char *path)
 {
+	if (!path)
+	{
+		if (cmd_name && ft_strnstr(cmd_name, "./", 2))
+			return(126);
+		return(127);
+	}
 	if (access(path, F_OK) == -1)
 		return (127);
 	if (access(path, X_OK) == -1)
