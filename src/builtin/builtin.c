@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 12:49:27 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/20 13:21:14 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@ static int	check_builtin_access(t_btree *tree, t_shell *shell, int *exit_code)
 	return (0);
 }
 
-int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell)
+int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd,
+		t_shell *shell)
 {
 	int	exit_code;
-	
+
 	if (check_builtin_access(tree, shell, &exit_code) != 0)
 		return (exit_code);
 	shell->read = file_redirection(tree, shell, shell->read, INPUT);
@@ -64,18 +65,15 @@ void	free_builtin_process(t_shell *shell, int *exit_code)
 int	error_builtin(t_builtin builtin, char *arg)
 {
 	if (builtin == PWD)
-		return error_pwd();
-	else if (builtin == CD)
-		printf("bash: cd: %s: No such file or directory\n", arg);
-	else if (builtin == EXPORT)
-		printf("bash: export: '%s': is not a valid identifier\n", arg);
-	else if (builtin == ENV)
-	{
-		printf("bash: env: No such file or directory\n");
-		return (127);
-	}
+		return (error_pwd());
+	if (builtin == CD)
+		return (error_cd(arg));
+	if (builtin == EXPORT)
+		return (error_export(arg));
+	if (builtin == ENV)
+		return (error_env());
 	else if (builtin == 7)
-		printf("Error: while allocation\n");
+		ft_putendl_fd("Error: while allocation\n", 2);
 	return (1);
 }
 
@@ -97,7 +95,7 @@ t_builtin	is_builtin(char *maybe_builtin)
 	size_t		len;
 	char		*tab_builtin[8];
 	t_builtin	builtin;
-	
+
 	i = 0;
 	len = 0;
 	builtin = NONE;
