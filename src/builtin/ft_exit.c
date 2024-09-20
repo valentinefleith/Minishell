@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_exit(t_shell *shell, t_btree *tree, int	exit_status)
+void	ft_exit(t_shell *shell, t_btree *tree, int exit_status)
 {
 	ft_putstr_fd("process exited.\n", 1);
 	if (tree->left->item && tree->left->item[1])
@@ -35,7 +35,7 @@ void	ft_exit(t_shell *shell, t_btree *tree, int	exit_status)
 	if (tree)
 	{
 		btree_free(tree);
-		tree = NULL;	
+		tree = NULL;
 	}
 	ft_free_tab(shell->paths);
 	exit(exit_status);
