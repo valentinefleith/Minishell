@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 15:52:37 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/20 14:16:31 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:35:56 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,15 @@ void	free_process(t_shell *shell, t_btree *tree)
 		ft_free_tab(shell->paths);
 		shell->paths = NULL;
 	}
-	if (shell->envs->env_tab)
-		ft_free_tab(shell->envs->env_tab);
-	if (shell->envs->env_list)
-		shell->envs->env_list = free_env_list(shell->envs->env_list);
+	if (shell->envs)
+	{
+		if (shell->envs->env_tab)
+			ft_free_tab(shell->envs->env_tab);
+		if (shell->envs->env_list)
+			shell->envs->env_list = free_env_list(shell->envs->env_list);
+		free(shell->envs);
+		shell->envs = NULL;
+	}
 	if (tree)
 	{
 		btree_free(tree);
