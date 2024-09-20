@@ -6,11 +6,12 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:34:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 13:33:28 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:40:31 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 // a terme on pourra peut etre print a partir du tableau ca ferait moins d'operations
 int	ft_env(t_env_list *env, int fd, bool option)
 {
@@ -20,13 +21,17 @@ int	ft_env(t_env_list *env, int fd, bool option)
 		return (error_builtin(ENV, NULL));
 	while (env)
 	{
-		if (env->name && env->data)
+		if (env->name)
 		{
 			if (option)
 				ft_putstr_fd("export ", fd);
-			ft_putstr_fd(env->name, fd);
-			ft_putstr_fd("=", fd);
-			ft_putstr_fd(env->data, fd);
+			if (env->data || option)
+				ft_putstr_fd(env->name, fd);
+			if (env->data)
+			{
+				ft_putstr_fd("=", fd);
+				ft_putstr_fd(env->data, fd);
+			}
 			ft_putstr_fd("\n", fd);
 		}
 		env = env->next;

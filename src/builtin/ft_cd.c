@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:25:31 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/12 16:06:03 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:08:00 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*update_data(t_env_list **env_var, char *new_data)
 	return (NULL);
 }
 
-static int	is_arg_unique(char **cmd)
+static int	is_arg_unique_cd(char **cmd)
 {
 	int	i;
 
@@ -50,7 +50,7 @@ int	ft_cd(t_env *envs, char **cmd)
 	pwd = ft_getenv(envs->env_list, "PWD");
 	if (!oldpwd || !pwd)
 		return (1);
-	if (!is_arg_unique(cmd))
+	if (!is_arg_unique_cd(cmd))
 		return (cd_error());
 	if (!cmd[1])
 	{
