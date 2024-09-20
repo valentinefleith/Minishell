@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/19 16:00:41 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:49:27 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static int	check_builtin_access(t_btree *tree, t_shell *shell, int *exit_code)
 {
 	if (ft_strchr(tree->left->item[0], '/'))
 	{
-		printf("PLEASE\n");
 		ft_putstr_fd("bash: ", 2);
 		ft_putstr_fd(tree->item[0], 2);
 		ft_putstr_fd(": No such file or directory.\n", 2);
@@ -36,7 +35,7 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell
 	shell->read = file_redirection(tree, shell, shell->read, INPUT);
 	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 	if (builtin == PWD)
-		exit_code = ft_pwd(shell->envs);
+		exit_code = ft_pwd(shell->envs, shell->write);
 	else if (builtin == ECHO)
 		exit_code = ft_echo(cmd, shell->write);
 	else if (builtin == EXIT)
@@ -65,7 +64,7 @@ void	free_builtin_process(t_shell *shell, int *exit_code)
 int	error_builtin(t_builtin builtin, char *arg)
 {
 	if (builtin == PWD)
-		printf("Error: while getting the working directory\n");
+		return error_pwd();
 	else if (builtin == CD)
 		printf("bash: cd: %s: No such file or directory\n", arg);
 	else if (builtin == EXPORT)

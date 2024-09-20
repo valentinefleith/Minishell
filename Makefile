@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/09/19 10:38:59 by vafleith         ###   ########.fr        #
+#    Updated: 2024/09/20 12:48:09 by vafleith         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ SRCS = main.c \
 	   builtin/ft_env.c builtin/ft_cd.c builtin/ft_pwd.c builtin/ft_echo.c builtin/ft_export.c \
 	   builtin/ft_unset.c builtin/ft_exit.c \
 	   execution/signal_handler.c \
-	   errors/alloc_errors.c errors/file_error.c
+	   errors/alloc_errors.c errors/file_error.c errors/builtin_errors.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 

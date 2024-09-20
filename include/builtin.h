@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/19 11:17:13 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:49:37 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_builtin				is_builtin(char *buffer);
 int						execute_builtin(t_builtin builtin, t_btree *tree, char **cmd, t_shell *shell);
 int						ft_cd(t_env *env, char **cmd);
 int						ft_env(t_env_list *env);
-int						ft_pwd(t_env *env);
+int						ft_pwd(t_env *env, int fd);
 int						ft_echo(char **cmd, int fd);
 int						ft_export(t_env *env, char **arg);
 int						ft_unset(t_env *env, char **arg);
