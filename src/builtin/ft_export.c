@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:18:19 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/12 18:02:03 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 13:36:45 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ static int	is_arg_unique(char **cmd)
 	return (i == 2);
 }
 
-int	ft_export(t_env *envs, char **arg)
+int	ft_export(t_env *envs, char **arg, int fd)
 {
 	t_env_list	*new_var;
 	
-	if (!arg)
-		return (ft_env(envs->env_list), 0);
+	if (!arg[1])
+		return (ft_env(envs->env_list, fd, true), 0);
 	if (!is_arg_unique(arg))
 		return 1;
 	if (!ft_isalpha(*arg[1]) && *arg[1] != '_')

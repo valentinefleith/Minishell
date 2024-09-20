@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 13:21:14 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/20 13:31:41 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd,
 	else if (builtin == EXIT)
 		ft_exit(shell, tree, 0);
 	else if (builtin == ENV)
-		exit_code = ft_env(shell->envs->env_list);
+		exit_code = ft_env(shell->envs->env_list, shell->write, false);
 	else if (builtin == CD)
 		exit_code = ft_cd(shell->envs, cmd);
 	else if (builtin == EXPORT)
-		exit_code = ft_export(shell->envs, cmd);
+		exit_code = ft_export(shell->envs, cmd, shell->write);
 	else if (builtin == UNSET)
 		exit_code = ft_unset(shell->envs, cmd);
 	free_builtin_process(shell, &exit_code);
