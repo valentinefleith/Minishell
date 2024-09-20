@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 18:10:42 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:22:23 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_token	*shift_action(t_token *stack, t_token **tokens, int *state)
 	t_token	*save;
 
 	if (!tokens || !*tokens)
-		return (error_action(stack, NULL, state));
+		return (error_action(stack, *tokens, NULL, state));
 	shifted = malloc(sizeof(t_token));
 	if (!shifted)
 		return (stack);
@@ -57,9 +57,8 @@ t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output,
 		cat_tokens(stack, state, CMD);
 	if (*state == 6)
 	{
-		if (replace_type(stack, INPUT, REDIR) == -1)
-			return (ft_free_tokens(tokens), error_action(stack, *output,
-					state));
+		if (replace_type(stack, HEREDOC, REDIR) == -1)
+			return (error_action(stack, tokens, *output, state));
 		init_arg(stack, tokens, REDIR);
 		cat_tokens(stack, state, REDIR);
 	}
@@ -69,6 +68,8 @@ t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output,
 		if (!tokens)
 			*state = 7;
 	}
+	if (*state != -1 && *state != 7)
+		*state = 0;
 	return (stack);
 }
 
@@ -146,14 +147,14 @@ void	cat_tokens(t_token *stack, int *state, int type)
 	int		pos;
 
 	token = find_last_type(stack, type);
-	if (token->next->type != WORD)
+	if (token->next && token->next->type != WORD)
 	{
 		special_input_arg(token);
 		return ;
 	}
 	if (!token || !token->arg || !token->next)
 	{
-		error_action(token, NULL, state);
+		error_action(token, NULL, NULL, state);
 		return ;
 	}
 	pos = 1;
