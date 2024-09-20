@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/19 15:02:23 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 14:16:19 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	cmd_execution(t_shell *shell, t_btree *tree)
 	else
 	{
 		full_cmd_path = get_full_cmd_path(tree->left->item[0], shell->paths);
-		exit_status = checking_cmd_access(full_cmd_path);
+		exit_status = checking_cmd_access(tree->left->item[0], full_cmd_path);
 		if (exit_status == 0)
 			execve(full_cmd_path, tree->left->item, shell->envs->env_tab);
 		if (full_cmd_path)
@@ -148,14 +148,4 @@ int	waiting(t_shell *shell, int last_pid)
 		i++;
 	}
 	return (status);
-}
-
-void	exit_child_process(t_shell *shell, t_btree *tree, int exit_status)
-{
-	if (exit_status == -12)
-		perror("fork");
-	close_fd(&shell->read);
-	close_fd(&shell->write);
-	free_process(shell, tree);
-	exit(exit_status);
 }
