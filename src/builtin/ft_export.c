@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:18:19 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 16:41:18 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:28:30 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,22 @@ int	ft_export(t_env *envs, char **cmd, int fd)
 
 	if (!cmd[1])
 		return (ft_env(envs->env_list, fd, true), 0);
+	// TODO: fix cases 251-255
 	if (!is_arg_unique(cmd))
 		return (1);
 	len_name = find_len_name(cmd[1]);
 	if (len_name < 0)
 		return (1);
-	if (len_name == (int)ft_strlen(cmd[1]))
-		return (export_no_data(envs, cmd));
 	existing_var = ft_getenv_boost(envs->env_list, cmd[1], len_name);
 	if (!existing_var)
+	{
+		if (len_name == (int)ft_strlen(cmd[1]))
+			return (export_no_data(envs, cmd));
 		return (export_regular(envs, cmd, len_name));
-	return (export_existing_var(existing_var, cmd, len_name));
+	}
+	if (len_name != (int)ft_strlen(cmd[1]))
+		return (export_existing_var(existing_var, cmd, len_name));
+	return SUCCESS;
 }
 
 /*static t_env_list	*parse_export_arg(char *arg)
