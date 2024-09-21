@@ -6,26 +6,26 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/21 16:04:09 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/21 17:16:11 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*remove_varname(char *data, int index)
+static char	*remove_varname(char *data, int *index)
 {
 	int		new_len;
 	char	*new;
 	int		len_varname;
 	int		i;
 
-	len_varname = get_len_varname(data, index + 1);
+	len_varname = get_len_varname(data, *index + 1);
 	new_len = ft_strlen(data) - (len_varname + 1);
 	new = ft_calloc(new_len + 2, sizeof(char));
 	if (!new)
 		return (NULL);
 	i = 0;
-	while (data[i] && i < index)
+	while (data[i] && i < (*index))
 	{
 		new[i] = data[i];
 		i++;
@@ -71,11 +71,12 @@ static void	copy_right_data(char *dest, char *src, int index,
 	dest[i] = '\0';
 }
 
-static char	*replace_variable(char *data, int index, t_env_list *target_var)
+static char	*replace_variable(char *data, int *index, t_env_list *target_var)
 {
 	int		new_len;
 	char	*new;
 
+	(*index)--;
 	if (!target_var || !target_var->data)
 		return (remove_varname(data, index));
 	new_len = ft_strlen(data) - (1 + ft_strlen(target_var->name))
@@ -83,8 +84,9 @@ static char	*replace_variable(char *data, int index, t_env_list *target_var)
 	new = ft_calloc(1 + new_len, sizeof(char));
 	if (!new)
 		return (NULL);
-	copy_right_data(new, data, index, target_var, new_len);
+	copy_right_data(new, data, *index, target_var, new_len);
 	free(data);
+	*index += ft_strlen(target_var->data);
 	return (new);
 }
 
@@ -113,12 +115,9 @@ static char	*expand_variables(char *data, t_env *envs)
 			if (ft_isalnum(data[i]) || ft_strchr("?_'\"", data[i]))
 			{
 				target_var = find_target_variable(envs->env_list, data, i);
-				data = replace_variable(data, i - 1, target_var);
+				data = replace_variable(data, &i, target_var);
 				if (!data)
 					return (NULL);
-				i = 0;
-				inside_double_quotes = false;
-				inside_single_quotes = false;
 			}
 		}
 		else
