@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/20 17:58:17 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/21 13:05:42 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,7 @@ static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
 		return (NULL);
 	lexemes = tokenize_cmdline(buffer, envs);
 	if (!lexemes)
-	{
-		alloc_error("lexer");
 		return (NULL);
-	}
 	tokens = parser(lexemes, envs->env_list);
 	lexemes = NULL;
 	if (!tokens)
