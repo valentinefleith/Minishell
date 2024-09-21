@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 19:52:16 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/17 13:27:33 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:30:39 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,10 @@ t_env_list	*find_target_variable(t_env_list *env_list, char *data, int index)
 
 	if (!data)
 		return (NULL);
-	var_len = get_len_varname(data, index);
+	if (data[index] == '?')
+		var_len = 1;
+	else
+		var_len = get_len_varname(data, index);
 	while (env_list)
 	{
 		if (!env_list || !env_list->name || var_len <= 0 || !data)
