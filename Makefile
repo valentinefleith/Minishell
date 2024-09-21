@@ -6,7 +6,7 @@
 #    By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/28 15:31:12 by vafleith          #+#    #+#              #
-#    Updated: 2024/09/19 10:38:59 by vafleith         ###   ########.fr        #
+#    Updated: 2024/09/20 18:39:41 by luvallee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,13 +41,13 @@ SRCS = main.c \
 	   parsing/parsing_table/operation.c parsing/parsing_table/parser_debug.c \
 	   parsing/parsing_table/parsing_table.c \
 	   env/env.c env/env_utils.c env/env_refresh.c \
-	   free/ft_free_tab.c free/free_and_exit.c \
 	   execution/exec_utils.c execution/redirection.c execution/execution.c \
 	   execution/error_execution.c builtin/builtin.c execution/error_paths.c \
-	   builtin/ft_env.c builtin/ft_cd.c builtin/ft_pwd.c builtin/ft_echo.c builtin/ft_export.c \
-	   builtin/ft_unset.c builtin/ft_exit.c \
 	   execution/signal_handler.c \
-	   errors/alloc_errors.c errors/file_error.c
+	   builtin/ft_env.c builtin/ft_cd.c builtin/ft_pwd.c builtin/ft_echo.c builtin/ft_export.c \
+	   builtin/ft_unset.c builtin/ft_exit.c builtin/ft_export_utils.c \
+	   security/ft_free_tab.c security/free_and_exit.c security/builtin_errors.c \
+	   security/alloc_errors.c security/file_error.c security/parser_error.c
 
 SRCS := $(addprefix $(SRC_DIR)/, $(SRCS))
 
