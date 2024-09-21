@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/19 15:07:47 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 17:57:44 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * This function performs actions such as shift, reduce, and error
  * according on the current state and tokens (parsing_table).
  */
-t_token	*parser(t_token *tokens)
+t_token	*parser(t_token *tokens, t_env_list *env_list)
 {
 	t_token	*stack;
 	t_token	*output;
@@ -37,14 +37,12 @@ t_token	*parser(t_token *tokens)
 		if (action == shift)
 			stack = shift_action(stack, &tokens, &state);
 		else if (action == reduce)
-		{
 			stack = reduce_action(stack, tokens, &output, &state);
-			if (state != -1 && state != 7)
-				state = 0;
-		}
 		else if (action == error)
-			stack = error_action(stack, output, &state);
+			stack = error_action(stack, tokens, output, &state);
 	}
+	if (state == -1)
+		update_exit_status(env_list, 2);
 	return (output);
 }
 
@@ -75,27 +73,4 @@ void	build_output(t_token **stack, t_token **output)
 			free(*stack);
 		*stack = save;
 	}
-}
-
-/**
- *	Handles errors during parsing.
- */
-t_token	*error_action(t_token *stack, t_token *output, int *state)
-{
-	t_token	*token;
-
-	token = get_last_token(stack);
-	if (!ft_strncmp(stack->data, "<", 1) && ft_strlen(stack->data) == 1
-		&& !ft_strncmp(token->data, ">", 1) && ft_strlen(token->data) == 1)
-		printf("bash: syntax error near unexpected token 'newline'\n");
-	else if (find_in_loop(token, state, INPUT, APPEND + 1) != error
-		&& !stack->next)
-		printf("bash: syntax error near unexpected token 'newline'\n");
-	else
-		printf("bash: syntax error near unexpected token '%s'\n", token->data);
-	stack = ft_free_tokens(stack);
-	if (output)
-		output = ft_free_tokens(output);
-	*state = -1;
-	return (stack);
 }

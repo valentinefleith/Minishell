@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 18:04:41 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:18:32 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_action	state_zero(t_token *stack, t_token *tokens, int *state)
 		return (error);
 	if (*state != 0)
 		return (go_to);
-	if (find_in_loop(tokens, state, WORD, APPEND + 1) == shift)
+	if (find_in_loop(tokens, state, WORD, OUTPUT + 1) == shift)
 		return (shift);
 	if (!stack && tokens && tokens->type == PIPE)
 		return (shift);
@@ -71,7 +71,7 @@ t_action	state_zero(t_token *stack, t_token *tokens, int *state)
 
 t_action	state_four(t_token *stack, t_token *tokens, int *state)
 {
-	if (find_in_loop(tokens, state, INPUT, APPEND + 1) == shift)
+	if (find_in_loop(tokens, state, HEREDOC, OUTPUT + 1) == shift)
 		return (shift);
 	else if (tokens && tokens->type == WORD)
 	{
@@ -113,7 +113,7 @@ t_action	state_tens(t_token *stack, t_token *tokens, int *state)
 {
 	if (*state == 11 && find_in_stack(stack, REDIR))
 		*state = 14;
-	else if (*state == 11 && find_in_loop(tokens, state, INPUT, APPEND +1) == shift)
+	else if (*state == 11 && find_in_loop(tokens, state, INPUT, OUTPUT +1) == shift)
 		return (shift);
 	else if (*state == 11 && tokens && tokens->type == PIPE)
 	{

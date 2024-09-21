@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/18 17:45:51 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:16:29 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ typedef enum e_grammar_rules
 typedef enum e_token_type
 {
 	WORD,
-	INPUT,
 	HEREDOC,
-	OUTPUT,
 	APPEND,
+	INPUT,
+	OUTPUT,
 	PIPE,
 	UNDEFINED,
 }						t_token_type;
@@ -117,11 +117,8 @@ t_action				state_four(t_token *stack, t_token *tokens, int *state);
 t_action				state_five(t_token *stack, t_token *tokens, int *state);
 t_action				state_tens(t_token *stack, t_token *tokens, int *state);
 
-t_token					*parser(t_token *tokens);
-t_token					*parser(t_token *tokens);
+t_token					*parser(t_token *tokens, t_env_list *env_list);
 void					build_output(t_token **stack, t_token **output);
-t_token					*error_action(t_token *stack, t_token *output,
-							int *state);
 
 t_token					*find_in_stack(t_token *stack, int type);
 t_action				find_in_loop(t_token *list, int *state, int start,

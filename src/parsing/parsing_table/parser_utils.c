@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:42:24 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 17:50:07 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:28:31 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,22 @@ int	replace_type(t_token *stack, int old_type, int new_type)
 {
 	t_token	*node;
 	
-	node = find_in_stack(stack, old_type);
+	node = NULL;
+	if (!stack)
+		return (-1);
+	if (new_type == REDIR && stack->type == old_type)
+		node = stack;
+	else if (new_type == REDIR && stack->type == APPEND)
+		node = find_in_stack(stack, APPEND);
+	else
+		node = stack;
 	while (!node)
 	{
 		old_type++;
 		node = find_in_stack(stack, old_type);
 	}
-	if (new_type == REDIR && node && node->next->type == old_type)
+	if (new_type == REDIR && node && node->next
+		&& (node->next->type != WORD || node->next->type == PIPE))
 		return (-1);
 	node->type = new_type;
 	return (0);
