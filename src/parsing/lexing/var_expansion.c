@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/18 15:57:08 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/21 15:42:04 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ static char	*replace_variable(char *data, int index, t_env_list *target_var)
 }
 
 /* TODO:
- * fix invalid read when remove variable
  * reduce to 25 lines*/
 
 static char	*expand_variables(char *data, t_env *envs)
@@ -118,6 +117,8 @@ static char	*expand_variables(char *data, t_env *envs)
 				if (!data)
 					return (NULL);
 				i = 0;
+				inside_double_quotes = false;
+				inside_single_quotes = false;
 			}
 		}
 		else
