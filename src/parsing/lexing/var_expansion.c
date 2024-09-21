@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/21 15:42:04 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/21 16:04:09 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static char	*expand_variables(char *data, t_env *envs)
 		if (data[i] == '$' && !inside_single_quotes)
 		{
 			i++;
-			if (ft_isalnum(data[i]) || data[i] == '?' || data[i] == '_')
+			if (ft_isalnum(data[i]) || ft_strchr("?_'\"", data[i]))
 			{
 				target_var = find_target_variable(envs->env_list, data, i);
 				data = replace_variable(data, i - 1, target_var);
