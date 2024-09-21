@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 15:26:10 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/20 16:35:55 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/20 18:45:42 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,7 @@ size_t	find_len_name(char *arg)
 		if (arg[len] == '+' && arg[len + 1] == '=')
 			return (len);
 		if (!isalnum(arg[len]) && arg[len] != '_')
-		{
-			error_builtin(EXPORT, arg);
 			return (-1);
-		}
 		len++;
 	}
 	return (len);
