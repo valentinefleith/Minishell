@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:08:13 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/20 14:29:28 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/22 11:44:25 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ void	cmd_not_found(char *cmd_name)
 void	permission_denied(char *name)
 {
 	ft_putstr_fd("bash: ", 2);
-	ft_putendl_fd(name, 2);
+	ft_putstr_fd(name, 2);
 	ft_putstr_fd(": permission denied\n", 2);
+}
+
+void	is_directory(char *name)
+{
+	ft_putstr_fd("bash: ", 2);
+	ft_putstr_fd(name, 2);
+	ft_putstr_fd(": is a directory\n", 2);
 }

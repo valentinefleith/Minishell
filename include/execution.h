@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:19 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/20 13:56:59 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/22 11:32:42 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ void					debug_exec(t_btree *tree, t_shell *shell, int index);
 void					no_such_file(char *filename);
 void					cmd_not_found(char *cmd_name);
 void					permission_denied(char *name);
+void					is_directory(char *name);
 
 #endif
