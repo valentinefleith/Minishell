@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/22 11:34:17 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:09:54 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	cmd_execution(t_shell *shell, t_btree *tree)
 	t_builtin	builtin_type;
 	int			exit_status;
 
-	if (tree->type != COMMAND)
+	if (tree && tree->type != COMMAND)
 		return (-1);
 	builtin_type = is_builtin(tree->left->item[0]);
 	if (builtin_type != NONE)

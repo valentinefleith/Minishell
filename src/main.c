@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/22 17:24:37 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/22 17:45:00 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,48 +35,6 @@ static char	**get_paths(t_env_list *env_list)
 
 int				g_signal = 0;
 
-static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
-{
-	t_token	*lexemes;
-	t_token	*tokens;
-	t_btree	*tree;
-
-	if (!buffer)
-		return (NULL);
-	lexemes = tokenize_cmdline(buffer, envs);
-	if (!lexemes)
-		return (NULL);
-	tokens = parser(lexemes, envs->env_list);
-	lexemes = NULL;
-	if (!tokens)
-		return (NULL);
-	tree = create_ast(tokens);
-	if (tokens)
-		ft_free_tokens(tokens);
-	return (tree);
-}
-
-// printf("                                                              \n");
-// 	printf("✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ \n");
-// 	printf("                                                              \n");
-// 	printf("  ✬✬    ✬✬ ✬ ✬✬    ✬ ✬ ✬✬✬✬✬✬✬ ✬     ✬ ✬✬✬✬✬✬✬ ✬      ✬       \n");
-// 	printf("  ✬✬    ✬✬ ✬ ✬✬    ✬ ✬ ✬       ✬     ✬ ✬       ✬      ✬       \n");
-// 	printf("  ✬✬✬  ✬✬✬ ✬ ✬✬✬   ✬ ✬ ✬       ✬     ✬ ✬       ✬      ✬       \n");
-// 	printf("  ✬ ✬  ✬ ✬ ✬ ✬✬✬   ✬ ✬ ✬✬✬✬✬✬✬ ✬✬✬✬✬✬✬ ✬✬✬✬✬✬✬ ✬      ✬       \n");
-// 	printf("  ✬  ✬✬  ✬ ✬ ✬  ✬✬ ✬ ✬       ✬ ✬     ✬ ✬       ✬      ✬       \n");
-// 	printf("  ✬      ✬ ✬ ✬   ✬✬✬ ✬       ✬ ✬     ✬ ✬       ✬      ✬       \n");
-// 	printf("  ✬      ✬ ✬ ✬    ✬✬ ✬ ✬✬✬✬✬✬✬ ✬     ✬ ✬✬✬✬✬✬✬ ✬✬✬✬✬✬ ✬✬✬✬✬✬  \n");
-// 	printf("                                                              \n");
-// 	printf("✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ \n");
-// 	printf("                                                              \n");
-
-static char	*get_prompt(char *buffer)
-{
-	buffer = readline("\e[35;1;3mMiniShell\e[0m \e[32;1m$> \e[0m");
-	add_history(buffer);
-	return (buffer);
-}
-
 static void	display_program(void)
 {
 	printf("\e[35m");
@@ -100,6 +58,39 @@ static void	display_program(void)
 	printf("\e[0m");
 }
 
+static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
+{
+	t_token	*lexemes;
+	t_token	*tokens;
+	t_btree	*tree;
+
+	if (!buffer)
+		return (NULL);
+	lexemes = tokenize_cmdline(buffer, envs);
+	if (!lexemes)
+		return (NULL);
+	tokens = parser(lexemes, envs->env_list);
+	lexemes = NULL;
+	if (!tokens)
+		return (NULL);
+	tree = create_ast(tokens);
+	if (tokens)
+		ft_free_tokens(tokens);
+	return (tree);
+}
+
+static char	*get_prompt(void)
+{
+	char	*buffer;
+	
+	buffer = readline("\e[35;1;3mMiniShell\e[0m \e[32;1m$> \e[0m");
+	if (buffer)
+		add_history(buffer);
+	else
+		return (free(buffer), NULL);
+	return (buffer);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*buffer;
@@ -116,7 +107,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		signal_monitor(false, true);
-		buffer = get_prompt(buffer);
+		buffer = get_prompt();
 		tree = parse_user_prompt(buffer, envs);
 		if (buffer)
 			free(buffer);

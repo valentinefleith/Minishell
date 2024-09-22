@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:25:31 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 16:08:00 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/22 17:51:17 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static char	*update_data(t_env_list **env_var, char *new_data)
 {
-	if (*env_var)
+	if (*env_var && (*env_var)->data)
 	{
 		free((*env_var)->data);
 		return (ft_strdup(new_data));

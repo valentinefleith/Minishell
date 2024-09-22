@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vafleith <vafleith@42.fr>                  +#+  +:+       +#+        */
+/*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:26:12 by vafleith          #+#    #+#             */
-/*   Updated: 2023/11/13 21:32:26 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/22 17:54:34 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strdup(const char *s)
 	char	*duplicate;
 	size_t	size_of_str_nul;
 
+	if (!s)
+		return (NULL);
 	size_of_str_nul = ft_strlen(s) + 1;
 	duplicate = malloc(size_of_str_nul);
 	if (duplicate == NULL)
