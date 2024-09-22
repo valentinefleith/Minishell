@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/21 17:16:01 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/22 17:24:37 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,50 @@ static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
 	return (tree);
 }
 
+// printf("                                                              \n");
+// 	printf("✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ \n");
+// 	printf("                                                              \n");
+// 	printf("  ✬✬    ✬✬ ✬ ✬✬    ✬ ✬ ✬✬✬✬✬✬✬ ✬     ✬ ✬✬✬✬✬✬✬ ✬      ✬       \n");
+// 	printf("  ✬✬    ✬✬ ✬ ✬✬    ✬ ✬ ✬       ✬     ✬ ✬       ✬      ✬       \n");
+// 	printf("  ✬✬✬  ✬✬✬ ✬ ✬✬✬   ✬ ✬ ✬       ✬     ✬ ✬       ✬      ✬       \n");
+// 	printf("  ✬ ✬  ✬ ✬ ✬ ✬✬✬   ✬ ✬ ✬✬✬✬✬✬✬ ✬✬✬✬✬✬✬ ✬✬✬✬✬✬✬ ✬      ✬       \n");
+// 	printf("  ✬  ✬✬  ✬ ✬ ✬  ✬✬ ✬ ✬       ✬ ✬     ✬ ✬       ✬      ✬       \n");
+// 	printf("  ✬      ✬ ✬ ✬   ✬✬✬ ✬       ✬ ✬     ✬ ✬       ✬      ✬       \n");
+// 	printf("  ✬      ✬ ✬ ✬    ✬✬ ✬ ✬✬✬✬✬✬✬ ✬     ✬ ✬✬✬✬✬✬✬ ✬✬✬✬✬✬ ✬✬✬✬✬✬  \n");
+// 	printf("                                                              \n");
+// 	printf("✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ ✬ \n");
+// 	printf("                                                              \n");
+
+static char	*get_prompt(char *buffer)
+{
+	buffer = readline("\e[35;1;3mMiniShell\e[0m \e[32;1m$> \e[0m");
+	add_history(buffer);
+	return (buffer);
+}
+
+static void	display_program(void)
+{
+	printf("\e[35m");
+	printf("                                                             \n");
+	printf("\e[38;5;126m");
+	printf("✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧\n");
+	printf("                                                             \n");
+	printf("\e[38;5;127m");
+	printf(" ✧✧    ✧✧  ✧  ✧✧    ✧  ✧  ✧ ✧ ✧   ✧   ✧  ✧ ✧ ✧  ✧      ✧     \n");
+	printf("\e[38;5;128m");
+	printf(" ✧ ✧  ✧ ✧  ✧  ✧ ✧   ✧  ✧  ✧       ✧   ✧  ✧      ✧      ✧     \n");
+	printf("\e[38;5;129m");
+	printf(" ✧   ✧  ✧  ✧  ✧  ✧  ✧  ✧  ✧ ✧ ✧   ✧ ✧ ✧  ✧ ✧ ✧  ✧      ✧     \n");
+	printf("\e[38;5;140m");
+	printf(" ✧      ✧  ✧  ✧   ✧ ✧  ✧       ✧  ✧   ✧  ✧      ✧      ✧     \n");
+	printf("\e[38;5;121m");
+	printf(" ✧      ✧  ✧  ✧     ✧  ✧  ✧ ✧ ✧   ✧   ✧  ✧ ✧ ✧  ✧ ✧ ✧  ✧ ✧ ✧ \n");
+	printf("                                                             \n");
+	printf("\e[35m");
+	printf("✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧\n");
+	printf("\e[0m");
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*buffer;
@@ -68,11 +112,11 @@ int	main(int argc, char **argv, char **env)
 	envs = init_envs(env);
 	if (!envs)
 		alloc_error("envs");
+	display_program();
 	while (1)
 	{
 		signal_monitor(false, true);
-		buffer = readline("\e[35;1;3mMiniShell\e[0m \e[32;1m$> \e[0m");
-		add_history(buffer);
+		buffer = get_prompt(buffer);
 		tree = parse_user_prompt(buffer, envs);
 		if (buffer)
 			free(buffer);
