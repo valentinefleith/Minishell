@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 17:57:44 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:52:02 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_token	*parser(t_token *tokens, t_env_list *env_list)
 		else if (action == reduce)
 			stack = reduce_action(stack, tokens, &output, &state);
 		else if (action == error)
-			stack = error_action(stack, tokens, output, &state);
+			stack = error_action(stack, tokens, &output, &state);
 	}
 	if (state == -1)
 		update_exit_status(env_list, 2);

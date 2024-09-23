@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/23 13:53:17 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:22:47 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	cmd_execution(t_shell *shell, t_btree *tree)
 		execve(full_cmd_path, tree->left->item, shell->envs->env_tab);
 	if (full_cmd_path)
 		free(full_cmd_path);
-	if (ft_strchr(tree->left->item[0], '/'))
+	if (ft_strchr(tree->left->item[0], '/') && exit_status == 0)
 	{
 		is_directory(tree->left->item[0]);
 		exit_status = 126;
