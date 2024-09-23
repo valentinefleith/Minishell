@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:46:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/17 14:03:13 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:37:55 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ void	update_exit_status(t_env_list *env_list, int exit_status)
 	if (var_status->data)
 		free(var_status->data);
 	if (g_signal != 0)
+	{
 		var_status->data = ft_itoa(g_signal);
+		g_signal = 0;
+	}
 	else
 		var_status->data = ft_itoa(exit_status);
 }
