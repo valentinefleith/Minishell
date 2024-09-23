@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 13:31:41 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/23 13:46:30 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,31 +26,38 @@ static int	check_builtin_access(t_btree *tree, t_shell *shell, int *exit_code)
 	return (0);
 }
 
-int	execute_builtin(t_builtin builtin, t_btree *tree, char **cmd,
+int	execute_builtin(t_builtin builtin, t_btree *tree, bool pipeline,
 		t_shell *shell)
 {
 	int	exit_code;
 
 	if (check_builtin_access(tree, shell, &exit_code) != 0)
 		return (exit_code);
-	shell->read = file_redirection(tree, shell, shell->read, INPUT);
-	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
+	if (pipeline == false)
+		builtin_redirection(tree, shell);
 	if (builtin == PWD)
 		exit_code = ft_pwd(shell->envs, shell->write);
 	else if (builtin == ECHO)
-		exit_code = ft_echo(cmd, shell->write);
+		exit_code = ft_echo(tree->left->item, shell->write);
 	else if (builtin == EXIT)
 		ft_exit(shell, tree, 0);
 	else if (builtin == ENV)
 		exit_code = ft_env(shell->envs->env_list, shell->write, false);
 	else if (builtin == CD)
-		exit_code = ft_cd(shell->envs, cmd);
+		exit_code = ft_cd(shell->envs, tree->left->item);
 	else if (builtin == EXPORT)
-		exit_code = ft_export(shell->envs, cmd, shell->write);
+		exit_code = ft_export(shell->envs, tree->left->item, shell->write);
 	else if (builtin == UNSET)
-		exit_code = ft_unset(shell->envs, cmd);
-	free_builtin_process(shell, &exit_code);
+		exit_code = ft_unset(shell->envs, tree->left->item);
+	if (pipeline == false)
+		free_builtin_process(shell, &exit_code);
 	return (exit_code);
+}
+
+void	builtin_redirection(t_btree *tree, t_shell *shell)
+{
+	shell->read = file_redirection(tree, shell, shell->read, INPUT);
+	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 }
 
 void	free_builtin_process(t_shell *shell, int *exit_code)
