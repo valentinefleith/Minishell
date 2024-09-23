@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:33:09 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 14:00:36 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/22 18:07:20 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char	*get_full_cmd_path(char *command_name, char **paths)
 {
 	char	*executable_path;
 
+	if (!command_name)
+		return (NULL);
 	if (ft_strchr(command_name, '/') || !paths)
 		executable_path = get_path_no_env(command_name);
 	else
@@ -111,6 +113,8 @@ int	checking_cmd_access(char *cmd_name, char *path)
 			return(126);
 		return(127);
 	}
+	if (path && !ft_strncmp(cmd_name, "..", 2) && ft_strlen(cmd_name) == 2)
+		return (cmd_not_found(cmd_name), 127);
 	if (access(path, F_OK) == -1)
 		return (127);
 	if (access(path, X_OK) == -1)

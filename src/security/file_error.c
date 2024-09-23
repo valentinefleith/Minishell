@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/18 16:18:26 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/21 13:12:58 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/22 17:56:38 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static bool is_only_dot(char *data)
 
 t_token *check_file_error(t_token *tokens, t_env *envs)
 {
-	if (!tokens)
+	if (!tokens || !tokens->data)
 		return tokens;
 	if (ft_strlen(tokens->data) == 1 && tokens->data[0] == '.')
 	{

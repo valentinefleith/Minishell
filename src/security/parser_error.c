@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 17:25:35 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 18:18:45 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/22 17:57:43 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	parser_msg_error(t_token *stack, int *state)
 	if (!stack)
 		return ;
 	token = get_last_token(stack);
-	if (!token)
+	if (!token || !token->data || !stack->data)
 		return ;
 	if (!ft_strncmp(stack->data, "<", 1) && ft_strlen(stack->data) == 1
 		&& !ft_strncmp(token->data, ">", 1) && ft_strlen(token->data) == 1)

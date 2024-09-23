@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/21 13:05:42 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/22 17:45:00 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,29 @@ static char	**get_paths(t_env_list *env_list)
 
 int				g_signal = 0;
 
+static void	display_program(void)
+{
+	printf("\e[35m");
+	printf("                                                             \n");
+	printf("\e[38;5;126m");
+	printf("✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧\n");
+	printf("                                                             \n");
+	printf("\e[38;5;127m");
+	printf(" ✧✧    ✧✧  ✧  ✧✧    ✧  ✧  ✧ ✧ ✧   ✧   ✧  ✧ ✧ ✧  ✧      ✧     \n");
+	printf("\e[38;5;128m");
+	printf(" ✧ ✧  ✧ ✧  ✧  ✧ ✧   ✧  ✧  ✧       ✧   ✧  ✧      ✧      ✧     \n");
+	printf("\e[38;5;129m");
+	printf(" ✧   ✧  ✧  ✧  ✧  ✧  ✧  ✧  ✧ ✧ ✧   ✧ ✧ ✧  ✧ ✧ ✧  ✧      ✧     \n");
+	printf("\e[38;5;140m");
+	printf(" ✧      ✧  ✧  ✧   ✧ ✧  ✧       ✧  ✧   ✧  ✧      ✧      ✧     \n");
+	printf("\e[38;5;121m");
+	printf(" ✧      ✧  ✧  ✧     ✧  ✧  ✧ ✧ ✧   ✧   ✧  ✧ ✧ ✧  ✧ ✧ ✧  ✧ ✧ ✧ \n");
+	printf("                                                             \n");
+	printf("\e[35m");
+	printf("✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧\n");
+	printf("\e[0m");
+}
+
 static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
 {
 	t_token	*lexemes;
@@ -56,6 +79,18 @@ static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
 	return (tree);
 }
 
+static char	*get_prompt(void)
+{
+	char	*buffer;
+	
+	buffer = readline("\e[35;1;3mMiniShell\e[0m \e[32;1m$> \e[0m");
+	if (buffer)
+		add_history(buffer);
+	else
+		return (free(buffer), NULL);
+	return (buffer);
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	char	*buffer;
@@ -68,11 +103,11 @@ int	main(int argc, char **argv, char **env)
 	envs = init_envs(env);
 	if (!envs)
 		alloc_error("envs");
+	display_program();
 	while (1)
 	{
 		signal_monitor(false, true);
-		buffer = readline("\e[35;1;3mMiniShell\e[0m \e[32;1m$> \e[0m");
-		add_history(buffer);
+		buffer = get_prompt();
 		tree = parse_user_prompt(buffer, envs);
 		if (buffer)
 			free(buffer);
