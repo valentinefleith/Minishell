@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/23 14:18:24 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:54:35 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, bool pipeline,
 	else if (builtin == ECHO)
 		exit_code = ft_echo(tree->left->item, shell->write);
 	else if (builtin == EXIT)
-		ft_exit(shell, tree, 0);
+		exit_code = ft_exit(shell, tree, tree->left->item);
 	else if (builtin == ENV)
 		exit_code = ft_env(shell->envs->env_list, shell->write, false);
 	else if (builtin == CD)
