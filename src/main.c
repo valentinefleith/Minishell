@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/23 15:57:45 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:06:46 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,5 @@ int	main(int argc, char **argv, char **env)
 		update_exit_status(envs->env_list, exit_status);
 		free_main_process(tree);
 	}
-	return (exit_status);
+	return (rl_clear_history(), exit_status);
 }

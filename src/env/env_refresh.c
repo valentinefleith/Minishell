@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:29:46 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/11 18:19:35 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/24 13:47:50 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ int	refresh_env_tab(t_env *envs)
 	i = 0;
 	while (i < nb_var)
 	{
-		envs->env_tab[i] = ft_strjoin_char(env_list->name, env_list->data, '=');
+		if (env_list->name && env_list->data)
+			envs->env_tab[i] = ft_strjoin_char(env_list->name, env_list->data,
+					'=');
 		if (!envs->env_tab[i])
 		{
 			ft_free_tab(envs->env_tab);
