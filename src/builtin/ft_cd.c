@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:25:31 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/24 16:23:20 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/24 18:07:41 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,11 @@
 static char	*update_data(t_env_list **env_var, char *new_data)
 {
 	if (*env_var && (*env_var)->data)
-	{
 		free((*env_var)->data);
+	if (!new_data)
+		return (error_cd(".."), NULL);
+	else
 		return (ft_strdup(new_data));
-	}
 	return (NULL);
 }
 
@@ -39,7 +40,7 @@ static int	cd_error(void)
 	return (1);
 }
 
-static int	cd_home(t_env_list *env_list)
+static char	*cd_home(t_env_list *env_list)
 {
 	t_env_list	*var_home;
 
@@ -47,9 +48,11 @@ static int	cd_home(t_env_list *env_list)
 	if (!var_home || (var_home && !var_home->data))
 	{
 		ft_putstr_fd("bash: cd: HOME not set\n", 2);
-		return (1);
+		return (NULL);
 	}
-	return (0);
+	else
+		return (var_home->data);
+	return (NULL);
 }
 
 int	ft_cd(t_env *envs, char **cmd)
@@ -65,11 +68,13 @@ int	ft_cd(t_env *envs, char **cmd)
 		return (1);
 	if (!is_arg_unique_cd(cmd))
 		return (cd_error());
-	if (!cmd[1] && cd_home(envs->env_list) == 1)
-			return (1);
+	if (!cmd[1])
+		path = cd_home(envs->env_list);
 	else
 		path = cmd[1];
 	oldpwd->data = update_data(&oldpwd, pwd->data);
+	if (!path)
+		return (1);
 	if (chdir(path) != 0)
 		return (error_builtin(CD, path));
 	pwd->data = update_data(&pwd, getcwd(buffer, 1023));

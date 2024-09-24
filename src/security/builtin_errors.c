@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 12:38:22 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/24 15:28:49 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/24 17:43:04 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@ int error_pwd(void)
 
 int error_cd(char *name)
 {
-	ft_putstr_fd("bash: cd: ", 2);
-	// ft_putstr_fd(name, 2);
-	ft_putstr_fd(" ", 2);
-	perror(name);
-	// ft_putendl_fd(": No such file or directory", 2);
+	if (name)
+		printf("bash: cd: %s: %s\n", name, strerror(errno));
+	else
+		printf("bash: cd: (null): %s\n",  strerror(errno));
 	return (1);
 }
 
