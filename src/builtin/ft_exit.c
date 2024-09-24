@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/23 12:07:21 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/24 10:46:37 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,84 +49,81 @@ static int	count_nb_args(char **cmd)
 	return (i);
 }
 
-static int exit_error(char *name)
+static int	exit_error(char *name)
 {
 	ft_putstr_fd("bash: exit: ", 2);
 	ft_putstr_fd(name, 2);
 	ft_putendl_fd(": numeric argument required", 2);
-	return 2;
+	return (2);
 }
 
-static int get_last_exit_status(t_env_list *env_list)
+static int	get_last_exit_status(t_env_list *env_list)
 {
-	t_env_list *code;
+	t_env_list	*code;
 
 	code = ft_getenv(env_list, "?");
 	if (!code)
-		return 0;
-	return ft_atoi(code->data);
+		return (0);
+	return (ft_atoi(code->data));
 }
 
-static bool is_valid_nb(char *arg)
+static bool	is_valid_nb(char *arg)
 {
+	int	len;
+
 	while (*arg && ft_strchr(" \t\n\r\v\f", *arg))
 		arg++;
 	if (!arg)
-		return false;
-	int len;
-
+		return (false);
+	while (*arg == '0')
+		arg++;
+	if (!arg)
+		return (true);
 	len = 0;
 	while (*arg && (ft_isdigit(*arg) || *arg == '-' || *arg == '+'))
 	{
 		if ((*arg == '-' || *arg == '+') && len != 0)
-			return false;
+			return (false);
 		len++;
 		arg++;
 	}
-	while(*arg && ft_strchr(" \t\n\r\v\f", *arg))
+	while (*arg && ft_strchr(" \t\n\r\v\f", *arg))
 		arg++;
 	if (*arg || len > 12)
-		return false;
-	return true;
-
+		return (false);
+	return (true);
 }
 
-static int parse_exit_status(t_env_list *env_list, char **cmd)
+static int	parse_exit_status(t_env_list *env_list, char **cmd)
 {
-	int nb_args;
-	long code;
+	int		nb_args;
+	long	code;
 
 	nb_args = count_nb_args(cmd);
 	if (nb_args == 1)
-		return get_last_exit_status(env_list);
+		return (get_last_exit_status(env_list));
 	if (!is_valid_nb(cmd[1]))
-		return exit_error(cmd[1]);
+		return (exit_error(cmd[1]));
 	code = ft_atol(cmd[1]);
 	if (code > INT_MAX || code < INT_MIN)
-		return exit_error(cmd[1]);
+		return (exit_error(cmd[1]));
 	if (nb_args > 2)
 	{
 		ft_putendl_fd("bash: too many arguments", 2);
-		return -1;
+		return (-1);
 	}
-	return code % 256;
+	if (code < 0)
+		return ((-code) % 256);
+	return (code % 256);
 }
 
-void	ft_exit(t_shell *shell, t_btree *tree, char **cmd)
+int	ft_exit(t_shell *shell, t_btree *tree, char **cmd)
 {
-	int exit_status;
+	int	exit_status;
 
-	/*if (tree->left->item && tree->left->item[1])
-	{
-		printf("bash: exit: %s: no argument required\n", tree->left->item[1]);
-		exit_status = 2;
-	}*/
 	exit_status = parse_exit_status(shell->envs->env_list, cmd);
 	if (exit_status < 0)
-	{
-		// update l'exit status avec une erreur
-		return;
-	}
+		return 1;
 	printf("exit\n");
 	if (shell->envs->env_list)
 		shell->envs->env_list = free_env_list(shell->envs->env_list);
