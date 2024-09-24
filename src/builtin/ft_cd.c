@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:25:31 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/24 15:29:14 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/24 16:23:20 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,21 @@ static int	is_arg_unique_cd(char **cmd)
 
 static int	cd_error(void)
 {
-	ft_putstr_fd("\e[31mbash: cd: too many arguments\e[0m\n", 2);
+	ft_putstr_fd("bash: cd: too many arguments\n", 2);
 	return (1);
+}
+
+static int	cd_home(t_env_list *env_list)
+{
+	t_env_list	*var_home;
+
+	var_home = ft_getenv(env_list, "HOME");
+	if (!var_home || (var_home && !var_home->data))
+	{
+		ft_putstr_fd("bash: cd: HOME not set\n", 2);
+		return (1);
+	}
+	return (0);
 }
 
 int	ft_cd(t_env *envs, char **cmd)
@@ -52,12 +65,8 @@ int	ft_cd(t_env *envs, char **cmd)
 		return (1);
 	if (!is_arg_unique_cd(cmd))
 		return (cd_error());
-	if (!cmd[1])
-	{
-		path = getenv("HOME");
-		if (!path)
-			return (ft_putstr_fd("bash: cd: HOME not set\n", 2), 1);
-	}
+	if (!cmd[1] && cd_home(envs->env_list) == 1)
+			return (1);
 	else
 		path = cmd[1];
 	oldpwd->data = update_data(&oldpwd, pwd->data);
