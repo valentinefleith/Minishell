@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:58:13 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/20 18:35:09 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:52:41 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_token	*check_file_error(t_token *tokens, t_env *envs);
 
 /* PARSING *******************************************************************/
 
-t_token	*error_action(t_token *stack, t_token *tokens, t_token *output,
+t_token	*error_action(t_token *stack, t_token *tokens, t_token **output,
 			int *state);
 
 /* BUILTIN *******************************************************************/

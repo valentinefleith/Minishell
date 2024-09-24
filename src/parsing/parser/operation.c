@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 18:22:23 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:54:13 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output,
 	if (*state == 6)
 	{
 		if (replace_type(stack, HEREDOC, REDIR) == -1)
-			return (error_action(stack, tokens, *output, state));
+			return (error_action(stack, tokens, output, state));
 		init_arg(stack, tokens, REDIR);
 		cat_tokens(stack, state, REDIR);
 	}

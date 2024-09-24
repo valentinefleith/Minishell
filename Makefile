@@ -57,7 +57,8 @@ EXECUTION_FILES = execution/error_execution.c execution/error_paths.c \
 
 SECURITY_FILES = security/alloc_errors.c security/builtin_errors.c \
 			security/file_error.c security/free_and_exit.c \
-			security/ft_free_tab.c security/parser_error.c
+			security/ft_free_tab.c security/parser_error.c \
+			security/free_env.c
 
 SRCS =  main.c $(PARSING_FILES) $(BUILTIN_FILES) $(ENV_FILES) $(EXECUTION_FILES) $(SECURITY_FILES)
 

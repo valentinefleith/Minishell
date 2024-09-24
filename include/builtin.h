@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/24 10:46:38 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:32:35 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ typedef struct s_shell	t_shell;
 
 t_builtin				is_builtin(char *buffer);
 int						execute_builtin(t_builtin builtin, t_btree *tree,
-							char **cmd, t_shell *shell);
+							bool pipeline, t_shell *shell);
+void					builtin_redirection(t_btree *tree, t_shell *shell);
 int						ft_cd(t_env *env, char **cmd);
 int						ft_env(t_env_list *env, int fd, bool option);
 int						ft_pwd(t_env *env, int fd);
