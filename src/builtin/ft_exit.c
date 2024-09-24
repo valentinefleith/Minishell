@@ -6,37 +6,41 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/24 11:32:33 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/24 12:22:01 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static long	ft_atol(char *str)
+static unsigned long long ft_unsigned(char *str)
 {
-	long	output;
-	int		is_neg;
+	unsigned long long output;
 
-	if (!*str)
-		return (0);
-	while (*str && ft_strchr(" \t\n\r\v\f", *str))
-		str++;
-	is_neg = 0;
-	if (*str == '-' || *str == '+')
-	{
-		if (*str == '-')
-			is_neg = 1;
-		str++;
-	}
 	output = 0;
 	while (ft_isdigit(*str))
 	{
 		output = output * 10 + (*str - '0');
 		str++;
 	}
-	if (is_neg)
-		return (-output);
-	return (output);
+	return output;
+}
+// TODO: check overflow with unsigned long long
+static long long ft_atol(char *str)
+{
+	if (!*str)
+		return (0);
+	while (*str && ft_strchr(" \t\n\r\v\f", *str))
+		str++;
+	if (*str == '-' || *str == '+')
+	{
+		if (*str == '-')
+		{
+			str++;
+			return - ft_unsigned(str);
+		}
+		str++;
+	}
+	return ft_unsigned(str);
 }
 
 static int	count_nb_args(char **cmd)
@@ -89,7 +93,7 @@ static bool	is_valid_nb(char *arg)
 	}
 	while (*arg && ft_strchr(" \t\n\r\v\f", *arg))
 		arg++;
-	if (*arg || len > 12)
+	if (*arg)
 		return (false);
 	return (true);
 }
