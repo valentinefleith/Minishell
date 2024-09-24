@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/24 10:46:37 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:32:33 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static int	parse_exit_status(t_env_list *env_list, char **cmd)
 		return (-1);
 	}
 	if (code < 0)
-		return ((-code) % 256);
+		return (code + (- code / 256 + 1) * 256);
 	return (code % 256);
 }
 
