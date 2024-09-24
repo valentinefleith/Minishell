@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:25:31 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/22 17:51:17 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/24 15:29:14 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_cd(t_env *envs, char **cmd)
 	{
 		path = getenv("HOME");
 		if (!path)
-			return (ft_putstr_fd("\e[31mbash: cd: HOME not set\e[0m\n", 2), 1);
+			return (ft_putstr_fd("bash: cd: HOME not set\n", 2), 1);
 	}
 	else
 		path = cmd[1];
