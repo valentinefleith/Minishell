@@ -6,11 +6,20 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:46:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/23 15:37:55 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:54:36 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static t_env_list	*env_list_protection(t_env_list *env_list, t_env_list *new_node)
+{
+	if (new_node->name)
+		free(new_node->name);
+	if (new_node->data)
+		free(new_node->data);
+	return (free_env_list(env_list));
+}
 
 t_env	*init_envs(char **env)
 {
@@ -18,14 +27,12 @@ t_env	*init_envs(char **env)
 	char		**env_tab;
 	t_env		*envs;
 
-	if (!env)
-		return (NULL);
 	envs = malloc(sizeof(t_env));
 	if (!envs)
 		return (NULL);
 	env_list = NULL;
 	env_list = build_env_list(env_list, env);
-	if (add_exit_status_var(env_list) == MALLOC_ERROR)
+	if (add_exit_status_var(&env_list) == MALLOC_ERROR)
 	{
 		free(envs);
 		free_env_list(env_list);
@@ -44,6 +51,8 @@ t_env_list	*build_env_list(t_env_list *env_list, char **src_env)
 	t_env_list	*new;
 
 	i = 0;
+	if (!src_env || !src_env[i])
+		return (NULL);
 	while (src_env[i])
 	{
 		limit = ft_get_index(src_env[i], '=');
@@ -53,13 +62,7 @@ t_env_list	*build_env_list(t_env_list *env_list, char **src_env)
 		new->name = ft_substr(src_env[i], 0, limit);
 		new->data = ft_substr(src_env[i], limit + 1, ft_strlen(src_env[i]));
 		if (!new->name || !new->data)
-		{
-			if (new->name)
-				free(new->name);
-			if (new->data)
-				free(new->data);
-			return (free_env_list(env_list));
-		}
+			return (env_list_protection(env_list, new));
 		new->next = NULL;
 		add_env_list(&env_list, new);
 		i++;
@@ -89,7 +92,7 @@ void	update_exit_status(t_env_list *env_list, int exit_status)
 		var_status->data = ft_itoa(exit_status);
 }
 
-int	add_exit_status_var(t_env_list *env_list)
+int	add_exit_status_var(t_env_list **env_list)
 {
 	t_env_list	*var_exit_code;
 
@@ -110,6 +113,6 @@ int	add_exit_status_var(t_env_list *env_list)
 		return (MALLOC_ERROR);
 	}
 	var_exit_code->next = NULL;
-	add_env_list(&env_list, var_exit_code);
+	add_env_list(env_list, var_exit_code);
 	return (0);
 }

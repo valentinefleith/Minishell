@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:25:31 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/24 18:07:41 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/25 15:02:18 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,19 @@ static char	*cd_home(t_env_list *env_list)
 {
 	t_env_list	*var_home;
 
+	if (!env_list)
+	{
+		ft_putstr_fd("bash: cd: HOME not set\n", 2);
+		return (NULL);
+	}
+	var_home = NULL;
 	var_home = ft_getenv(env_list, "HOME");
 	if (!var_home || (var_home && !var_home->data))
 	{
 		ft_putstr_fd("bash: cd: HOME not set\n", 2);
 		return (NULL);
 	}
-	else
+	else if (var_home && var_home->data)
 		return (var_home->data);
 	return (NULL);
 }
@@ -62,16 +68,16 @@ int	ft_cd(t_env *envs, char **cmd)
 	char		buffer[1024];
 	char		*path;
 
+	if (!cmd[1])
+		path = cd_home(envs->env_list);
+	else
+		path = cmd[1];
 	oldpwd = ft_getenv(envs->env_list, "OLDPWD");
 	pwd = ft_getenv(envs->env_list, "PWD");
 	if (!oldpwd || !pwd)
 		return (1);
 	if (!is_arg_unique_cd(cmd))
 		return (cd_error());
-	if (!cmd[1])
-		path = cd_home(envs->env_list);
-	else
-		path = cmd[1];
 	oldpwd->data = update_data(&oldpwd, pwd->data);
 	if (!path)
 		return (1);

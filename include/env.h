@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 10:58:36 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/13 15:50:15 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:54:21 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ t_env						*init_envs(char **env);
 void						print_env_list(t_env_list *env);
 void						update_exit_status(t_env_list *env_list,
 								int exit_status);
-int add_exit_status_var(t_env_list *env_list);
+int							add_exit_status_var(t_env_list **env_list);
 
 int							refresh_env_tab(t_env *envs);
 
 void						add_env_list(t_env_list **list, t_env_list *new);
 t_env_list					*free_env_list(t_env_list *list);
 
+// t_env_list	*no_env_var(void);
 #endif
