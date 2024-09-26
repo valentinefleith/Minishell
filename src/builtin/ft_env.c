@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:34:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/25 14:58:11 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:29:13 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,12 @@ t_env_list	*ft_getenv(t_env_list *env, char *name)
 	len = ft_strlen(name);
 	while (env)
 	{
-		if (len == ft_strlen(env->name) && !ft_strncmp(env->name, name, len))
+		if (env && env->name)
+		{
+			if (len == ft_strlen(env->name) && !ft_strncmp(env->name, name, len))
 			return (env);
 		env = env->next;
+		}
 	}
 	return (NULL);
 }

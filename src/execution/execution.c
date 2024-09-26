@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/26 14:01:41 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:10:33 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 	shell.pid = -1;
 	shell.nb_cmd = 0;
 	count_cmd(root, &shell.nb_cmd);
+	shell.prev_read = STDIN_FILENO;
 	shell.read = STDIN_FILENO;
 	shell.write = STDOUT_FILENO;
 	shell.paths = paths;
@@ -53,8 +54,10 @@ int	execute_ast(t_btree *root, t_shell *shell)
 		if (pipe(pipe_fd) == -1)
 			return (perror("pipe"), -1);
 		shell->write = pipe_fd[1];
+		shell->prev_read = pipe_fd[0];
 		child_process(root->left, shell);
 		shell->read = pipe_fd[0];
+		shell->prev_read = STDIN_FILENO;
 		if (root->right && root->right->type != PIPE)
 			shell->write = STDOUT_FILENO;
 	}
@@ -73,6 +76,7 @@ void	duplicate_fd(t_shell *shell)
 	if (dup2(shell->write, STDOUT_FILENO) == -1)
 		perror("dup2: shell->write");
 	close_fd(&shell->write);
+	close_fd(&shell->prev_read);
 }
 
 void	child_process(t_btree *tree, t_shell *shell)

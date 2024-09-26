@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/26 13:46:33 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:07:43 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_shell
 {
 	int					nb_cmd;
 	int					pid;
+	int					prev_read;
 	int					read;
 	int					write;
 	char				**paths;
