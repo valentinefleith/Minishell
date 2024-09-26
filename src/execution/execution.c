@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/25 13:53:01 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/26 14:01:41 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 {
 	t_shell		shell;
 	t_builtin	builtin;
-	
+
 	shell.pid = -1;
 	shell.nb_cmd = 0;
 	count_cmd(root, &shell.nb_cmd);
@@ -24,6 +24,7 @@ int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 	shell.write = STDOUT_FILENO;
 	shell.paths = paths;
 	shell.envs = envs;
+	shell.main_root = root;
 	if (root && root->type == COMMAND)
 	{
 		builtin = is_builtin(root->left->item[0]);
@@ -42,7 +43,7 @@ int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 int	execute_ast(t_btree *root, t_shell *shell)
 {
 	int	pipe_fd[2];
-	
+
 	if (!root)
 		return (shell->pid);
 	if (root->type == COMMAND)
@@ -76,9 +77,9 @@ void	duplicate_fd(t_shell *shell)
 
 void	child_process(t_btree *tree, t_shell *shell)
 {
-	int	exit_status;
+	int			exit_status;
 	t_builtin	builtin_type;
-	
+
 	exit_status = 0;
 	shell->pid = fork();
 	if (shell->pid == 0)
@@ -94,10 +95,10 @@ void	child_process(t_btree *tree, t_shell *shell)
 			duplicate_fd(shell);
 			exit_status = cmd_execution(shell, tree);
 		}
-		exit_child_process(shell, tree, exit_status);
+		exit_child_process(shell, exit_status);
 	}
 	else if (shell->pid == -1)
-		exit_child_process(shell, tree, -12);
+		exit_child_process(shell, -12);
 	signal_monitor(false, false);
 	close_fd(&shell->read);
 	close_fd(&shell->write);
@@ -105,8 +106,8 @@ void	child_process(t_btree *tree, t_shell *shell)
 
 int	cmd_execution(t_shell *shell, t_btree *tree)
 {
-	char		*full_cmd_path;
-	int			exit_status;
+	char	*full_cmd_path;
+	int		exit_status;
 
 	if (tree && tree->type != COMMAND)
 		return (-1);
@@ -140,14 +141,12 @@ int	waiting(t_shell *shell, int last_pid)
 	int	i;
 	int	current_pid;
 	int	status;
-	
+
 	i = 0;
 	status = 0;
 	while (i < shell->nb_cmd)
 	{
 		current_pid = wait(&status);
-		// if (current_pid == -1) // rentre en conflit avec les signaux...
-		// 	return (perror("wait"), g_signal);
 		if (current_pid == last_pid)
 		{
 			if (WIFSIGNALED(status))

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 22:40:20 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/11 18:37:39 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:19:02 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static t_btree	*fill_redirections(t_token *tokens, t_token *next_pipe)
 			break ;
 		tokens = tokens->next;
 	}
-	if (!tokens)
+	if (!tokens || tokens == next_pipe)
 		return (NULL);
 	redir_node = btree_create_node(tokens->arg, REDIR);
 	if (!redir_node)

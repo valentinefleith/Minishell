@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:29:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/19 17:23:06 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:55:30 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	file_redirection(t_btree *tree, t_shell *shell, int fd, int type)
 		fd = open_file(filename, type);
 		if (fd == -1)
 		{
-			free_process(shell, tree);
+			free_process(shell);
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -45,7 +45,7 @@ char	*find_input(t_btree *tree, t_shell *shell, char *name)
 		if (check_file_access(tree->item[1], INPUT) != 1)
 			name = tree->item[1];
 		else
-			return (error_execution(shell, tree, EXIT_FAILURE), NULL);
+			return (error_execution(shell, EXIT_FAILURE), NULL);
 	}
 	if (tree->right != NULL)
 		return (find_input(tree->right, shell, name));
@@ -65,11 +65,11 @@ char	*find_output(t_btree *tree, t_shell *shell, char *name)
 		if (check_file_access(tree->item[1], OUTPUT) != 1)
 			name = tree->item[1];
 		else
-			return (error_execution(shell, tree, EXIT_FAILURE), NULL);
+			return (error_execution(shell, EXIT_FAILURE), NULL);
 		if (fd != -1)
 			close(fd);
 		else
-			return (error_execution(shell, tree, EXIT_FAILURE), NULL);
+			return (error_execution(shell, EXIT_FAILURE), NULL);
 	}
 	if (tree->right != NULL)
 		return (find_output(tree->right, shell, name));

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/12 17:28:59 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:46:33 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_shell
 	int					write;
 	char				**paths;
 	struct s_env		*envs;
+	t_btree *main_root;
 }						t_shell;
 
 // void	signal_monitor_interactive(t_env_list *env_list);

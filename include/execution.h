@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:19 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/22 11:32:42 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:54:11 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ char					*get_path_env(char *cmd_name, char **paths);
 char					*get_full_cmd_path(char *command_name, char **paths);
 char					*get_path_no_env(char *cmd_name);
 
-void					error_execution(t_shell *shell, t_btree *tree,
-							int exit_code);
+void					error_execution(t_shell *shell, int exit_code);
 void					debug_exec(t_btree *tree, t_shell *shell, int index);
 
 void					no_such_file(char *filename);

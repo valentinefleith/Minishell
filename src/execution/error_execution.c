@@ -6,19 +6,19 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 17:16:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/18 15:44:28 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/26 13:53:37 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-void	error_execution(t_shell *shell, t_btree *tree, int exit_code)
+void	error_execution(t_shell *shell, int exit_code)
 {
 	close_fd(&shell->write);
 	close_fd(&shell->read);
 	if (shell->pid != -1)
 	{
-		free_process(shell, tree);
+		free_process(shell);
 		exit(exit_code);
 	}
 	if (shell->pid == -1)
