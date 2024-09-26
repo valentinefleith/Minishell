@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 17:34:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/26 17:29:13 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:48:32 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	env_error(t_env_list *env)
 	if (env && env->name && !ft_strncmp(env->name, "?", 1))
 		return (1);
 	if (ft_getenv(env, "PATH") == NULL)
-		return (error_builtin(ENV, NULL));
+		return (error_builtin(ENV, NULL), 1);
 	return (0);
 }
 
@@ -63,8 +63,8 @@ t_env_list	*ft_getenv(t_env_list *env, char *name)
 		{
 			if (len == ft_strlen(env->name) && !ft_strncmp(env->name, name, len))
 			return (env);
-		env = env->next;
 		}
+		env = env->next;
 	}
 	return (NULL);
 }

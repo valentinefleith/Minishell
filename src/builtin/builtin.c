@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/24 11:54:35 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:45:37 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, bool pipeline,
 {
 	int	exit_code;
 
+	close_fd(&shell->prev_read);
 	if (check_builtin_access(tree, shell, &exit_code) != 0)
 		return (exit_code);
 	if (pipeline == false)
