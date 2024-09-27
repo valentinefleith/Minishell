@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/27 11:40:16 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/27 12:36:59 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,7 @@ int	execute_ast(t_btree *root, t_shell *shell)
 		shell->read = pipe_fd[0];
 		shell->prev_read = STDIN_FILENO;
 		if (root->right && root->right->type != PIPE)
-		{
-			close_fd(&shell->write);
 			shell->write = STDOUT_FILENO;
-		}
 	}
 	if (!root->right)
 		return (shell->pid);
