@@ -134,7 +134,7 @@ re: fclean all
 ###############################################################################
 ###############################################################################
 
-valgrind_flags: $(NAME)
+valgrind_flags: $(LIBFT) $(GNL) $(NAME)
 	@valgrind --track-fds=yes --trace-children=yes \
 		--leak-check=full --show-leak-kinds=all \
 		--suppressions=fuck_readline \
