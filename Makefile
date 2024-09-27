@@ -47,7 +47,8 @@ PARSING_FILES = parsing/lexing/lexing.c parsing/lexing/tokens_destructor.c \
 
 BUILTIN_FILES = builtin/builtin.c builtin/ft_cd.c builtin/ft_echo.c \
 			builtin/ft_env.c builtin/ft_exit.c builtin/ft_export.c \
-			builtin/ft_export_utils.c builtin/ft_pwd.c builtin/ft_unset.c
+			builtin/ft_export_utils.c builtin/ft_pwd.c builtin/ft_unset.c \
+			builtin/ft_exit_utils.c
 
 ENV_FILES = env/env_refresh.c env/env_utils.c env/env.c \
 

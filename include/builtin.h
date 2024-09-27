@@ -6,15 +6,15 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/27 14:20:20 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:25:10 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-# include "minishell.h"
 # include "execution.h"
+# include "minishell.h"
 # include "parsing.h"
 # include <stdbool.h>
 
@@ -60,5 +60,9 @@ char					*ft_strcat(char *dest, char *src);
 int						error_builtin(t_builtin builtin, char *arg);
 void					free_builtin_process(t_shell *shell, int *exit_code);
 t_env_list				*ft_getenv(t_env_list *env, char *name);
+
+int						count_nb_args(char **cmd);
+bool					nb_overflows(unsigned long long nb, bool is_negative);
+int						get_last_exit_status(t_env_list *env_list);
 
 #endif
