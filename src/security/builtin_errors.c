@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/20 12:38:22 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/24 17:43:04 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/27 13:50:22 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,12 @@ int error_env(void)
 {
 	ft_putendl_fd("bash: env: No such file or directory", 2);
 	return (127);
+}
+
+int	error_exit(char *name)
+{
+	ft_putstr_fd("bash: exit: ", 2);
+	ft_putstr_fd(name, 2);
+	ft_putendl_fd(": numeric argument required", 2);
+	return (2);
 }

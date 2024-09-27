@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:58:13 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/23 14:52:41 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/27 13:50:35 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ int error_pwd(void);
 int error_cd(char *name);
 int error_export(char *name);
 int error_env(void);
+int	error_exit(char *name);
 
 #endif

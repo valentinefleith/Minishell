@@ -6,27 +6,30 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/26 18:14:26 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:19:20 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static unsigned long long ft_unsigned(char *str)
+
+//static unsigned long long ft_unsigned(char *str)
+//{
+//	unsigned long long output;
+//
+//	output = 0;
+//	while (ft_isdigit(*str))
+//	{
+//		output = output * 10 + (*str - '0');
+//		str++;
+//	}
+//	return output;
+//}
+
+static unsigned long long ft_atoul(char *str, bool *is_negative)
 {
 	unsigned long long output;
 
-	output = 0;
-	while (ft_isdigit(*str))
-	{
-		output = output * 10 + (*str - '0');
-		str++;
-	}
-	return output;
-}
-// TODO: check overflow with unsigned long long
-static long long ft_atol(char *str)
-{
 	if (!*str)
 		return (0);
 	while (*str && ft_strchr(" \t\n\r\v\f", *str))
@@ -34,13 +37,16 @@ static long long ft_atol(char *str)
 	if (*str == '-' || *str == '+')
 	{
 		if (*str == '-')
-		{
-			str++;
-			return - ft_unsigned(str);
-		}
+			*is_negative = true;
 		str++;
 	}
-	return ft_unsigned(str);
+	output = 0;
+	while (ft_isdigit(*str))
+	{
+		output = output * 10 + (*str - '0');
+		str++;
+	}
+	return output;
 }
 
 static int	count_nb_args(char **cmd)
@@ -53,13 +59,6 @@ static int	count_nb_args(char **cmd)
 	return (i);
 }
 
-static int	exit_error(char *name)
-{
-	ft_putstr_fd("bash: exit: ", 2);
-	ft_putstr_fd(name, 2);
-	ft_putendl_fd(": numeric argument required", 2);
-	return (2);
-}
 
 static int	get_last_exit_status(t_env_list *env_list)
 {
@@ -73,55 +72,63 @@ static int	get_last_exit_status(t_env_list *env_list)
 
 static bool	is_valid_nb(char *arg)
 {
-	int	len;
+	size_t	len;
 
 	while (*arg && ft_strchr(" \t\n\r\v\f", *arg))
 		arg++;
 	if (!arg)
 		return (false);
-	while (*arg == '0')
+	if (*arg == '-' || *arg == '+')
 		arg++;
-	if (!arg)
-		return (true);
+	while (*arg && *arg == '0')
+		arg++;
 	len = 0;
-	while (*arg && (ft_isdigit(*arg) || *arg == '-' || *arg == '+'))
+	while (*arg && ft_isdigit(*arg))
 	{
-		if ((*arg == '-' || *arg == '+') && len != 0)
-			return (false);
 		len++;
 		arg++;
 	}
 	while (*arg && ft_strchr(" \t\n\r\v\f", *arg))
 		arg++;
-	if (*arg)
+	if (*arg || len > ft_strlen(STR_I64_MAX))
 		return (false);
 	return (true);
+}
+
+static bool nb_overflows(unsigned long long nb, bool is_negative)
+{
+	unsigned long long limit;
+
+	limit = 9223372036854775807;
+	return (!is_negative && nb > limit) || (is_negative && nb > limit + 1);
 }
 
 static int	parse_exit_status(t_env_list *env_list, char **cmd)
 {
 	int		nb_args;
-	long	code;
+	unsigned long long	code;
+	bool is_negative;
 
 	nb_args = count_nb_args(cmd);
 	if (nb_args == 1)
 		return (get_last_exit_status(env_list));
 	if (!is_valid_nb(cmd[1]))
-		return (exit_error(cmd[1]));
-	code = ft_atol(cmd[1]);
-	if (code > INT_MAX || code < INT_MIN)
-		return (exit_error(cmd[1]));
+		return (error_exit(cmd[1]));
+	is_negative = false;
+	code = ft_atoul(cmd[1], &is_negative);
+	if (nb_overflows(code, is_negative))
+		return (error_exit(cmd[1]));
 	if (nb_args > 2)
 	{
 		ft_putendl_fd("bash: too many arguments", 2);
 		return (-1);
 	}
-	if (code < 0)
-		return (code + (- code / 256 + 1) * 256);
+	if (is_negative)
+		return (- code + (code / 256 + 1) * 256);
 	return (code % 256);
 }
 
-int	ft_exit(t_shell *shell, char **cmd)
+int	ft_exit(t_shell *shell, char **cmd, t_btree *tree)
 {
 	int	exit_status;
 
@@ -129,18 +136,20 @@ int	ft_exit(t_shell *shell, char **cmd)
 	if (exit_status < 0)
 		return 1;
 	printf("exit\n");
+	if (shell->envs->env_list)
+		shell->envs->env_list = free_env_list(shell->envs->env_list);
+	if (shell->envs->env_tab)
+	{
+		ft_free_tab(shell->envs->env_tab);
+		shell->envs->env_tab = NULL;
+	}
 	if (shell->envs)
 	{
-		shell->envs = free_envs(shell->envs);
+		free(shell->envs);
+		shell->envs = NULL;
 	}
-	if (shell->main_root)
-	{
-		btree_free(shell->main_root);
-		shell->main_root = NULL;
-	}
-	close_fd(&shell->read);
-	close_fd(&shell->prev_read);
-	close_fd(&shell->write);
+	if (tree)
+		btree_free(tree);
 	ft_free_tab(shell->paths);
 	exit(exit_status);
 }
