@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:14:41 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/19 17:11:55 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:14:04 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,13 @@ static void	handle_signal_interactive(int signal)
 	if (signal == SIGINT)
 	{
 		rl_on_new_line();
-		ft_putstr_fd("\e[31m^C\e[0m\n", 2);
+		ft_putstr_fd("^C\n", 2);
 		rl_replace_line("", 0);
 		rl_redisplay();
 		g_signal = 130;
 	}
-	// add pour sigquit
+	if (signal == SIGQUIT)
+		return ;
 }
 
 static void	handle_signal(int signal)
@@ -34,7 +35,6 @@ static void	handle_signal(int signal)
 	}
 	if (signal == SIGQUIT)
 	{
-		// ft_putstr_fd("\n", 2);
 		ft_putstr_fd("Quit (core dumped)", 2);
 		ft_putstr_fd("\n", 2);
 		g_signal = 131;
@@ -45,7 +45,10 @@ void	signal_monitor(bool child_process, bool interaction_mode)
 {
 	rl_catch_signals = 0;
 	if (child_process == false && interaction_mode == true)
+	{
 		signal(SIGINT, &handle_signal_interactive);
+		signal(SIGQUIT, &handle_signal_interactive);
+	}
 	else if (child_process == false && interaction_mode == false)
 	{
 		signal(SIGINT, &handle_signal);

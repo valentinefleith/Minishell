@@ -1,6 +1,7 @@
 # Exec
 minishell
 compile_flags.txt
+fuck_readline
 
 # Prerequisites
 *.d

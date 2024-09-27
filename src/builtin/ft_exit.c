@@ -6,20 +6,93 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/19 11:17:48 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/27 14:23:18 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_exit(t_shell *shell, t_btree *tree, int exit_status)
+static unsigned long long	ft_atoul(char *str, bool *is_negative)
 {
-	ft_putstr_fd("process exited.\n", 1);
-	if (tree->left->item && tree->left->item[1])
+	unsigned long long	output;
+
+	if (!*str)
+		return (0);
+	while (*str && ft_strchr(" \t\n\r\v\f", *str))
+		str++;
+	if (*str == '-' || *str == '+')
 	{
-		printf("bash: exit: %s: no argument required\n", tree->left->item[1]);
-		exit_status = 2;
+		if (*str == '-')
+			*is_negative = true;
+		str++;
 	}
+	output = 0;
+	while (ft_isdigit(*str))
+	{
+		output = output * 10 + (*str - '0');
+		str++;
+	}
+	return (output);
+}
+
+static bool	is_valid_nb(char *arg)
+{
+	size_t	len;
+
+	while (*arg && ft_strchr(" \t\n\r\v\f", *arg))
+		arg++;
+	if (!arg)
+		return (false);
+	if (*arg == '-' || *arg == '+')
+		arg++;
+	while (*arg && *arg == '0')
+		arg++;
+	len = 0;
+	while (*arg && ft_isdigit(*arg))
+	{
+		len++;
+		arg++;
+	}
+	while (*arg && ft_strchr(" \t\n\r\v\f", *arg))
+		arg++;
+	if (*arg || len > ft_strlen(STR_I64_MAX))
+		return (false);
+	return (true);
+}
+
+static int	parse_exit_status(t_env_list *env_list, char **cmd)
+{
+	int					nb_args;
+	unsigned long long	code;
+	bool				is_negative;
+
+	nb_args = count_nb_args(cmd);
+	if (nb_args == 1)
+		return (get_last_exit_status(env_list));
+	if (!is_valid_nb(cmd[1]))
+		return (error_exit(cmd[1]));
+	is_negative = false;
+	code = ft_atoul(cmd[1], &is_negative);
+	if (nb_overflows(code, is_negative))
+		return (error_exit(cmd[1]));
+	if (nb_args > 2)
+	{
+		ft_putendl_fd("bash: too many arguments", 2);
+		return (-1);
+	}
+	if (is_negative)
+		return (-code + (code / 256 + 1) * 256);
+	return (code % 256);
+}
+
+int	ft_exit(t_shell *shell, char **cmd, t_btree *tree)
+{
+	int	exit_status;
+
+	exit_status = parse_exit_status(shell->envs->env_list, cmd);
+	if (exit_status < 0)
+		return (1);
+	printf("exit\n");
 	if (shell->envs->env_list)
 		shell->envs->env_list = free_env_list(shell->envs->env_list);
 	if (shell->envs->env_tab)
@@ -33,10 +106,7 @@ void	ft_exit(t_shell *shell, t_btree *tree, int exit_status)
 		shell->envs = NULL;
 	}
 	if (tree)
-	{
 		btree_free(tree);
-		tree = NULL;
-	}
 	ft_free_tab(shell->paths);
 	exit(exit_status);
 }

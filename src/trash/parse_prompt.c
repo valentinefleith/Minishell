@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:16:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/07/12 17:11:20 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/23 11:25:39 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,28 +60,28 @@ static char	**get_paths(char **env)
 //	return (pipeline);
 //}
 
-t_cmd	parse_user_prompt(char *buffer, char **env)
-{
-	t_cmd	cmd;
-	char	**paths;
-	pid_t	pid;
+// t_cmd	parse_user_prompt(char *buffer, char **env)
+// {
+// 	t_cmd	cmd;
+// 	char	**paths;
+// 	pid_t	pid;
 
-	paths = get_paths(env);
-	pid = fork();
-	if (pid == 0)
-	{
-		cmd = parse_cmd_executable(buffer, paths);
-		execute_command(cmd, env);
-	}
-	// if (is_builtin)
-	// 		cmd = parse_builtin(buffer);
-	// else
-	// 		cmd = parse_cmd_executable(buffer, env);
-	// ft_printf("%s\n", cmd.exec_path);
-	// for (int i = 0; cmd.cmd_and_args[i]; i++)
-	//{
-	//	ft_printf("%s,", cmd.cmd_and_args[i]);
-	//}
-	// ft_printf("\n");
-	return (cmd);
-}
+// 	paths = get_paths(env);
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		cmd = parse_cmd_executable(buffer, paths);
+// 		execute_command(cmd, env);
+// 	}
+// 	// if (is_builtin)
+// 	// 		cmd = parse_builtin(buffer);
+// 	// else
+// 	// 		cmd = parse_cmd_executable(buffer, env);
+// 	// ft_printf("%s\n", cmd.exec_path);
+// 	// for (int i = 0; cmd.cmd_and_args[i]; i++)
+// 	//{
+// 	//	ft_printf("%s,", cmd.cmd_and_args[i]);
+// 	//}
+// 	// ft_printf("\n");
+// 	return (cmd);
+// }

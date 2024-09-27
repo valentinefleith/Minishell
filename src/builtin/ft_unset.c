@@ -6,25 +6,52 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 14:26:03 by luvallee          #+#    #+#             */
-/*   Updated: 2024/08/26 12:00:39 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:06:01 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static t_env_list	*get_prev_node(t_env_list *env_list, char *target)
+{
+	size_t	len;
+
+	if (!env_list || !target)
+		return (NULL);
+	len = ft_strlen(target);
+	while (env_list && env_list->next)
+	{
+		if (len == ft_strlen(env_list->next->name)
+			&& !ft_strncmp(env_list->next->name, target, len))
+			return (env_list);
+		env_list = env_list->next;
+	}
+	return (NULL);
+}
+
 int	ft_unset(t_env *envs, char **arg)
 {
 	t_env_list	*var;
-	int		i;
+	t_env_list	*save_prev;
+	t_env_list	*save_next;
+	int			i;
 
-	i = 0;
+	i = 1;
+	var = NULL;
 	while (arg[i])
 	{
-		var = ft_getenv(envs->env_list, arg[i]);
-		if (var && var->data)
+		save_prev = get_prev_node(envs->env_list, arg[i]);
+		if (save_prev)
+			var = save_prev->next;
+		if (var && ft_getenv(envs->env_list, arg[i]))
 		{
-			free(var->data);
-			var->data = NULL;
+			save_next = var->next;
+			if (var->name)
+				free(var->name);
+			if (var->data)
+				free(var->data);
+			free(var);
+			save_prev->next = save_next;
 		}
 		i++;
 	}

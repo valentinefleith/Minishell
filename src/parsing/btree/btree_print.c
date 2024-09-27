@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:24:49 by vafleith          #+#    #+#             */
-/*   Updated: 2024/08/21 15:51:36 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/26 12:05:18 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void ft_print_node_type(t_btree *node)
 	if (node->type == PIPE)
 		printf(" pipe");
 	if (node->type == CMD)
-		printf(" cmd");
+		printf("%s", node->item[0]);
 	if (node->type == REDIR)
 		printf(" redir");
 }

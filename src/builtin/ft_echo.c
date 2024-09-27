@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 18:33:05 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 11:33:52 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/26 16:25:53 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static int	option_echo(char **cmd, int fd)
 	while (cmd[index])
 	{
 		ft_putstr_fd(cmd[index], fd);
-		write(fd, " ", 1);
+		if (cmd[index+ 1])
+			write(fd, " ", 1);
 		index++;
 	}
 	return (0);
@@ -66,7 +67,8 @@ static int	regular_echo(char **cmd, int fd)
 	while (cmd[i])
 	{
 		ft_putstr_fd(cmd[i], fd);
-		write(fd, " ", 1);
+		if (cmd[i + 1])
+			write(fd, " ", 1);
 		i++;
 	}
 	write(fd, "\n", 1);
