@@ -6,17 +6,34 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/27 12:36:59 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:27:17 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void clean_pipeline(t_shell *shell, int old_stdin, int old_stdout, char **paths)
+{
+	dup2(old_stdin, STDIN_FILENO);
+	dup2(old_stdout, STDOUT_FILENO);
+	close_fd(&shell->read);
+	close_fd(&shell->write);
+	close_fd(&old_stdin);
+	close_fd(&old_stdout);
+	if (access("here_doc", F_OK) != -1)
+		unlink("here_doc");
+	ft_free_tab(paths);
+}
+
 int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 {
 	t_shell		shell;
 	t_builtin	builtin;
+	// int			old_stdin;
+	// int			old_stdout;
 
+	// old_stdin = dup(STDIN_FILENO);
+	// old_stdout = dup(STDOUT_FILENO);
 	shell.pid = -1;
 	shell.nb_cmd = 0;
 	count_cmd(root, &shell.nb_cmd);
@@ -38,6 +55,7 @@ int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 	if (access("here_doc", F_OK) != -1)
 		unlink("here_doc");
 	ft_free_tab(paths);
+	// clean_pipeline(&shell, old_stdin, old_stdout, paths);
 	return (waiting(&shell, shell.pid));
 }
 
@@ -68,18 +86,15 @@ int	execute_ast(t_btree *root, t_shell *shell)
 	return (execute_ast(root->right, shell));
 }
 
-void	duplicate_fd(t_shell *shell, bool builtin)
+void	duplicate_fd(t_shell *shell)
 {
-	// debug_exec(NULL, shell, 0);
 	if (dup2(shell->read, STDIN_FILENO) == -1)
 		perror("dup2: shell->read");
 	close_fd(&shell->read);
 	if (dup2(shell->write, STDOUT_FILENO) == -1)
 		perror("dup2: shell->write");
 	close_fd(&shell->write);
-	(void)builtin;
-	// if (builtin == false)
-		close_fd(&shell->prev_read);
+	close_fd(&shell->prev_read);
 }
 
 void	child_process(t_btree *tree, t_shell *shell)
@@ -94,7 +109,7 @@ void	child_process(t_btree *tree, t_shell *shell)
 		signal_monitor(true, false);
 		shell->read = file_redirection(tree, shell, shell->read, INPUT);
 		shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
-		duplicate_fd(shell, false);
+		duplicate_fd(shell);
 		builtin_type = is_builtin(tree->left->item[0]);
 		if (builtin_type != NONE)
 			exit_status = execute_builtin(builtin_type, tree, true, shell);
