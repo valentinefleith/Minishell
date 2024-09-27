@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/24 12:22:01 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:14:26 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static int	parse_exit_status(t_env_list *env_list, char **cmd)
 	return (code % 256);
 }
 
-int	ft_exit(t_shell *shell, t_btree *tree, char **cmd)
+int	ft_exit(t_shell *shell, char **cmd)
 {
 	int	exit_status;
 
@@ -129,23 +129,18 @@ int	ft_exit(t_shell *shell, t_btree *tree, char **cmd)
 	if (exit_status < 0)
 		return 1;
 	printf("exit\n");
-	if (shell->envs->env_list)
-		shell->envs->env_list = free_env_list(shell->envs->env_list);
-	if (shell->envs->env_tab)
-	{
-		ft_free_tab(shell->envs->env_tab);
-		shell->envs->env_tab = NULL;
-	}
 	if (shell->envs)
 	{
-		free(shell->envs);
-		shell->envs = NULL;
+		shell->envs = free_envs(shell->envs);
 	}
-	if (tree)
+	if (shell->main_root)
 	{
-		btree_free(tree);
-		tree = NULL;
+		btree_free(shell->main_root);
+		shell->main_root = NULL;
 	}
+	close_fd(&shell->read);
+	close_fd(&shell->prev_read);
+	close_fd(&shell->write);
 	ft_free_tab(shell->paths);
 	exit(exit_status);
 }

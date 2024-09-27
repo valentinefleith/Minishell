@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/26 17:45:31 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/27 11:40:16 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ int	execute_ast(t_btree *root, t_shell *shell)
 		shell->read = pipe_fd[0];
 		shell->prev_read = STDIN_FILENO;
 		if (root->right && root->right->type != PIPE)
+		{
+			close_fd(&shell->write);
 			shell->write = STDOUT_FILENO;
+		}
 	}
 	if (!root->right)
 		return (shell->pid);
@@ -68,15 +71,18 @@ int	execute_ast(t_btree *root, t_shell *shell)
 	return (execute_ast(root->right, shell));
 }
 
-void	duplicate_fd(t_shell *shell)
+void	duplicate_fd(t_shell *shell, bool builtin)
 {
+	// debug_exec(NULL, shell, 0);
 	if (dup2(shell->read, STDIN_FILENO) == -1)
 		perror("dup2: shell->read");
 	close_fd(&shell->read);
 	if (dup2(shell->write, STDOUT_FILENO) == -1)
 		perror("dup2: shell->write");
 	close_fd(&shell->write);
-	close_fd(&shell->prev_read);
+	(void)builtin;
+	// if (builtin == false)
+		close_fd(&shell->prev_read);
 }
 
 void	child_process(t_btree *tree, t_shell *shell)
@@ -91,14 +97,12 @@ void	child_process(t_btree *tree, t_shell *shell)
 		signal_monitor(true, false);
 		shell->read = file_redirection(tree, shell, shell->read, INPUT);
 		shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
+		duplicate_fd(shell, false);
 		builtin_type = is_builtin(tree->left->item[0]);
 		if (builtin_type != NONE)
 			exit_status = execute_builtin(builtin_type, tree, true, shell);
 		else
-		{
-			duplicate_fd(shell);
 			exit_status = cmd_execution(shell, tree);
-		}
 		exit_child_process(shell, exit_status);
 	}
 	else if (shell->pid == -1)

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 16:32:35 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/26 18:38:44 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILTIN_H
 
 # include "minishell.h"
+# include "execution.h"
 # include "parsing.h"
 # include <stdbool.h>
 
@@ -53,7 +54,7 @@ int						export_malloc_error(void);
 char					*ft_strcat(char *dest, char *src);
 
 int						ft_unset(t_env *env, char **arg);
-int					ft_exit(t_shell *shell, t_btree *tree, char **cmd);
+int						ft_exit(t_shell *shell, char **cmd);
 int						error_builtin(t_builtin builtin, char *arg);
 void					free_builtin_process(t_shell *shell, int *exit_code);
 t_env_list				*ft_getenv(t_env_list *env, char *name);
