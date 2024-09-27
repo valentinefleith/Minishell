@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/27 14:19:36 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/27 15:03:11 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,17 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, bool pipeline,
 	if (pipeline == false)
 		builtin_redirection(tree, shell);
 	if (builtin == PWD)
-		exit_code = ft_pwd(shell->envs, STDOUT_FILENO);
+		exit_code = ft_pwd(shell->envs, shell->write);
 	else if (builtin == ECHO)
-		exit_code = ft_echo(tree->left->item, STDOUT_FILENO);
+		exit_code = ft_echo(tree->left->item, shell->write);
 	else if (builtin == EXIT)
 		exit_code = ft_exit(shell, tree->left->item, tree);
 	else if (builtin == ENV)
-		exit_code = ft_env(shell->envs->env_list, STDOUT_FILENO, false);
+		exit_code = ft_env(shell->envs->env_list, shell->write, false);
 	else if (builtin == CD)
 		exit_code = ft_cd(shell->envs, tree->left->item);
 	else if (builtin == EXPORT)
-		exit_code = ft_export(shell->envs, tree->left->item, STDOUT_FILENO);
+		exit_code = ft_export(shell->envs, tree->left->item, shell->write);
 	else if (builtin == UNSET)
 		exit_code = ft_unset(shell->envs, tree->left->item);
 	if (pipeline == false)
