@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:19 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/26 18:38:55 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/27 16:14:35 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void					child_process(t_btree *tree, t_shell *shell);
 int						cmd_execution(t_shell *shell, t_btree *tree);
 int						waiting(t_shell *shell, int last_pid);
 int						close_fd(int *fd);
-void					duplicate_fd(t_shell *shell, bool builtin);
+void					duplicate_fd(t_shell *shell);
 
 int						file_redirection(t_btree *tree, t_shell *shell, int fd,
 							int type);
