@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/27 16:01:02 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/30 12:56:09 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_token	*parser(t_token *tokens, t_env_list *env_list)
 			stack = reduce_action(stack, tokens, &output, &state);
 		else if (action == error)
 			stack = error_action(stack, tokens, &output, &state);
+		// debug_parser(stack, tokens, state, 0);
 	}
 	if (state == -1)
 		update_exit_status(env_list, 2);
@@ -62,6 +63,9 @@ void	build_output(t_token **stack, t_token **output)
 	while (*stack)
 	{
 		new = copy_token(*stack, new);
+		if (new && new->arg && !ft_strncmp(new->arg[0], "<<", 2) &&
+			ft_strlen(new->arg[0]) == 2 && new->arg[1])
+			parsing_heredoc(new->arg[1], ft_strlen(new->arg[1]));
 		tokens_add_back(output, new);
 		*stack = (*stack)->next;
 	}
