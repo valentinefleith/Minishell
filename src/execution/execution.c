@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/30 13:17:17 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:27:49 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 {
 	t_shell		shell;
 	t_builtin	builtin;
+
+	builtin = NONE;
 	shell.pid = -1;
 	shell.nb_cmd = 0;
 	count_cmd(root, &shell.nb_cmd);
@@ -27,7 +29,8 @@ int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 	shell.main_root = root;
 	if (root && root->type == COMMAND)
 	{
-		builtin = is_builtin(root->left->item[0]);
+		if (root->left && root->left->item)
+			builtin = is_builtin(root->left->item[0]);
 		if (builtin != NONE)
 			return (execute_builtin(builtin, root, false, &shell));
 	}
@@ -82,7 +85,6 @@ void	child_process(t_btree *tree, t_shell *shell)
 	t_builtin	builtin_type;
 
 	exit_status = 0;
-	builtin_type = NONE;
 	shell->pid = fork();
 	if (shell->pid == 0)
 	{
@@ -90,8 +92,9 @@ void	child_process(t_btree *tree, t_shell *shell)
 		shell->read = file_redirection(tree, shell, shell->read, INPUT);
 		shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 		duplicate_fd(shell);
-		if (tree->left->item[0])
-			builtin_type = is_builtin(tree->left->item[0]);
+		if (!tree->left || !tree->left->item)
+			exit_child_process(shell, 0);
+		builtin_type = is_builtin(tree->left->item[0]);
 		if (builtin_type != NONE)
 			exit_status = execute_builtin(builtin_type, tree, true, shell);
 		else

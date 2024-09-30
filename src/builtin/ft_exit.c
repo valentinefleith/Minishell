@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/26 18:14:26 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:31:28 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,8 @@ int	ft_exit(t_shell *shell, char **cmd)
 
 	exit_status = parse_exit_status(shell->envs->env_list, cmd);
 	if (exit_status < 0)
-		return 1;
-	printf("exit\n");
+		return (1);
+	ft_putendl_fd("exit", 2);
 	if (shell->envs)
 	{
 		shell->envs = free_envs(shell->envs);
@@ -139,7 +139,7 @@ int	ft_exit(t_shell *shell, char **cmd)
 		shell->main_root = NULL;
 	}
 	close_fd(&shell->read);
-	close_fd(&shell->prev_read);
+	// close_fd(&shell->prev_read);
 	close_fd(&shell->write);
 	ft_free_tab(shell->paths);
 	exit(exit_status);

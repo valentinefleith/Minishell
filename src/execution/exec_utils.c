@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:33:09 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/22 18:07:20 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:55:48 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ int	check_file_access(char *filename, int file_type)
 	}
 	else if (file_type == INPUT)
 		return (perror(filename), 1);
-	if (file_type == OUTPUT && access(filename, W_OK) == -1)
+	if ((file_type == OUTPUT || file_type == APPEND) 
+		&& access(filename, W_OK) == -1)
 		return (perror(filename), 1);
 	if (file_type == HEREDOC)
 	{

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:19 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/27 16:14:35 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:18:01 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int						file_redirection(t_btree *tree, t_shell *shell, int fd,
 							int type);
 char					*find_input(t_btree *tree, t_shell *shell, char *name);
 char					*find_output(t_btree *tree, t_shell *shell, char *name);
+int						find_type_redirection(t_btree *tree, int *type);
 
 int						open_file(char *filename, int file_type);
 int						check_file_access(char *filename, int file_type);
