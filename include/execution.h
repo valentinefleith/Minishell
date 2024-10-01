@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:19 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/30 17:18:01 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:40:22 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,45 @@
 
 typedef struct s_shell	t_shell;
 
-void					execute_pipeline_bis(t_btree *root, t_env *env,
-							char **paths);
+/********************** Pipeline *********************************************/
 
-int						launch_pipeline(t_btree *tree, t_env *envs,
+int						launch_pipeline(t_btree *root, t_env *envs,
 							char **paths);
+void					duplicate_fd(t_shell *shell);
+int						close_fd(int *fd);
+int						waiting(t_shell *shell, int last_pid);
+
+/********************** Execution ********************************************/
+
 int						execute_ast(t_btree *root, t_shell *shell);
 void					child_process(t_btree *tree, t_shell *shell);
 int						cmd_execution(t_shell *shell, t_btree *tree);
-int						waiting(t_shell *shell, int last_pid);
-int						close_fd(int *fd);
-void					duplicate_fd(t_shell *shell);
+
+/********************** Redirection ******************************************/
 
 int						file_redirection(t_btree *tree, t_shell *shell, int fd,
 							int type);
-char					*find_input(t_btree *tree, t_shell *shell, char *name);
-char					*find_output(t_btree *tree, t_shell *shell, char *name);
-int						find_type_redirection(t_btree *tree, int *type);
-
+char					*find_redirection(t_btree *tree, t_shell *shell,
+							char *filename, int target);
+int						which_redirection_type(char *operator);
 int						open_file(char *filename, int file_type);
-int						check_file_access(char *filename, int file_type);
-int						checking_cmd_access(char *cmd_name, char *path);
-char					*parsing_heredoc(char *limit, int len);
+int						last_redirection(t_btree *tree, int *type, char *name);
 
-int						count_cmd(t_btree *tree, int *nb_cmd);
+/********************** Path *************************************************/
+
 char					*get_path_env(char *cmd_name, char **paths);
 char					*get_full_cmd_path(char *command_name, char **paths);
 char					*get_path_no_env(char *cmd_name);
 
-void					error_execution(t_shell *shell, int exit_code);
-void					debug_exec(t_btree *tree, t_shell *shell, int index);
+/********************* Signals ***********************************************/
 
-void					no_such_file(char *filename);
-void					cmd_not_found(char *cmd_name);
-void					permission_denied(char *name);
-void					is_directory(char *name);
+void					signal_monitor(bool child_process,
+							bool interaction_mode);
+
+/********************* Utils *************************************************/
+
+int						count_cmd(t_btree *tree, int *nb_cmd);
+int						check_file_access(char *filename, int file_type);
+int						checking_cmd_access(char *cmd_name, char *path);
 
 #endif

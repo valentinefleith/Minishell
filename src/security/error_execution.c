@@ -6,46 +6,37 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 17:16:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/30 16:19:55 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:34:43 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-void	error_execution(t_shell *shell, int exit_code)
+void	exit_child_process(t_shell *shell, int exit_status)
 {
-	close_fd(&shell->write);
+	if (shell->pid == -1)
+		shell->pid = exit_status;
+	if (exit_status == -12)
+		perror("fork");
 	close_fd(&shell->read);
+	close_fd(&shell->prev_read);
+	close_fd(&shell->write);
 	if (shell->pid != -1)
 	{
 		free_process(shell);
-		exit(exit_code);
+		exit(exit_status);
 	}
-	if (shell->pid == -1)
-		shell->pid = exit_code;
 }
 
-void	debug_exec(t_btree *tree, t_shell *shell, int index)
+void	free_process(t_shell *shell)
 {
-	(void)tree;
-	(void)index;
-	// if (!tree)
-	// {
-	// 	ft_putstr_fd("tree = NULL\n", 2);
-	// 	return ;	
-	// }
-	ft_putendl_fd("-----------------------------------------------------------", 1);
-	// print_structure(tree, 0);
-	// btree_print_details(tree, 0);
-	
-	ft_putnbr_fd(getpid(), 1);
-	ft_putstr_fd(" <- ID process", 1);
-	ft_putstr_fd("\n", 1);
-	
-	ft_putnbr_fd(shell->read, 1);
-	ft_putendl_fd(" = FD IN", 1);
-	
-	ft_putnbr_fd(shell->write, 1);
-	ft_putendl_fd(" = FD OUT ", 1);
-	ft_putendl_fd("-----------------------------------------------------------", 1);
+	if (shell->paths)
+	{
+		ft_free_tab(shell->paths);
+		shell->paths = NULL;
+	}
+	if (shell->envs)
+		shell->envs = free_envs(shell->envs);
+	btree_free(shell->main_root);
+	shell->main_root = NULL;
 }

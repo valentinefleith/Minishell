@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/30 12:56:09 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:41:03 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,34 @@ void	build_output(t_token **stack, t_token **output)
 			free(*stack);
 		*stack = save;
 	}
+}
+
+char	*parsing_heredoc(char *limit, int len)
+{
+	char	*input;
+	int		fd;
+
+	if (!limit || check_file_access("here_doc", HEREDOC) != 0)
+		return (NULL);
+	fd = open("here_doc", O_CREAT | O_WRONLY, 0644);
+	if (fd == -1)
+		return (NULL);
+	while (1)
+	{
+		ft_putstr_fd("\e[32m> \e[0m", STDOUT_FILENO);
+		input = get_next_line(STDIN_FILENO);
+		if (!input)
+		{
+			ft_putstr_fd("\nbash: here-document delimited by end-of-file", 2);
+			break ;
+		}
+		else if (ft_strnstr(input, limit, len) && !ft_strncmp(&input[len], "\n",
+				1))
+			break ;
+		else
+			write(fd, input, ft_strlen(input));
+		free(input);
+	}
+	free(input);
+	return (close(fd), "here_doc");
 }

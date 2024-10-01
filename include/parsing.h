@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/20 18:16:29 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:41:15 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ t_action				state_tens(t_token *stack, t_token *tokens, int *state);
 
 t_token					*parser(t_token *tokens, t_env_list *env_list);
 void					build_output(t_token **stack, t_token **output);
+char					*parsing_heredoc(char *limit, int len);
 
 t_token					*find_in_stack(t_token *stack, int type);
 t_action				find_in_loop(t_token *list, int *state, int start,
