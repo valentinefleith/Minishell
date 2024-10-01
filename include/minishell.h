@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/26 17:07:43 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:29:38 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,5 @@ typedef struct s_shell
 	struct s_env		*envs;
 	t_btree *main_root;
 }						t_shell;
-
-// void	signal_monitor_interactive(t_env_list *env_list);
-// void					signal_handler_interactive(int signal);
-// void					signal_monitor_unteractive(void);
-// void	signal_monitor(bool child);
-void	signal_monitor(bool child_process, bool interaction_mode);
 
 #endif

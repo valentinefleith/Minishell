@@ -52,14 +52,14 @@ BUILTIN_FILES = builtin/builtin.c builtin/ft_cd.c builtin/ft_echo.c \
 
 ENV_FILES = env/env_refresh.c env/env_utils.c env/env.c \
 
-EXECUTION_FILES = execution/error_execution.c execution/error_paths.c \
-			execution/exec_utils.c execution/execution.c \
-			execution/redirection.c execution/signal_handler.c \
+EXECUTION_FILES = execution/exec_utils.c execution/execution.c \
+			execution/get_path.c execution/pipeline.c execution/redirection.c \
+			execution/signal_handler.c \
 
 SECURITY_FILES = security/alloc_errors.c security/builtin_errors.c \
 			security/file_error.c security/free_and_exit.c \
 			security/ft_free_tab.c security/parser_error.c \
-			security/free_env.c
+			security/free_env.c security/error_execution.c security/error_paths.c
 
 SRCS =  main.c $(PARSING_FILES) $(BUILTIN_FILES) $(ENV_FILES) $(EXECUTION_FILES) $(SECURITY_FILES)
 

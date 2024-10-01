@@ -6,58 +6,11 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/27 11:49:49 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/27 16:27:17 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 12:36:33 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void clean_pipeline(t_shell *shell, int old_stdin, int old_stdout, char **paths)
-{
-	dup2(old_stdin, STDIN_FILENO);
-	dup2(old_stdout, STDOUT_FILENO);
-	close_fd(&shell->read);
-	close_fd(&shell->write);
-	close_fd(&old_stdin);
-	close_fd(&old_stdout);
-	if (access("here_doc", F_OK) != -1)
-		unlink("here_doc");
-	ft_free_tab(paths);
-}
-
-int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
-{
-	t_shell		shell;
-	t_builtin	builtin;
-	// int			old_stdin;
-	// int			old_stdout;
-
-	// old_stdin = dup(STDIN_FILENO);
-	// old_stdout = dup(STDOUT_FILENO);
-	shell.pid = -1;
-	shell.nb_cmd = 0;
-	count_cmd(root, &shell.nb_cmd);
-	shell.prev_read = STDIN_FILENO;
-	shell.read = STDIN_FILENO;
-	shell.write = STDOUT_FILENO;
-	shell.paths = paths;
-	shell.envs = envs;
-	shell.main_root = root;
-	if (root && root->type == COMMAND)
-	{
-		builtin = is_builtin(root->left->item[0]);
-		if (builtin != NONE)
-			return (execute_builtin(builtin, root, false, &shell));
-	}
-	execute_ast(root, &shell);
-	close_fd(&shell.read);
-	close_fd(&shell.write);
-	if (access("here_doc", F_OK) != -1)
-		unlink("here_doc");
-	ft_free_tab(paths);
-	// clean_pipeline(&shell, old_stdin, old_stdout, paths);
-	return (waiting(&shell, shell.pid));
-}
 
 int	execute_ast(t_btree *root, t_shell *shell)
 {
@@ -86,17 +39,6 @@ int	execute_ast(t_btree *root, t_shell *shell)
 	return (execute_ast(root->right, shell));
 }
 
-void	duplicate_fd(t_shell *shell)
-{
-	if (dup2(shell->read, STDIN_FILENO) == -1)
-		perror("dup2: shell->read");
-	close_fd(&shell->read);
-	if (dup2(shell->write, STDOUT_FILENO) == -1)
-		perror("dup2: shell->write");
-	close_fd(&shell->write);
-	close_fd(&shell->prev_read);
-}
-
 void	child_process(t_btree *tree, t_shell *shell)
 {
 	int			exit_status;
@@ -110,6 +52,8 @@ void	child_process(t_btree *tree, t_shell *shell)
 		shell->read = file_redirection(tree, shell, shell->read, INPUT);
 		shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 		duplicate_fd(shell);
+		if (!tree->left || !tree->left->item)
+			exit_child_process(shell, 0);
 		builtin_type = is_builtin(tree->left->item[0]);
 		if (builtin_type != NONE)
 			exit_status = execute_builtin(builtin_type, tree, true, shell);
@@ -143,38 +87,4 @@ int	cmd_execution(t_shell *shell, t_btree *tree)
 		exit_status = 126;
 	}
 	return (exit_status);
-}
-
-int	close_fd(int *fd)
-{
-	if (*fd >= 0 && *fd != STDIN_FILENO && *fd != STDOUT_FILENO)
-	{
-		if (close(*fd) == -1)
-			return (perror("Closing fd failed"), 1);
-		*fd = -1;
-	}
-	return (0);
-}
-
-int	waiting(t_shell *shell, int last_pid)
-{
-	int	i;
-	int	current_pid;
-	int	status;
-
-	i = 0;
-	status = 0;
-	while (i < shell->nb_cmd)
-	{
-		current_pid = wait(&status);
-		if (current_pid == last_pid)
-		{
-			if (WIFSIGNALED(status))
-				return (g_signal);
-			if (WIFEXITED(status))
-				return (WEXITSTATUS(status));
-		}
-		i++;
-	}
-	return (status);
 }

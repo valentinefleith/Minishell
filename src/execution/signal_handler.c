@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 16:14:41 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/23 16:14:04 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:25:16 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,37 +60,3 @@ void	signal_monitor(bool child_process, bool interaction_mode)
 		signal(SIGQUIT, SIG_DFL);
 	}
 }
-
-// void	signal_monitor_interactive(t_env_list *env_list)
-// {
-// 	struct sigaction act;
-	
-// 	rl_catch_signals = 0;
-// 	ft_bzero(&act, sizeof(act));
-// 	act.sa_handler = &handle_signal_interactive;
-// 	sigemptyset(&act.sa_mask);
-// 	act.sa_flags = 0;
-// 	sigaction(SIGINT, &act, NULL);
-// }
-
-// void	signal_monitor(bool child_process)
-// {
-// 	struct sigaction act;
-	
-// 	rl_catch_signals = 0;
-// 	ft_bzero(&act, sizeof(act));
-// 	if (child_process == true)
-// 	{
-// 		rl_catch_signals = 0;
-// 		signal(SIGINT, SIG_DFL);
-// 		signal(SIGQUIT, SIG_DFL);
-// 	}
-// 	else
-// 	{
-// 		act.sa_handler = &handle_signal;
-// 		act.sa_flags = 0;
-// 		sigemptyset(&act.sa_mask);
-// 		sigaction(SIGINT, &act, NULL);
-// 		sigaction(SIGQUIT, &act, NULL);
-// 	}
-// }
