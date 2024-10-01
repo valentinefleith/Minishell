@@ -15,12 +15,12 @@
 
 # include "builtin.h"
 # include "env.h"
+# include "errors.h"
 # include "execution.h"
 # include "free.h"
 # include "get_next_line.h"
 # include "libft.h"
 # include "parsing.h"
-# include "errors.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -36,8 +36,8 @@
 
 extern int				g_signal;
 
-#define SUCCESS 0
-#define MALLOC_ERROR 1
+# define SUCCESS 0
+# define MALLOC_ERROR 1
 
 typedef enum e_builtin	t_builtin;
 
@@ -63,7 +63,7 @@ typedef struct s_shell
 	int					write;
 	char				**paths;
 	struct s_env		*envs;
-	t_btree *main_root;
+	t_btree				*main_root;
 }						t_shell;
 
 #endif

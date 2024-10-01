@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-t_token *ft_free_tokens(t_token *tokens)
+t_token	*ft_free_tokens(t_token *tokens)
 {
-	t_token *next;
-	
+	t_token	*next;
+
 	while (tokens)
 	{
 		next = tokens->next;
@@ -40,10 +40,10 @@ t_token *ft_free_tokens(t_token *tokens)
 	return (NULL);
 }
 
-t_token *quote_error(t_token *tokens)
+t_token	*quote_error(t_token *tokens)
 {
 	ft_printf("unclosed quote.\n");
-	return ft_free_tokens(tokens);
+	return (ft_free_tokens(tokens));
 }
 
 void	ft_free_token_node(t_token *token)

@@ -30,10 +30,10 @@ t_token	*get_first_token(t_token *tokens)
 	return (tokens);
 }
 
-t_token *get_last_pipe(t_token *tokens)
+t_token	*get_last_pipe(t_token *tokens)
 {
 	if (!tokens)
-		return NULL;
+		return (NULL);
 	while (tokens && tokens->type != PIPE)
 		tokens = tokens->prev;
 	return (tokens);

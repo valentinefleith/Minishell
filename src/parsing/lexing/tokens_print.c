@@ -12,28 +12,29 @@
 
 #include "minishell.h"
 
-void ft_print_lexing(t_token *tokens)
- {
-	 if (!tokens)
-	 {
-		 ft_printf("NULL\n");
-		 return;
-	 }
-	 while (tokens)
-	 {
-		 if (tokens->next)
-		 {
-			 ft_printf("%s -> ", tokens->data);
-			 tokens = tokens->next;
-		 }
-		 else {
-			 ft_printf("%s\n", tokens->data);
-			 break;
-		 }
-	 }
- }
+void	ft_print_lexing(t_token *tokens)
+{
+	if (!tokens)
+	{
+		ft_printf("NULL\n");
+		return ;
+	}
+	while (tokens)
+	{
+		if (tokens->next)
+		{
+			ft_printf("%s -> ", tokens->data);
+			tokens = tokens->next;
+		}
+		else
+		{
+			ft_printf("%s\n", tokens->data);
+			break ;
+		}
+	}
+}
 
-void print_single_token_type(t_token_type type)
+void	print_single_token_type(t_token_type type)
 {
 	if (type == 0)
 		printf("WORD\n");
@@ -55,12 +56,12 @@ void print_single_token_type(t_token_type type)
 		printf("CMD\n");
 }
 
-void ft_print_token_types(t_token *tokens)
+void	ft_print_token_types(t_token *tokens)
 {
 	if (!tokens)
 	{
 		ft_printf("NULL\n");
-		return;
+		return ;
 	}
 	while (tokens)
 	{
@@ -69,10 +70,12 @@ void ft_print_token_types(t_token *tokens)
 		if (tokens->next)
 		{
 			ft_printf("\n ---------------------------- \n");
-			 tokens = tokens->next;
+			tokens = tokens->next;
 		}
-		else{
+		else
+		{
 			ft_printf("\n");
-			break;}
+			break ;
+		}
 	}
 }
