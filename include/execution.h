@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 21:28:19 by vafleith          #+#    #+#             */
-/*   Updated: 2024/10/01 13:40:22 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:33:17 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int						last_redirection(t_btree *tree, int *type, char *name);
 
 /********************** Path *************************************************/
 
+char					**get_paths(t_env_list *env_list);
 char					*get_path_env(char *cmd_name, char **paths);
 char					*get_full_cmd_path(char *command_name, char **paths);
 char					*get_path_no_env(char *cmd_name);
