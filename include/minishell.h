@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/26 17:07:43 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:29:38 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 # include "builtin.h"
 # include "env.h"
+# include "errors.h"
 # include "execution.h"
 # include "free.h"
 # include "get_next_line.h"
 # include "libft.h"
 # include "parsing.h"
-# include "errors.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <readline/history.h>
@@ -36,8 +36,8 @@
 
 extern int				g_signal;
 
-#define SUCCESS 0
-#define MALLOC_ERROR 1
+# define SUCCESS 0
+# define MALLOC_ERROR 1
 
 typedef enum e_builtin	t_builtin;
 
@@ -63,13 +63,7 @@ typedef struct s_shell
 	int					write;
 	char				**paths;
 	struct s_env		*envs;
-	t_btree *main_root;
+	t_btree				*main_root;
 }						t_shell;
-
-// void	signal_monitor_interactive(t_env_list *env_list);
-// void					signal_handler_interactive(int signal);
-// void					signal_monitor_unteractive(void);
-// void	signal_monitor(bool child);
-void	signal_monitor(bool child_process, bool interaction_mode);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/23 14:46:33 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/09/30 17:41:45 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_action	parsing_table(t_token *stack, t_token *tokens, int *state)
 		return (accept);
 	if (*state == 0)
 		return (state_zero(stack, tokens, state));
-	if (*state == 2 && tokens)
+	if (*state == 2 && tokens && tokens->type == WORD)
 	{
 		*state = 6;
 		return (shift);

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 15:58:13 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/27 13:50:35 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/09/23 14:52:41 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,24 @@ t_token	*error_action(t_token *stack, t_token *tokens, t_token **output,
 
 /* BUILTIN *******************************************************************/
 
-int error_pwd(void);
-int error_cd(char *name);
-int error_export(char *name);
-int error_env(void);
-int	error_exit(char *name);
+/* BUILTIN *******************************************************************/
+
+int		error_pwd(void);
+int		error_cd(char *name);
+int		error_export(char *name);
+int		error_env(void);
+int		error_exit(char *name);
+
+/* EXECUTION *****************************************************************/
+
+void	exit_child_process(t_shell *shell, int exit_status);
+void	free_process(t_shell *shell);
+
+/* PATHS *********************************************************************/
+
+void	no_such_file(char *filename);
+void	cmd_not_found(char *cmd_name);
+void	permission_denied(char *name);
+void	is_directory(char *name);
 
 #endif

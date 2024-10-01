@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 11:20:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/21 16:15:09 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:30:11 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ static bool	check_quote_status(bool inside_quotes, bool inside_opposite_quotes)
 	return (inside_opposite_quotes);
 }
 
-
-
 static int	get_size_next_token(char *buffer)
 {
 	int		size;
@@ -75,10 +73,10 @@ static int	get_size_next_token(char *buffer)
 			return (handle_separator(buffer, size));
 		if (buffer[size] == DOUBLE_QUOTE && !inside_single_quotes)
 			inside_double_quotes = check_quote_status(inside_quotes,
-				inside_single_quotes);
+					inside_single_quotes);
 		if (buffer[size] == SINGLE_QUOTE && !inside_double_quotes)
 			inside_single_quotes = check_quote_status(inside_quotes,
-				inside_double_quotes);
+					inside_double_quotes);
 		size++;
 		inside_quotes = (inside_double_quotes || inside_single_quotes);
 	}

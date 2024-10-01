@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/27 16:01:02 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 13:41:03 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_token	*parser(t_token *tokens, t_env_list *env_list)
 			stack = reduce_action(stack, tokens, &output, &state);
 		else if (action == error)
 			stack = error_action(stack, tokens, &output, &state);
+		// debug_parser(stack, tokens, state, 0);
 	}
 	if (state == -1)
 		update_exit_status(env_list, 2);
@@ -62,6 +63,9 @@ void	build_output(t_token **stack, t_token **output)
 	while (*stack)
 	{
 		new = copy_token(*stack, new);
+		if (new && new->arg && !ft_strncmp(new->arg[0], "<<", 2) &&
+			ft_strlen(new->arg[0]) == 2 && new->arg[1])
+			parsing_heredoc(new->arg[1], ft_strlen(new->arg[1]));
 		tokens_add_back(output, new);
 		*stack = (*stack)->next;
 	}
@@ -73,4 +77,34 @@ void	build_output(t_token **stack, t_token **output)
 			free(*stack);
 		*stack = save;
 	}
+}
+
+char	*parsing_heredoc(char *limit, int len)
+{
+	char	*input;
+	int		fd;
+
+	if (!limit || check_file_access("here_doc", HEREDOC) != 0)
+		return (NULL);
+	fd = open("here_doc", O_CREAT | O_WRONLY, 0644);
+	if (fd == -1)
+		return (NULL);
+	while (1)
+	{
+		ft_putstr_fd("\e[32m> \e[0m", STDOUT_FILENO);
+		input = get_next_line(STDIN_FILENO);
+		if (!input)
+		{
+			ft_putstr_fd("\nbash: here-document delimited by end-of-file", 2);
+			break ;
+		}
+		else if (ft_strnstr(input, limit, len) && !ft_strncmp(&input[len], "\n",
+				1))
+			break ;
+		else
+			write(fd, input, ft_strlen(input));
+		free(input);
+	}
+	free(input);
+	return (close(fd), "here_doc");
 }

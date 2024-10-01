@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:29:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/26 13:55:30 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:01:33 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@ int	file_redirection(t_btree *tree, t_shell *shell, int fd, int type)
 	char	*filename;
 
 	filename = NULL;
-	if (type == INPUT)
-		filename = find_input(tree->right, shell, filename);
-	else if (type == OUTPUT)
-		filename = find_output(tree->right, shell, filename);
+	filename = find_redirection(tree->right, shell, filename, type);
 	if (filename)
 	{
 		close_fd(&fd);
+		type = last_redirection(tree->right, &type, filename);
 		fd = open_file(filename, type);
 		if (fd == -1)
 		{
@@ -34,46 +32,49 @@ int	file_redirection(t_btree *tree, t_shell *shell, int fd, int type)
 	return (fd);
 }
 
-char	*find_input(t_btree *tree, t_shell *shell, char *name)
+char	*find_redirection(t_btree *tree, t_shell *shell, char *filename,
+		int target)
 {
-	if (!tree || !tree->item)
-		return (name);
-	if (tree->type == REDIR && !ft_strncmp(tree->item[0], "<<", 2))
-		name = parsing_heredoc(tree->item[1], ft_strlen(tree->item[1]));
-	else if (tree->type == REDIR && !ft_strncmp(tree->item[0], "<", 1))
-	{
-		if (check_file_access(tree->item[1], INPUT) != 1)
-			name = tree->item[1];
-		else
-			return (error_execution(shell, EXIT_FAILURE), NULL);
-	}
-	if (tree->right != NULL)
-		return (find_input(tree->right, shell, name));
-	return (name);
-}
-
-char	*find_output(t_btree *tree, t_shell *shell, char *name)
-{
+	int	redir;
 	int	fd;
 
-	fd = -1;
 	if (!tree || !tree->item)
-		return (name);
-	if (tree->type == REDIR && (!ft_strncmp(tree->item[0], ">>", 2) || !ft_strncmp(tree->item[0], ">", 1)))
-	{
-		fd = open_file(tree->item[1], OUTPUT);
-		if (check_file_access(tree->item[1], OUTPUT) != 1)
-			name = tree->item[1];
-		else
-			return (error_execution(shell, EXIT_FAILURE), NULL);
-		if (fd != -1)
-			close(fd);
-		else
-			return (error_execution(shell, EXIT_FAILURE), NULL);
-	}
+		return (filename);
+	fd = -1;
+	redir = which_redirection_type(tree->item[0]);
+	if (redir != HEREDOC)
+		fd = open_file(tree->item[1], redir);
+	if (fd != -1 && check_file_access(tree->item[1], redir) != -1)
+		close_fd(&fd);
+	else
+		return (exit_child_process(shell, EXIT_FAILURE), NULL);
+	if (redir == HEREDOC && target == INPUT)
+		filename = "here_doc";
+	else if (redir == INPUT && target == INPUT)
+		filename = tree->item[1];
+	else if ((redir == OUTPUT || redir == APPEND) && target == OUTPUT)
+		filename = tree->item[1];
 	if (tree->right != NULL)
-		return (find_output(tree->right, shell, name));
-	return (name);
+		return (find_redirection(tree->right, shell, filename, target));
+	return (filename);
+}
+
+int	which_redirection_type(char *operator)
+{
+	size_t	len;
+
+	if (!operator)
+		return (-1);
+	len = ft_strlen(operator);
+	if (!ft_strncmp(operator, "<<", 2) && len == 2)
+		return (HEREDOC);
+	else if (!ft_strncmp(operator, "<", 1) && len == 1)
+		return (INPUT);
+	else if (!ft_strncmp(operator, ">>", 2) && len == 2)
+		return (APPEND);
+	else if (!ft_strncmp(operator, ">", 1) && len == 1)
+		return (OUTPUT);
+	return (-1);
 }
 
 int	open_file(char *filename, int file_type)
@@ -83,41 +84,27 @@ int	open_file(char *filename, int file_type)
 	fd = -1;
 	if (file_type == INPUT)
 		fd = open(filename, O_RDONLY);
+	if (file_type == APPEND || file_type == HEREDOC)
+		fd = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (file_type == OUTPUT)
 		fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
-	if (file_type == HEREDOC)
-		fd = open(filename, O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 		perror(filename);
 	return (fd);
 }
 
-char	*parsing_heredoc(char *limit, int len)
+int	last_redirection(t_btree *tree, int *type, char *name)
 {
-	char	*input;
-	int		fd;
+	size_t	len;
+	int		is_type;
 
-	if (!limit || check_file_access("here_doc", HEREDOC) != 0)
-		return (NULL);
-	fd = open("here_doc", O_CREAT | O_WRONLY, 0644);
-	if (fd == -1)
-		return (NULL);
-	while (1)
-	{
-		ft_putstr_fd("\e[32m> \e[0m", STDOUT_FILENO);
-		input = get_next_line(STDIN_FILENO);
-		if (!input)
-		{
-			ft_putstr_fd("\nbash: here-document delimited by end-of-file", 2);
-			break ;
-		}
-		else if (ft_strnstr(input, limit, len) && !ft_strncmp(&input[len], "\n",
-				1))
-			break ;
-		else
-			write(fd, input, ft_strlen(input));
-		free(input);
-	}
-	free(input);
-	return (close(fd), "here_doc");
+	if (!tree || !tree->item[0] || !tree->item[1])
+		return (*type);
+	is_type = which_redirection_type(tree->item[0]);
+	len = ft_strlen(tree->item[1]);
+	if (ft_strlen(name) == len && !ft_strncmp(tree->item[1], name, len))
+		*type = is_type;
+	if (tree->right != NULL)
+		return (last_redirection(tree->right, type, name));
+	return (*type);
 }
