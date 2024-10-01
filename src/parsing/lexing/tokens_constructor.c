@@ -15,14 +15,14 @@
 t_token	*create_node(char *buffer, int size)
 {
 	t_token	*node;
-	char 	*data;
+	char	*data;
 
 	node = malloc(sizeof(t_token));
 	if (!node)
 		return (NULL);
 	data = ft_substr(buffer, 0, size);
 	if (!data)
-		return NULL;
+		return (NULL);
 	node->data = ft_strtrim(data, " ");
 	node->arg = NULL;
 	free(data);
