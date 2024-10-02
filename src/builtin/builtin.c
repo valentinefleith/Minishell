@@ -60,7 +60,7 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, bool pipeline,
 int	builtin_redirection(t_btree *tree, t_shell *shell)
 {
 	int	fd_out;
-	
+
 	shell->read = file_redirection(tree, shell, shell->read, INPUT);
 	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
 	fd_out = shell->write;

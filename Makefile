@@ -41,7 +41,7 @@ PARSING_FILES = parsing/lexing/lexing.c parsing/lexing/tokens_destructor.c \
 			parsing/btree/btree_ast_build.c parsing/btree/btree_constructor.c \
 			parsing/btree/btree_destructor.c parsing/btree/btree_print.c \
 			parsing/btree/btree_properties.c \
-			parsing/parser/operation.c parsing/parser/parser_debug.c \
+			parsing/parser/operation.c \
 			parsing/parser/parser_utils.c parsing/parser/parser.c \
 			parsing/parser/parsing_table.c parsing/parser/operation_utils.c \
 

@@ -61,8 +61,9 @@ t_env_list	*ft_getenv(t_env_list *env, char *name)
 	{
 		if (env && env->name)
 		{
-			if (len == ft_strlen(env->name) && !ft_strncmp(env->name, name, len))
-			return (env);
+			if (len == ft_strlen(env->name) && !ft_strncmp(env->name, name,
+					len))
+				return (env);
 		}
 		env = env->next;
 	}
