@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/10/01 13:41:15 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/02 22:05:08 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include "minishell.h"
 # include <stdbool.h>
 
-# define SINGLE_QUOTE '\''
-# define DOUBLE_QUOTE '\"'
+# define SINGLE_QUOTE 39
+# define DOUBLE_QUOTE 34
 
 typedef enum e_builtin	t_builtin;
 
@@ -32,16 +32,6 @@ typedef enum e_action
 	error,
 	go_to,
 }						t_action;
-
-// typedef struct s_cmd
-// {
-// 	t_builtin				builtin_type;
-// 	char					*exec_path;
-// 	char					**cmd_and_args;
-// 	int						infile;
-// 	int						outfile;
-// 	struct s_cmd			*next;
-// }							t_cmd;
 
 typedef enum e_grammar_rules
 {
@@ -79,7 +69,7 @@ typedef struct s_btree
 	char				**item;
 }						t_btree;
 
-/************************ Lexing *********************************************/
+/*** LEXING ******************************************************************/
 
 t_token					*tokenize_cmdline(char *buffer, t_env *envs);
 
@@ -99,8 +89,11 @@ char					*remove_quotes(char *data);
 int						get_len_varname(char *data, int index);
 t_env_list				*find_target_variable(t_env_list *env_list, char *data,
 							int index);
+void					update_quote_status(bool *in_single_quotes,
+							bool *in_double_quotes, char c);
+int						copy_beginning_data(int index, char *dest, char *src);
 
-/************************ Parsing table **************************************/
+/*** PARSER ******************************************************************/
 
 t_token					*shift_action(t_token *stack, t_token **tokens,
 							int *state);
@@ -108,7 +101,17 @@ t_token					*reduce_action(t_token *stack, t_token *tokens,
 							t_token **output, int *state);
 void					cat_tokens(t_token *stack, int *state, int type);
 void					init_arg(t_token *stack, t_token *tokens, int type);
+int						replace_type(t_token *stack, int old_type,
+							int new_type);
+
+int						special_input_arg(t_token *stack_token);
+t_token					*get_second_last_token(t_token *tokens);
 t_token					*find_last_type(t_token *stack, int type);
+int						count_nb_arg(t_token *stack);
+
+t_token					*parser(t_token *tokens, t_env_list *env_list);
+void					build_output(t_token **stack, t_token **output);
+char					*parsing_heredoc(char *limit, int len);
 
 t_action				parsing_table(t_token *stack, t_token *tokens,
 							int *state);
@@ -117,26 +120,12 @@ t_action				state_four(t_token *stack, t_token *tokens, int *state);
 t_action				state_five(t_token *stack, t_token *tokens, int *state);
 t_action				state_tens(t_token *stack, t_token *tokens, int *state);
 
-t_token					*parser(t_token *tokens, t_env_list *env_list);
-void					build_output(t_token **stack, t_token **output);
-char					*parsing_heredoc(char *limit, int len);
-
 t_token					*find_in_stack(t_token *stack, int type);
 t_action				find_in_loop(t_token *list, int *state, int start,
 							int end);
-int						replace_type(t_token *stack, int old_type,
-							int new_type);
-int						count_nb_arg(t_token *stack);
 t_token					*copy_token(t_token *stack, t_token *new);
 
-void					parsing_env_var(t_token *output, t_env_list *env);
-t_env_list				*search_env_var(t_env_list *env_list, char *arg);
-char					*do_expansion_var(t_env_list *env, char *arg,
-							char *new_arg);
-char					*get_var_name(char *arg);
-int						get_new_arg_len(t_env_list *env, char *arg);
-
-/************************ Binary Tree ****************************************/
+/*** BINARY TREE *************************************************************/
 
 t_btree					*create_ast(t_token *tokens);
 
@@ -148,16 +137,11 @@ void					btree_free(t_btree *tree);
 bool					btree_is_leaf(t_btree *tree);
 bool					btree_is_empty(t_btree *tree);
 
-/************************ Debug **********************************************/
+/*** DEBUG *******************************************************************/
 
 void					ft_print_token_types(t_token *tokens);
 void					print_single_token_type(t_token_type type);
 void					ft_print_lexing(t_token *tokens);
-
-void					debug_parser(t_token *stack, t_token *input, int state,
-							int ope);
-void					debug_print_stack(t_token *stack, char *list);
-void					debug_print_input(t_token **input_p);
 
 void					print_structure(t_btree *root, int level);
 void					btree_print_details(t_btree *root, int level);

@@ -6,55 +6,33 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:44:12 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/30 13:12:47 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/02 11:27:39 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**get_paths(t_env_list *env_list)
-{
-	int		seeking;
-	char	**split_paths;
-
-	seeking = -1;
-	while (env_list)
-	{
-		seeking = ft_strncmp(env_list->name, "PATH", 4);
-		if (!seeking)
-			break ;
-		env_list = env_list->next;
-	}
-	if (seeking)
-		return (NULL);
-	split_paths = ft_split(env_list->data + 5, ':');
-	if (!split_paths)
-		exit(1);
-	return (split_paths);
-}
-
 int				g_signal = 0;
 
 static void	display_program(void)
 {
-	printf("\e[35m");
 	printf("                                                             \n");
-	printf("\e[38;5;126m");
-	printf("✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧\n");
+	printf("\e[38;5;207m");
+	printf("∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷\n");
 	printf("                                                             \n");
-	printf("\e[38;5;127m");
-	printf(" ✧✧    ✧✧  ✧  ✧✧    ✧  ✧  ✧ ✧ ✧   ✧   ✧  ✧ ✧ ✧  ✧      ✧     \n");
-	printf("\e[38;5;128m");
-	printf(" ✧ ✧  ✧ ✧  ✧  ✧ ✧   ✧  ✧  ✧       ✧   ✧  ✧      ✧      ✧     \n");
-	printf("\e[38;5;129m");
-	printf(" ✧   ✧  ✧  ✧  ✧  ✧  ✧  ✧  ✧ ✧ ✧   ✧ ✧ ✧  ✧ ✧ ✧  ✧      ✧     \n");
-	printf("\e[38;5;140m");
-	printf(" ✧      ✧  ✧  ✧   ✧ ✧  ✧       ✧  ✧   ✧  ✧      ✧      ✧     \n");
-	printf("\e[38;5;121m");
-	printf(" ✧      ✧  ✧  ✧     ✧  ✧  ✧ ✧ ✧   ✧   ✧  ✧ ✧ ✧  ✧ ✧ ✧  ✧ ✧ ✧ \n");
+	printf("\e[38;5;171m");
+	printf(" ∷∷    ∷∷  ∷  ∷∷    ∷  ∷  ∷ ∷ ∷   ∷   ∷  ∷ ∷ ∷  ∷      ∷     \n");
+	printf("\e[38;5;135m");
+	printf(" ∷ ∷  ∷ ∷  ∷  ∷ ∷   ∷  ∷  ∷       ∷   ∷  ∷      ∷      ∷     \n");
+	printf("\e[38;5;099m");
+	printf(" ∷   ∷  ∷  ∷  ∷  ∷  ∷  ∷  ∷ ∷ ∷   ∷ ∷ ∷  ∷ ∷ ∷  ∷      ∷     \n");
+	printf("\e[38;5;075m");
+	printf(" ∷      ∷  ∷  ∷   ∷ ∷  ∷       ∷  ∷   ∷  ∷      ∷      ∷     \n");
+	printf("\e[38;5;081m");
+	printf(" ∷      ∷  ∷  ∷     ∷  ∷  ∷ ∷ ∷   ∷   ∷  ∷ ∷ ∷  ∷ ∷ ∷  ∷ ∷ ∷ \n");
 	printf("                                                             \n");
-	printf("\e[35m");
-	printf("✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧ ✧\n");
+	printf("\e[38;5;086m");
+	printf("∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷ ∷\n");
 	printf("\e[0m");
 }
 
@@ -85,7 +63,7 @@ static t_btree	*parse_user_prompt(char *buffer, t_env *envs)
 static char	*get_prompt(void)
 {
 	char	*buffer;
-	
+
 	buffer = readline("\e[35;1;3mMiniShell\e[0m \e[32;1m$> \e[0m");
 	if (buffer)
 		add_history(buffer);

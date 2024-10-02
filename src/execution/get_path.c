@@ -6,11 +6,32 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:38:18 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/01 12:39:02 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:33:08 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	**get_paths(t_env_list *env_list)
+{
+	int		seeking;
+	char	**split_paths;
+
+	seeking = -1;
+	while (env_list)
+	{
+		seeking = ft_strncmp(env_list->name, "PATH", 4);
+		if (!seeking)
+			break ;
+		env_list = env_list->next;
+	}
+	if (seeking)
+		return (NULL);
+	split_paths = ft_split(env_list->data + 5, ':');
+	if (!split_paths)
+		exit(1);
+	return (split_paths);
+}
 
 char	*get_path_env(char *cmd_name, char **paths)
 {

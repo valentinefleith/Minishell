@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:29:46 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/24 13:47:50 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/02 22:08:44 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	get_nb_var(t_env_list *env_list)
 	return (count);
 }
 
-static char	*ft_strjoin_char(char const *s1, char const *s2, char c)
+static char	*strjoin_chr(char const *s1, char const *s2, char c)
 {
 	char	*joined_strs;
 	size_t	joined_length;
@@ -56,8 +56,7 @@ int	refresh_env_tab(t_env *envs)
 	while (i < nb_var)
 	{
 		if (env_list->name && env_list->data)
-			envs->env_tab[i] = ft_strjoin_char(env_list->name, env_list->data,
-					'=');
+			envs->env_tab[i] = strjoin_chr(env_list->name, env_list->data, '=');
 		if (!envs->env_tab[i])
 		{
 			ft_free_tab(envs->env_tab);

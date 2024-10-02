@@ -12,22 +12,22 @@
 
 #include "minishell.h"
 
-int error_pwd(void)
+int	error_pwd(void)
 {
 	ft_putendl_fd("Error: while getting the working directory.", 2);
 	return (1);
 }
 
-int error_cd(char *name)
+int	error_cd(char *name)
 {
 	if (name)
 		printf("bash: cd: %s: %s\n", name, strerror(errno));
 	else
-		printf("bash: cd: (null): %s\n",  strerror(errno));
+		printf("bash: cd: (null): %s\n", strerror(errno));
 	return (1);
 }
 
-int error_export(char *name)
+int	error_export(char *name)
 {
 	ft_putstr_fd("bash: export: ", 2);
 	ft_putstr_fd(name, 2);
@@ -35,7 +35,7 @@ int error_export(char *name)
 	return (1);
 }
 
-int error_env(void)
+int	error_env(void)
 {
 	ft_putendl_fd("bash: env: No such file or directory", 2);
 	return (127);

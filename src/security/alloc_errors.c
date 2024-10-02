@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void alloc_error(char *name)
+void	alloc_error(char *name)
 {
 	ft_putstr_fd("allocation failed for :", 2);
 	ft_putendl_fd(name, 2);

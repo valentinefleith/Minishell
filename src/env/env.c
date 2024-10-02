@@ -6,13 +6,14 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:46:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/25 14:54:36 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/02 22:19:24 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_env_list	*env_list_protection(t_env_list *env_list, t_env_list *new_node)
+static t_env_list	*env_list_protection(t_env_list *env_list,
+		t_env_list *new_node)
 {
 	if (new_node->name)
 		free(new_node->name);
@@ -47,7 +48,7 @@ t_env	*init_envs(char **env)
 t_env_list	*build_env_list(t_env_list *env_list, char **src_env)
 {
 	int			i;
-	int			limit;
+	int			lim;
 	t_env_list	*new;
 
 	i = 0;
@@ -55,12 +56,12 @@ t_env_list	*build_env_list(t_env_list *env_list, char **src_env)
 		return (NULL);
 	while (src_env[i])
 	{
-		limit = ft_get_index(src_env[i], '=');
+		lim = ft_get_index(src_env[i], '=');
 		new = malloc(sizeof(t_env_list));
 		if (!new)
 			return (free_env_list(env_list));
-		new->name = ft_substr(src_env[i], 0, limit);
-		new->data = ft_substr(src_env[i], limit + 1, ft_strlen(src_env[i]));
+		new->name = ft_substr(src_env[i], 0, lim);
+		new->data = ft_substr(src_env[i], lim + 1, ft_strlen(src_env[i]));
 		if (!new->name || !new->data)
 			return (env_list_protection(env_list, new));
 		new->next = NULL;
@@ -69,10 +70,6 @@ t_env_list	*build_env_list(t_env_list *env_list, char **src_env)
 	}
 	return (env_list);
 }
-
-/*
- * /!\ WARNING dans cette fonction l'alloc peut fail
- * (a verifier au moment de l'exex) */
 
 void	update_exit_status(t_env_list *env_list, int exit_status)
 {

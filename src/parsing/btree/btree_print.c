@@ -6,23 +6,26 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 18:24:49 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/26 12:05:18 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:29:03 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "parsing.h"
 
-
 static void	padding(char ch, int n)
 {
 	int	i;
 
-	for (i = 0; i < n; i++)
-		putchar(ch);
+	i = 0;
+	while (i < n)
+	{
+		printf("%c", ch);
+		i++;
+	}
 }
 
-static void ft_print_node_type(t_btree *node)
+static void	ft_print_node_type(t_btree *node)
 {
 	if (node->type == COMMAND)
 		printf(" cmd");
@@ -33,42 +36,48 @@ static void ft_print_node_type(t_btree *node)
 	if (node->type == REDIR)
 		printf(" redir");
 }
+/* if we want to test in correction:
+* change "printf" with "puts"*/
 
 void	print_structure(t_btree *root, int level)
 {
 	if (root == NULL)
 	{
 		padding('\t', level);
-		puts("~");
+		printf("~");
 	}
 	else
 	{
 		print_structure(root->right, level + 1);
 		padding('\t', level);
 		ft_print_node_type(root);
-		// printf ( "%d\n", root->type );
-		//print_single_token_type(root->type);
 		printf(" <\n");
 		print_structure(root->left, level + 1);
 	}
 }
 
-void btree_print_details(t_btree *root, int level)
+void	btree_print_details(t_btree *root, int level)
 {
+	int	i;
+
 	if (btree_is_empty(root))
-		return;
+		return ;
 	printf("%ieme node:\n", level);
 	printf("type: ");
 	ft_print_node_type(root);
 	printf(" /// content: ");
-	if (root->item) {
-		for (int i = 0; root->item[i]; i++)
+	if (root->item)
+	{
+		i = 0;
+		while (root->item[i])
 		{
 			printf("%s|", root->item[i]);
+			i++;
 		}
 		printf("\n");
 	}
-	else {
+	else
+	{
 		printf("NULL\n");
 	}
 	btree_print_details(root->left, level + 1);
