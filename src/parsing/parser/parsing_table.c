@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 13:56:12 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/30 17:41:45 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:28:00 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,8 @@ t_action	state_tens(t_token *stack, t_token *tokens, int *state)
 {
 	if (*state == 11 && find_in_stack(stack, REDIR))
 		*state = 14;
-	else if (*state == 11 && find_in_loop(tokens, state, INPUT, OUTPUT +1) == shift)
+	else if (*state == 11 && find_in_loop(tokens, state, INPUT, OUTPUT
+			+ 1) == shift)
 		return (shift);
 	else if (*state == 11 && tokens && tokens->type == PIPE)
 	{

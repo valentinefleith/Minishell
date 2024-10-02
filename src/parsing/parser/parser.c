@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:43:14 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/01 13:41:03 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:27:47 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "parsing.h"
 
 /**
- * Parses the input tokens and builds an output (linked list).
+ * Parses the input tokens and builds an output (token list).
  * @input_tokens: The list of input tokens to be parsed.
  *
  * This function performs actions such as shift, reduce, and error
@@ -40,7 +40,6 @@ t_token	*parser(t_token *tokens, t_env_list *env_list)
 			stack = reduce_action(stack, tokens, &output, &state);
 		else if (action == error)
 			stack = error_action(stack, tokens, &output, &state);
-		// debug_parser(stack, tokens, state, 0);
 	}
 	if (state == -1)
 		update_exit_status(env_list, 2);
@@ -63,9 +62,12 @@ void	build_output(t_token **stack, t_token **output)
 	while (*stack)
 	{
 		new = copy_token(*stack, new);
-		if (new && new->arg && !ft_strncmp(new->arg[0], "<<", 2) &&
-			ft_strlen(new->arg[0]) == 2 && new->arg[1])
-			parsing_heredoc(new->arg[1], ft_strlen(new->arg[1]));
+		if (new)
+		{
+			if (new->arg && new->arg[1] && !ft_strncmp(new->arg[0], "<<", 2)
+				&& ft_strlen(new->arg[0]) == 2)
+				parsing_heredoc(new->arg[1], ft_strlen(new->arg[1]));
+		}
 		tokens_add_back(output, new);
 		*stack = (*stack)->next;
 	}
@@ -95,11 +97,10 @@ char	*parsing_heredoc(char *limit, int len)
 		input = get_next_line(STDIN_FILENO);
 		if (!input)
 		{
-			ft_putstr_fd("\nbash: here-document delimited by end-of-file", 2);
+			printf("\nbash: here-document delimited by end-of-file");
 			break ;
 		}
-		else if (ft_strnstr(input, limit, len) && !ft_strncmp(&input[len], "\n",
-				1))
+		if (ft_strnstr(input, limit, len) && !ft_strncmp(&input[len], "\n", 1))
 			break ;
 		else
 			write(fd, input, ft_strlen(input));

@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/30 11:22:15 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:25:21 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,11 @@
 #include "parsing.h"
 
 /**
- *	This function performs a "shift" action in a parser.
- *   It moves the first token from the tokens list to the stack.
-
-	*   The new node's data and type are copied from the first token in the tokens list.
- *   The new node is then added to the end of the stack.
- *   The first token in the tokens list is removed and freed.
+ * This function performs a "shift" action in a parser.
+ * It moves the first token from the tokens list to the stack.
+ * The new node's data and type are copied from the first token in the tokens
+ * list. The new node is then added to the end of the stack.
+ * The first token in the tokens list is removed and freed.
  */
 t_token	*shift_action(t_token *stack, t_token **tokens, int *state)
 {
@@ -43,7 +42,10 @@ t_token	*shift_action(t_token *stack, t_token **tokens, int *state)
 }
 
 /**
- * Reduces the stack based on the current state and modifies the output.
+ * This function performs a "reduce" action in the parser. It modifies
+ * the stack according to the value of the state. The modifications can
+ * be concatenation of tokens, replacing the type of a token, or building
+ * the final output (a token-list).
  */
 t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output,
 		int *state)
@@ -73,6 +75,35 @@ t_token	*reduce_action(t_token *stack, t_token *tokens, t_token **output,
 	return (stack);
 }
 
+void	cat_tokens(t_token *stack, int *state, int type)
+{
+	t_token	*token;
+	int		pos;
+
+	token = find_last_type(stack, type);
+	if (token->next && token->next->type != WORD)
+	{
+		special_input_arg(token);
+		return ;
+	}
+	if (!token || !token->arg || !token->next)
+	{
+		error_action(token, NULL, NULL, state);
+		return ;
+	}
+	pos = 1;
+	while (token->arg[pos])
+		pos++;
+	token->arg[pos] = ft_strdup(token->next->data);
+	if (!token->arg[pos])
+		return (ft_free_tab(token->arg));
+	ft_free_token_node(token->next);
+	token->next = NULL;
+}
+
+/**
+ * This function
+ */
 void	init_arg(t_token *stack, t_token *tokens, int type)
 {
 	t_token	*node;
@@ -102,83 +133,27 @@ void	init_arg(t_token *stack, t_token *tokens, int type)
 	}
 }
 
-static t_token	*get_second_last_token(t_token *tokens)
+int	replace_type(t_token *stack, int old_type, int new_type)
 {
-	t_token	*second_last;
+	t_token	*node;
 
-	second_last = NULL;
-	while (tokens)
-	{
-		if (tokens->next == NULL)
-			return (second_last);
-		else
-			second_last = tokens;
-		tokens = tokens->next;
-	}
-	return (second_last);
-}
-
-static int	special_input_arg(t_token *stack_token)
-{
-	t_token	*word_token;
-	t_token	*last_token;
-	int		pos;
-
-	if (!stack_token)
-		return (-1);
-	word_token = find_last_type(stack_token, WORD);
-	if (!word_token)
-		return (1);
-	pos = 1;
-	while (stack_token->arg[pos])
-		pos++;
-	stack_token->arg[pos] = ft_strdup(word_token->data);
-	if (!stack_token->arg[pos])
-		return (ft_free_tab(stack_token->arg), -1);
-	last_token = get_second_last_token(stack_token);
-	ft_free_token_node(word_token);
-	last_token->next = NULL;
-	return (0);
-}
-
-void	cat_tokens(t_token *stack, int *state, int type)
-{
-	t_token	*token;
-	int		pos;
-
-	token = find_last_type(stack, type);
-	if (token->next && token->next->type != WORD)
-	{
-		special_input_arg(token);
-		return ;
-	}
-	if (!token || !token->arg || !token->next)
-	{
-		error_action(token, NULL, NULL, state);
-		return ;
-	}
-	pos = 1;
-	while (token->arg[pos])
-		pos++;
-	token->arg[pos] = ft_strdup(token->next->data);
-	if (!token->arg[pos])
-		return (ft_free_tab(token->arg));
-	ft_free_token_node(token->next);
-	token->next = NULL;
-}
-
-t_token	*find_last_type(t_token *stack, int type)
-{
-	t_token	*last;
-
+	node = NULL;
 	if (!stack)
-		return (NULL);
-	last = NULL;
-	while (stack)
+		return (-1);
+	if (new_type == REDIR && stack && stack->type == old_type)
+		node = stack;
+	else if (new_type == REDIR && stack && stack->type == APPEND)
+		node = find_in_stack(stack, APPEND);
+	else if (new_type == CMD)
+		node = find_in_stack(stack, WORD);
+	while (!node)
 	{
-		if (stack->type == type)
-			last = stack;
-		stack = stack->next;
+		node = find_in_stack(stack, old_type);
+		old_type++;
 	}
-	return (last);
+	if (new_type == REDIR && node && node->next && (node->next->type != WORD
+			|| node->next->type == PIPE))
+		return (-1);
+	node->type = new_type;
+	return (0);
 }

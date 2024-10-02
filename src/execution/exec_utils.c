@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:33:09 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/01 12:39:07 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:37:18 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int	check_file_access(char *filename, int file_type)
 	}
 	else if (file_type == INPUT)
 		return (perror(filename), 1);
-	if ((file_type == OUTPUT || file_type == APPEND) 
-		&& access(filename, W_OK) == -1)
+	if ((file_type == OUTPUT || file_type == APPEND) && access(filename,
+			W_OK) == -1)
 		return (perror(filename), 1);
 	if (file_type == HEREDOC)
 	{
@@ -52,8 +52,8 @@ int	checking_cmd_access(char *cmd_name, char *path)
 	if (!path)
 	{
 		if (cmd_name && ft_strnstr(cmd_name, "./", 2))
-			return(126);
-		return(127);
+			return (126);
+		return (127);
 	}
 	if (path && !ft_strncmp(cmd_name, "..", 2) && ft_strlen(cmd_name) == 2)
 		return (cmd_not_found(cmd_name), 127);

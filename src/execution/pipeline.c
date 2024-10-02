@@ -6,11 +6,11 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:34:11 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/01 12:36:36 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/01 17:38:05 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 int	launch_pipeline(t_btree *root, t_env *envs, char **paths)
 {

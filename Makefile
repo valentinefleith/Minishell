@@ -43,7 +43,7 @@ PARSING_FILES = parsing/lexing/lexing.c parsing/lexing/tokens_destructor.c \
 			parsing/btree/btree_properties.c \
 			parsing/parser/operation.c parsing/parser/parser_debug.c \
 			parsing/parser/parser_utils.c parsing/parser/parser.c \
-			parsing/parser/parsing_table.c \
+			parsing/parser/parsing_table.c parsing/parser/operation_utils.c \
 
 BUILTIN_FILES = builtin/builtin.c builtin/ft_cd.c builtin/ft_echo.c \
 			builtin/ft_env.c builtin/ft_exit.c builtin/ft_export.c \
