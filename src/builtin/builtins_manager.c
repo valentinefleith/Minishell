@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/01 15:19:59 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/02 22:27:04 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ static int	check_builtin_access(t_btree *tree, t_shell *shell, int *exit_code)
 	return (0);
 }
 
+static int	find_fd_out(bool pipeline, t_btree *tree, t_shell *shell)
+{
+	if (pipeline)
+		return (STDOUT_FILENO);
+	return (builtin_redirection(tree, shell));
+}
+
 int	execute_builtin(t_builtin builtin, t_btree *tree, bool pipeline,
 		t_shell *shell)
 {
@@ -34,10 +41,7 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, bool pipeline,
 
 	if (check_builtin_access(tree, shell, &exit_code) != 0)
 		return (exit_code);
-	if (pipeline == false)
-		fd_out = builtin_redirection(tree, shell);
-	else
-		fd_out = STDOUT_FILENO;
+	fd_out = find_fd_out(pipeline, tree, shell);
 	if (builtin == PWD)
 		exit_code = ft_pwd(shell->envs, fd_out);
 	else if (builtin == ECHO)
@@ -55,40 +59,6 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, bool pipeline,
 	if (pipeline == false)
 		free_builtin_process(shell, &exit_code);
 	return (exit_code);
-}
-
-int	builtin_redirection(t_btree *tree, t_shell *shell)
-{
-	int	fd_out;
-
-	shell->read = file_redirection(tree, shell, shell->read, INPUT);
-	shell->write = file_redirection(tree, shell, shell->write, OUTPUT);
-	fd_out = shell->write;
-	return (fd_out);
-}
-
-void	free_builtin_process(t_shell *shell, int *exit_code)
-{
-	close_fd(&shell->read);
-	close_fd(&shell->write);
-	ft_free_tab(shell->paths);
-	if (shell->pid != -1)
-		*exit_code = shell->pid;
-}
-
-int	error_builtin(t_builtin builtin, char *arg)
-{
-	if (builtin == PWD)
-		return (error_pwd());
-	if (builtin == CD)
-		return (error_cd(arg));
-	if (builtin == EXPORT)
-		return (error_export(arg));
-	if (builtin == ENV)
-		return (error_env());
-	else if (builtin == 7)
-		ft_putendl_fd("Error: while allocation\n", 2);
-	return (1);
 }
 
 static void	get_tab_builtin(char **tab_builtin)
