@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/26 14:25:38 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/02 22:04:53 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,16 @@ static char	*remove_varname(char *data, int *index)
 }
 
 static void	copy_right_data(char *dest, char *src, int index,
-		t_env_list *target_var, int new_len)
+		t_env_list *target_var)
 {
 	int	i;
 	int	j;
 	int	k;
+	int	new_len;
 
-	i = 0;
-	while (i < index)
-	{
-		dest[i] = src[i];
-		i++;
-	}
+	new_len = ft_strlen(src) - (1 + ft_strlen(target_var->name))
+		+ ft_strlen(target_var->data);
+	i = copy_beginning_data(index, dest, src);
 	j = 0;
 	while (target_var->data[j])
 	{
@@ -71,11 +69,13 @@ static void	copy_right_data(char *dest, char *src, int index,
 	dest[i] = '\0';
 }
 
-static char	*replace_variable(char *data, int *index, t_env_list *target_var)
+static char	*replace_variable(char *data, int *index, t_env *envs)
 {
-	int		new_len;
-	char	*new;
+	int			new_len;
+	char		*new;
+	t_env_list	*target_var;
 
+	target_var = find_target_variable(envs->env_list, data, *index);
 	(*index)--;
 	if (!target_var || !target_var->data)
 		return (remove_varname(data, index));
@@ -84,38 +84,31 @@ static char	*replace_variable(char *data, int *index, t_env_list *target_var)
 	new = ft_calloc(1 + new_len, sizeof(char));
 	if (!new)
 		return (NULL);
-	copy_right_data(new, data, *index, target_var, new_len);
+	copy_right_data(new, data, *index, target_var);
 	free(data);
 	*index += ft_strlen(target_var->data);
 	return (new);
 }
 
-/* TODO:
- * reduce to 25 lines*/
-
 static char	*expand_variables(char *data, t_env *envs)
 {
-	int			i;
-	t_env_list	*target_var;
-	bool		inside_single_quotes;
-	bool		inside_double_quotes;
+	int		i;
+	bool	inside_single_quotes;
+	bool	inside_double_quotes;
 
 	i = 0;
 	inside_single_quotes = false;
 	inside_double_quotes = false;
 	while (data[i])
 	{
-		if (data[i] == DOUBLE_QUOTE && !inside_single_quotes)
-			inside_double_quotes = !inside_double_quotes;
-		if (data[i] == SINGLE_QUOTE && !inside_double_quotes)
-			inside_single_quotes = !inside_single_quotes;
+		update_quote_status(&inside_single_quotes, &inside_double_quotes,
+			data[i]);
 		if (data[i] == '$' && !inside_single_quotes)
 		{
 			i++;
 			if (ft_isalnum(data[i]) || ft_strchr("?_'\"", data[i]))
 			{
-				target_var = find_target_variable(envs->env_list, data, i);
-				data = replace_variable(data, &i, target_var);
+				data = replace_variable(data, &i, envs);
 				if (!data)
 					return (NULL);
 			}
