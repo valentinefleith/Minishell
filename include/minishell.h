@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 17:42:23 by vafleith          #+#    #+#             */
-/*   Updated: 2024/10/03 13:31:26 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:54:37 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 # include <unistd.h>
 
 extern int				g_signal;
-
 
 # define SUCCESS 0
 # define MALLOC_ERROR 1
