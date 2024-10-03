@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:25:31 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/25 15:02:18 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:47:18 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	ft_cd(t_env *envs, char **cmd)
 	oldpwd = ft_getenv(envs->env_list, "OLDPWD");
 	pwd = ft_getenv(envs->env_list, "PWD");
 	if (!oldpwd || !pwd)
-		return (1);
+		return (0);
 	if (!is_arg_unique_cd(cmd))
 		return (cd_error());
 	oldpwd->data = update_data(&oldpwd, pwd->data);
