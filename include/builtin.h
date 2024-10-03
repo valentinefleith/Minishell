@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:44 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/01 15:19:46 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:01:20 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int						ft_env(t_env_list *env, int fd, bool option);
 int						ft_pwd(t_env *env, int fd);
 int						ft_echo(char **cmd, int fd);
 int						ft_export(t_env *env, char **arg, int fd);
-int						ft_exit(t_shell *shell, char **cmd);
+int						ft_exit(t_shell *shell, char **cmd, int fd);
 int						ft_unset(t_env *env, char **arg);
 
 bool					is_arg_unique(char **cmd);
