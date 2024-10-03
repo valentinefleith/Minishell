@@ -6,11 +6,11 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 17:16:13 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/01 13:34:43 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:35:10 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 void	exit_child_process(t_shell *shell, int exit_status)
 {

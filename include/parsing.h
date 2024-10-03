@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/10/02 12:12:51 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/02 22:05:08 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include "minishell.h"
 # include <stdbool.h>
 
-# define SINGLE_QUOTE '\''
-# define DOUBLE_QUOTE '\"'
+# define SINGLE_QUOTE 39
+# define DOUBLE_QUOTE 34
 
 typedef enum e_builtin	t_builtin;
 
@@ -89,6 +89,9 @@ char					*remove_quotes(char *data);
 int						get_len_varname(char *data, int index);
 t_env_list				*find_target_variable(t_env_list *env_list, char *data,
 							int index);
+void					update_quote_status(bool *in_single_quotes,
+							bool *in_double_quotes, char c);
+int						copy_beginning_data(int index, char *dest, char *src);
 
 /*** PARSER ******************************************************************/
 

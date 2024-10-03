@@ -52,7 +52,7 @@ static int	option_echo(char **cmd, int fd)
 	while (cmd[index])
 	{
 		ft_putstr_fd(cmd[index], fd);
-		if (cmd[index+ 1])
+		if (cmd[index + 1])
 			write(fd, " ", 1);
 		index++;
 	}

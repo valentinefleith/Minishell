@@ -28,7 +28,7 @@ static t_btree	*fill_cmd(t_token *tokens, t_token *next_pipe)
 		tokens = tokens->next;
 	}
 	if (!tokens)
-		return NULL;
+		return (NULL);
 	return (btree_create_node(tokens->arg, CMD));
 }
 

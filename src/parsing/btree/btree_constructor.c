@@ -26,23 +26,23 @@ t_btree	*btree_create_node(char **data, int type)
 	return (new);
 }
 
-t_btree *btree_create_cmd(void)
+t_btree	*btree_create_cmd(void)
 {
-	t_btree *new;
-	char **item;
+	t_btree	*new;
+	char	**item;
 
 	item = malloc(2 * sizeof(char *));
 	if (!item)
-		return NULL;
+		return (NULL);
 	item[0] = ft_strdup("command");
 	item[1] = 0;
 	if (!item)
-		return NULL;
+		return (NULL);
 	new = malloc(sizeof(t_btree));
 	if (!new)
 	{
 		ft_free_tab(item);
-		return NULL;
+		return (NULL);
 	}
 	new->item = item;
 	new->type = COMMAND;
