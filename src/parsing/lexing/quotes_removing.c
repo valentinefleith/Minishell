@@ -6,7 +6,7 @@
 /*   By: vafleith <vafleith@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 19:35:59 by vafleith          #+#    #+#             */
-/*   Updated: 2024/09/13 16:00:56 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:39:33 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ char	*remove_quotes(char *data)
 	new_size = get_new_size(data);
 	new = ft_calloc(1 + new_size, sizeof(char));
 	if (!new)
+	{
+		free(data);
 		return (NULL);
+	}
 	new = fill_without_quotes(data, new);
 	free(data);
 	return (new);

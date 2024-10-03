@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 14:17:40 by vafleith          #+#    #+#             */
-/*   Updated: 2024/10/02 22:05:08 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:11:51 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,14 @@ t_token					*get_last_token(t_token *tokens);
 t_token					*get_first_token(t_token *tokens);
 t_token					*get_last_pipe(t_token *tokens);
 
-void					perform_var_expansion(t_token *tokens, t_env *envs);
+t_token					*perform_var_expansion(t_token *tokens, t_env *envs);
 char					*remove_quotes(char *data);
 int						get_len_varname(char *data, int index);
 t_env_list				*find_target_variable(t_env_list *env_list, char *data,
 							int index);
 void					update_quote_status(bool *in_single_quotes,
-							bool *in_double_quotes, char c);
+							bool *in_double_quotes,
+							char c);
 int						copy_beginning_data(int index, char *dest, char *src);
 
 /*** PARSER ******************************************************************/
