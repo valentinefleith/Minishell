@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 11:29:54 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/01 15:01:33 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/03 18:10:22 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*find_redirection(t_btree *tree, t_shell *shell, char *filename,
 		fd = open_file(tree->item[1], redir);
 	if (fd != -1 && check_file_access(tree->item[1], redir) != -1)
 		close_fd(&fd);
-	else
+	else if (redir != HEREDOC && fd == -1)
 		return (exit_child_process(shell, EXIT_FAILURE), NULL);
 	if (redir == HEREDOC && target == INPUT)
 		filename = "here_doc";
