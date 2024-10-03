@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 12:18:19 by luvallee          #+#    #+#             */
-/*   Updated: 2024/09/20 18:23:26 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/03 11:43:39 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,11 @@ int	ft_export(t_env *envs, char **cmd, int fd)
 		if (status != SUCCESS)
 		{
 			error_builtin(EXPORT, cmd[i]);
+			if (!*cmd[i])
+			{
+				i++;
+				continue ;
+			}
 			return (1);
 		}
 		i++;
