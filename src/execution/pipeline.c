@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 12:34:11 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/01 17:38:05 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:59:53 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,22 @@ int	waiting(t_shell *shell, int last_pid)
 	int	i;
 	int	current_pid;
 	int	status;
+	int	return_status;
 
 	i = 0;
 	status = 0;
+	return_status = 0;
 	while (i < shell->nb_cmd)
 	{
 		current_pid = waitpid(-1, &status, 0);
 		if (current_pid == last_pid)
 		{
 			if (WIFSIGNALED(status))
-				return (g_signal);
+				return_status = g_signal;
 			if (WIFEXITED(status))
-				return (WEXITSTATUS(status));
+				return_status = WEXITSTATUS(status);
 		}
 		i++;
 	}
-	return (status);
+	return (return_status);
 }
