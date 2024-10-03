@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 12:52:33 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/02 12:25:21 by luvallee         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:46:41 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	cat_tokens(t_token *stack, int *state, int type)
 	int		pos;
 
 	token = find_last_type(stack, type);
-	if (token->next && token->next->type != WORD)
+	if (token && token->next && token->next->type != WORD)
 	{
 		special_input_arg(token);
 		return ;
@@ -101,9 +101,6 @@ void	cat_tokens(t_token *stack, int *state, int type)
 	token->next = NULL;
 }
 
-/**
- * This function
- */
 void	init_arg(t_token *stack, t_token *tokens, int type)
 {
 	t_token	*node;
