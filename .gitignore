@@ -56,15 +56,7 @@ Module.symvers
 Mkfile.old
 dkms.conf
 .vscode/
-grammar_rules.output
-parser_tuto.jpg
-parsing_table.png
-example.jpg
-test1
-out
-debug/
 here_doc
 fuck_readline
-minishell_tester/
-shell_in
-shell_test/
+test_prompt.c
+debug_minishell.c

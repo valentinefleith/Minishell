@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/23 15:35:29 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/01 15:19:35 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:01:25 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,25 +85,22 @@ static int	parse_exit_status(t_env_list *env_list, char **cmd)
 	return (code % 256);
 }
 
-int	ft_exit(t_shell *shell, char **cmd)
+int	ft_exit(t_shell *shell, char **cmd, int fd)
 {
 	int	exit_status;
 
 	exit_status = parse_exit_status(shell->envs->env_list, cmd);
 	if (exit_status < 0)
 		return (1);
-	ft_putendl_fd("exit", 2);
-	if (shell->envs->env_list)
-		shell->envs->env_list = free_env_list(shell->envs->env_list);
+	ft_putendl_fd("exit", fd);
 	if (shell->envs)
-	{
 		shell->envs = free_envs(shell->envs);
-	}
 	if (shell->main_root)
 	{
 		btree_free(shell->main_root);
 		shell->main_root = NULL;
 	}
+	close_fd(&shell->prev_read);
 	close_fd(&shell->read);
 	close_fd(&shell->write);
 	ft_free_tab(shell->paths);

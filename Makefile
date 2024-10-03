@@ -8,7 +8,7 @@ NAME = minishell
 ###############################################################################
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 SRC_DIR = src
 OBJ_DIR = build

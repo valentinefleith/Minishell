@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 13:30:15 by vafleith          #+#    #+#             */
-/*   Updated: 2024/10/02 22:04:53 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/03 16:10:09 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ static char	*replace_variable(char *data, int *index, t_env *envs)
 		+ ft_strlen(target_var->data);
 	new = ft_calloc(1 + new_len, sizeof(char));
 	if (!new)
+	{
+		free(data);
 		return (NULL);
+	}
 	copy_right_data(new, data, *index, target_var);
 	free(data);
 	*index += ft_strlen(target_var->data);
@@ -119,7 +122,7 @@ static char	*expand_variables(char *data, t_env *envs)
 	return (data);
 }
 
-void	perform_var_expansion(t_token *tokens, t_env *envs)
+t_token	*perform_var_expansion(t_token *tokens, t_env *envs)
 {
 	t_token	*start;
 
@@ -129,12 +132,18 @@ void	perform_var_expansion(t_token *tokens, t_env *envs)
 	while (tokens)
 	{
 		tokens->data = expand_variables(tokens->data, envs);
+		if (tokens->data == NULL)
+		{
+			start = ft_free_tokens(start);
+			return (start);
+		}
 		tokens->data = remove_quotes(tokens->data);
 		if (tokens->data == NULL)
 		{
-			ft_free_tokens(start);
-			return ;
+			start = ft_free_tokens(start);
+			return (start);
 		}
 		tokens = tokens->next;
 	}
+	return (start);
 }

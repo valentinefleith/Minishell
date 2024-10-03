@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   builtins_manager.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 14:44:16 by luvallee          #+#    #+#             */
-/*   Updated: 2024/10/02 22:27:04 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/03 15:41:44 by luvallee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	execute_builtin(t_builtin builtin, t_btree *tree, bool pipeline,
 	else if (builtin == ECHO)
 		exit_code = ft_echo(tree->left->item, fd_out);
 	else if (builtin == EXIT)
-		exit_code = ft_exit(shell, tree->left->item);
+		exit_code = ft_exit(shell, tree->left->item, fd_out);
 	else if (builtin == ENV)
 		exit_code = ft_env(shell->envs->env_list, fd_out, false);
 	else if (builtin == CD)
