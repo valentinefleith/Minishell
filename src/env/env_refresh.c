@@ -6,7 +6,7 @@
 /*   By: luvallee <luvallee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/26 11:29:46 by vafleith          #+#    #+#             */
-/*   Updated: 2024/10/02 22:08:44 by vafleith         ###   ########.fr       */
+/*   Updated: 2024/10/03 21:27:59 by vafleith         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,14 @@ static char	*strjoin_chr(char const *s1, char const *s2, char c)
 	char	*joined_strs;
 	size_t	joined_length;
 
+	if (!s2)
+	{
+		joined_strs = ft_calloc(ft_strlen(s1) + 2, sizeof(char));
+		ft_strlcpy(joined_strs, s1, ft_strlen(s1) + 1);
+		joined_strs[ft_strlen(s1)] = '=';
+		joined_strs[ft_strlen(s1) + 1] = '\0';
+		return (joined_strs);
+	}
 	joined_length = 1 + ft_strlen(s1) + ft_strlen(s2) + 1;
 	joined_strs = ft_calloc(joined_length, sizeof(char));
 	if (joined_strs == NULL)
@@ -55,7 +63,7 @@ int	refresh_env_tab(t_env *envs)
 	i = 0;
 	while (i < nb_var)
 	{
-		if (env_list->name && env_list->data)
+		if (env_list->name)
 			envs->env_tab[i] = strjoin_chr(env_list->name, env_list->data, '=');
 		if (!envs->env_tab[i])
 		{
