@@ -55,3 +55,5 @@ In interactive mode:
     - `ctrl-D` exits the shell.
     - `ctrl-\` does nothing.
 
+
+![image](assets/commands_demo.gif)
