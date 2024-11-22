@@ -48,7 +48,6 @@ characters in the quoted sequence.
 - Handle `"` **(double quote)** which should prevent the shell from interpreting the meta-
 characters in the quoted sequence except for `$` (dollar sign).
 - **Signal Handling:** Handle `ctrl-C`, `ctrl-D` and `ctrl-\` which should behave like in bash.
-
 In interactive mode:
 
     - `ctrl-C` displays a new prompt on a new line.
